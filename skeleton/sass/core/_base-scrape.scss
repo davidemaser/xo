@@ -1,0 +1,14 @@
+.scrape {
+  &_margin {
+    margin:0!important;
+    * :not(img) {
+      margin:inherit!important;
+    }
+  }
+  &_padding {
+    margin:0!important;
+    * :not(img) { //let's keep images out of the equation
+      margin:inherit!important;
+    }
+  }
+}

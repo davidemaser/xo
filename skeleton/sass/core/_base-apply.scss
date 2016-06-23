@@ -1,0 +1,177 @@
+.apply {
+  &_margin {
+    &_lr{ //left and right
+      &_5{
+        @include genDeltas(m,0 5px);
+      }
+      &_10{
+        @include genDeltas(m,0 10px);
+      }
+      &_15{
+        @include genDeltas(m,0 15px);
+      }
+      &_20{
+        @include genDeltas(m,0 20px);
+      }
+    }
+    &_tb{ //top and bottom
+      &_5{
+        @include genDeltas(m,5px 0);
+      }
+      &_10{
+        @include genDeltas(m,10px 0);
+      }
+      &_15{
+        @include genDeltas(m,15px 0);
+      }
+      &_20{
+        @include genDeltas(m,20px 0);
+      }
+    }
+    &_t{ //top
+      &_5{
+        @include genDeltas(m,5px 0 0 0);
+      }
+      &_10{
+        @include genDeltas(m,10px 0 0 0);
+      }
+      &_15{
+        @include genDeltas(m,15px 0 0 0);
+      }
+      &_20{
+        @include genDeltas(m,20px 0 0 0);
+      }
+    }
+    &_r{//right
+      &_5{
+        @include genDeltas(m,0 5px 0 0);
+      }
+      &_10{
+        @include genDeltas(m,0 10px 0 0);
+      }
+      &_15{
+        @include genDeltas(m,0 15px 0 0);
+      }
+      &_20{
+        @include genDeltas(m,0 20px 0 0);
+      }
+    }
+
+    &_b{//bottom
+      &_5{
+        @include genDeltas(m,0 0 5px 0);
+      }
+      &_10{
+        @include genDeltas(m,0 0 10px 0);
+      }
+      &_15{
+        @include genDeltas(m,0 0 15px 0);
+      }
+      &_20{
+        @include genDeltas(m,0 0 20px 0);
+      }
+    }
+    &_l{ //left
+      &_5{
+        @include genDeltas(m,0 0 0 5px);
+      }
+      &_10{
+        @include genDeltas(m,0 0 0 10px);
+      }
+      &_15{
+        @include genDeltas(m,0 0 0 15px);
+      }
+      &_20{
+        @include genDeltas(m,0 0 0 20px);
+      }
+    }
+
+  }
+  &_padding {
+    &_lr{ //left and right
+      &_5{
+        @include genDeltas(p,0 5px);
+      }
+      &_10{
+        @include genDeltas(p,0 10px);
+      }
+      &_15{
+        @include genDeltas(p,0 15px);
+      }
+      &_20{
+        @include genDeltas(p,0 20px);
+      }
+    }
+    &_tb{ //top and bottom
+      &_5{
+        @include genDeltas(p,5px 0);
+      }
+      &_10{
+        @include genDeltas(p,10px 0);
+      }
+      &_15{
+        @include genDeltas(p,15px 0);
+      }
+      &_20{
+        @include genDeltas(p,20px 0);
+      }
+    }
+    &_t{ //top
+      &_5{
+        @include genDeltas(p,5px 0 0 0);
+      }
+      &_10{
+        @include genDeltas(p,10px 0 0 0);
+      }
+      &_15{
+        @include genDeltas(p,15px 0 0 0);
+      }
+      &_20{
+        @include genDeltas(p,20px 0 0 0);
+      }
+    }
+    &_r{ //right
+      &_5{
+        @include genDeltas(p,0 5px 0 0);
+      }
+      &_10{
+        @include genDeltas(p,0 10px 0 0);
+      }
+      &_15{
+        @include genDeltas(p,0 15px 0 0);
+      }
+      &_20{
+        @include genDeltas(p,0 20px 0 0);
+      }
+    }
+
+    &_b{//bottom
+      &_5{
+        @include genDeltas(p,0 0 5px 0);
+      }
+      &_10{
+        @include genDeltas(p,0 0 10px 0);
+      }
+      &_15{
+        @include genDeltas(p,0 0 15px 0);
+      }
+      &_20{
+        @include genDeltas(p,0 0 20px 0);
+      }
+    }
+    &_l{ //left
+      &_5{
+        @include genDeltas(p,0 0 0 5px);
+      }
+      &_10{
+        @include genDeltas(p,0 0 0 10px);
+      }
+      &_15{
+        @include genDeltas(p,0 0 0 15px);
+      }
+      &_20{
+        @include genDeltas(p,0 0 0 20px);
+      }
+    }
+  }
+}

@@ -2,3 +2,6 @@ build/
 DerivedData/
 .gitignore
 *.xml
+exo_cam
+exo_cam.pub
+.idea/

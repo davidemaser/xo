@@ -1,0 +1,11 @@
+@function calcDeltas($anumber, $bnumber){
+  @return $anumber + $bnumber;
+  //usage width: calcDeltas(650px, 1000px);
+}
+@function calcPct($target, $container) {
+  @return ($target / $container) * 100%;
+  //usage width: calcPct(650px, 1000px);
+}
+@function parseInt($n) { /* 2 */
+  @return $n / ($n * 0 + 1);
+}
