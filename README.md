@@ -7,3 +7,6 @@ The framework will also simplify the creation of mobile specific objects such as
 
 The javascript component of the exo project will make it easier to manipulate the dom by targeting object attributes recursively.
 
+Any collaboration on this project would be greatly appreciated.
+
+See /exo/skeleton/sass for work in progress.
