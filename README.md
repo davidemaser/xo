@@ -9,4 +9,4 @@ The javascript component of the exo project will make it easier to manipulate th
 
 Any collaboration on this project would be greatly appreciated.
 
-See /exo/skeleton/sass for work in progress.
+```See /exo/skeleton/sass for latest core css.
