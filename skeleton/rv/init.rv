@@ -1,0 +1,23 @@
+#init core.rv as exo.core
+#init jquery.rv as exo.jq || exo.$
+#init sass.rv as exo.sass
+#init profiler.rv as exo.profiler
+
+@exo.core.init(all)
+    @if exo.core.init(return :: null)
+        @exo.core.start()
+    @else exo.core.log.error(full)
+@continue
+@exo.jq.init($)
+    @set namespace :: $
+@continue
+@exo.sass.init()
+    @set default :: local.constructor
+@continue
+@exo.profiler
+    @set output.method :: explicit
+    @set output.mode :: console
+        @if exo.get(navigator.appName) eq 'chrome'
+            @set default :: true
+@end
+

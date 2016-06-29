@@ -10,5 +10,6 @@
     "name": "David Maser"
   },
   "homepage": "https://github.com/davidemaser/exo",
-  "license": "MIT"
+  "license": "MIT",
+  "extend": true
 }

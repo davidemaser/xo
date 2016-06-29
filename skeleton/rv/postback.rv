@@ -1,0 +1,8 @@
+#init post.ajax.rv
+#init callbacks.ajax.rv 
+
+@use jQuery :: true 
+@instruct = private function(a,b)
+    post.sector :: init.value(ext)
+        callback :: post.sector.data
+@render :: instruct.data()
