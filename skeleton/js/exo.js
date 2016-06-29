@@ -15,5 +15,18 @@ var exo = {
     },
     animate:function(obj,type,speed,length){
 
+    },
+    ajax:function(){
+
+    },
+    build:function(){
+        var render = "all" || null,
+            engine = [],
+            scope = "dom";
+        if(typeof exo === 'function'){
+
+        }
+
     }
 };
+exo.init();
