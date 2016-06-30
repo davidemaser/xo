@@ -1,0 +1,15 @@
+.xo{
+  &[data-xo-reserved="true"] {
+    &:after{
+      content:'';
+      display:block;
+      height:0;
+    }
+  }
+  &.set{
+    margin:0;
+    padding:0;
+    border:none;
+    outline: none;
+  }
+}

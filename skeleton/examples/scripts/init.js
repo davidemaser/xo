@@ -17,12 +17,13 @@ requirejs.config({
     },
     paths: {
         "jquery" : 'bower_components/jquery/dist/jquery',
-        "bootstrap" :  'bower_components/bootstrap/dist/js/bootstrap.min'
+        "bootstrap" :  'bower_components/bootstrap/dist/js/bootstrap.min',
+        "xo" : '../dist/js/xo.min'
     }
 });
 
-require(['jquery', 'bootstrap','css!../dist/css/xo.min'], function($){
+require(['jquery', 'bootstrap','css!../dist/css/xo.min','xo'], function($){
     $(function(){
-        //all good let's code
+        $('body').attr('data-xo-prefix','xo').attr('data-xo-min','true').addClass('xo set');
     });
 });
