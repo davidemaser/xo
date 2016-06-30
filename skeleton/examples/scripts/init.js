@@ -25,5 +25,6 @@ requirejs.config({
 require(['jquery', 'bootstrap','css!../dist/css/xo.min','xo'], function($){
     $(function(){
         $('body').attr('data-xo-prefix','xo').attr('data-xo-min','true').addClass('xo set');
+        xo.init();
     });
 });
