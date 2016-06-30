@@ -9,16 +9,24 @@ var xo = {
         ajaxFileExtension:'.json',
         ajaxDefaultMethod:'get',
         ajaxDefaultDataType:'json',
-        localStorageKey:'aso-1866425'
+        localStorageKey:'aso-1866425',
+        showErrorLog: true
     },
-    init:function(){
-        $(this).version = 0.1;
-        console.log('xo is running');
+    init:function(advise){
+        xo.pageSetUp('html','xo','true','xo set');
+        advise == true ? console.log('xo is running') : null;
+        var xoRunning = true;
     },
-    load:function(scriptPath,scriptURI){
+    pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
+        $(domItem).attr({
+            'data-xo-prefix':domPrefix,
+            'data-xo-min':xoMin
+        }).addClass(xoClass);
+    },
+    loadExternal:function(scriptPath,scriptURI,scriptExt){
         var a = scriptPath == undefined || null || ' ' ? xo.config.loadPathDefault : scriptPath,
             b = scriptURI == undefined ? "" : scriptURI,
-            c = xo.config.loadPathExtension,
+            c = scriptExt == undefined || null || ' ' ? xo.config.loadPathExtension : scriptExt,
             d = a+b+c;
         $.getScript(d, function(xoCore){
             //console.log("Script "+xoCore+" loaded but not necessarily executed.");
@@ -27,12 +35,14 @@ var xo = {
     },
     log:function(e){
         var a = navigator.vendor.indexOf("Google") > -1;
-        a == true ? console.warn(e) : console.log(e);
+        if(xo.config.showErrorLog == true) {
+            a == true ? console.warn(e) : console.log(e);
+        }
     },
     animate:function(obj,type,speed,length){
 
     },
-    ajax:function(scriptPath,scriptURI){
+    getData:function(scriptPath,scriptURI){
         var a = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
             b = scriptURI == undefined ? "" : scriptURI,
             c = xo.config.ajaxFileExtension,
@@ -60,17 +70,17 @@ var xo = {
 
             }
         }).success(function(data) {
-            console.log(data);
+            xo.parseData(data);
         }).error(function() {
             xo.log('ajax can\'t load that file');
         });
+    },
+    parseData:function(data){
+        console.log(data);
     },
     build:function(){
         var render = "all" || null,
             engine = [],
             scope = "dom";
-        if(typeof xo === 'function'){
-
-        }
     }
 };
