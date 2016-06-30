@@ -6,7 +6,8 @@
 @exo.core.init(all)
     @if exo.core.init(return :: null)
         @exo.core.start()
-    @else exo.core.log.error(full)
+    @else 
+        exo.core.log.error(full)
 @continue
 @exo.jq.init($)
     @set namespace :: $
