@@ -11,7 +11,40 @@ var xo = {
         ajaxDefaultDataType:'json',
         localStorageKey:'aso-1866425',
         showErrorLog: true,
-        showErrorLogDate: false
+        showErrorLogDate: false,
+        domParentNode: 'body'
+    },
+    countDomTags: function (pa) {
+        pa = pa || document;
+        var O = {},
+            A = [], tag, D = pa.getElementsByTagName('*');
+        D = A.slice.apply(D, [0, D.length]);
+        while (D.length) {
+            tag = D.shift().tagName.toLowerCase();
+            if (!O[tag]) O[tag] = 0;
+            O[tag] += 1;
+        }
+        for (var p in O) {
+            A[A.length] = p + ': ' + O[p];
+        }
+        A.sort(function (a, b) {
+            a = a.split(':')[1] * 1;
+            b = b.split(':')[1] * 1;
+            return b - a;
+        });
+        return A.join(', ');
+    },
+    getPageData:function(){
+        var pageData = [];
+        pageData.push({url:window.location.href,proto:window.location.protocol,port:window.location.port,dom:xo.countDomTags()});
+        xo.writeToSessionStorage(pageData);
+    },
+    writeToSessionStorage:function(data){
+        if (typeof(Storage) !== "undefined") {
+            console.log(data[0]);
+        } else {
+            xo.log('Sorry! No Web Storage support..');
+        }
     },
     init:function(advise){
         xo.pageSetUp('html','xo','true','xo set');
@@ -23,6 +56,8 @@ var xo = {
             'data-xo-prefix':domPrefix,
             'data-xo-min':xoMin
         }).addClass(xoClass);
+        $(xo.config.domParentNode).contents().wrapAll('<section class="xo" xo-reserved="true">');
+        xo.getPageData();
     },
     loadExternal:function(scriptPath,scriptURI,scriptExt){
         var a = scriptPath == undefined || null || ' ' ? xo.config.loadPathDefault : scriptPath,
