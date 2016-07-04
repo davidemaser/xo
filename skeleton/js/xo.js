@@ -70,12 +70,12 @@ var xo = {
 
             }
         }).success(function(data) {
-            xo.parseData(data);
+            xo.parseData(data,null,'demo',null);
         }).error(function() {
             xo.log('ajax can\'t load that file');
         });
     },
-    parseData:function(data){
+    parseData:function(data,method,startNode,target){
         console.log(data);
     },
     build:function(){

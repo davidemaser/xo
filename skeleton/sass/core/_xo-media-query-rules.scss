@@ -1,0 +1,21 @@
+@media (min-width: 480px) {
+  [data-xo-reserved="true"]{
+    [data-exclude="small"] {
+      display: none;
+    }
+  }
+}
+@media (max-width: 640px) {
+  [data-xo-reserved="true"] {
+    [data-exclude="medium"] {
+      display: none;
+    }
+  }
+}
+@media (min-width: 1024px) {
+  [data-xo-reserved="true"] {
+    [data-exclude="large"] {
+      display: none;
+    }
+  }
+}
