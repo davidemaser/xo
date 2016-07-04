@@ -10,11 +10,12 @@ var xo = {
         ajaxDefaultMethod:'get',
         ajaxDefaultDataType:'json',
         localStorageKey:'aso-1866425',
-        showErrorLog: true
+        showErrorLog: true,
+        showErrorLogDate: false
     },
     init:function(advise){
         xo.pageSetUp('html','xo','true','xo set');
-        advise == true ? console.log('xo is running') : null;
+        advise == true ? xo.log('xo is running') : null;
         var xoRunning = true;
     },
     pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
@@ -34,9 +35,10 @@ var xo = {
         });
     },
     log:function(e){
-        var a = navigator.vendor.indexOf("Google") > -1;
+        var a = navigator.vendor.indexOf("Google") > -1,
+            b = xo.config.showErrorLogDate == true ? new Date() : "";
         if(xo.config.showErrorLog == true) {
-            a == true ? console.warn(e) : console.log(e);
+            a == true ? console.warn(e,b) : console.log(e,b);
         }
     },
     animate:function(obj,type,speed,length){
