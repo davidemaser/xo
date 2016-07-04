@@ -1,20 +1,20 @@
 @media (min-width: 480px) {
-  [data-xo-reserved="true"]{
-    [data-exclude="small"] {
+  [xo-reserved="true"]{
+    [xo-exclude="small"] {
       display: none;
     }
   }
 }
 @media (max-width: 640px) {
-  [data-xo-reserved="true"] {
-    [data-exclude="medium"] {
+  [xo-reserved="true"] {
+    [xo-exclude="medium"] {
       display: none;
     }
   }
 }
 @media (min-width: 1024px) {
-  [data-xo-reserved="true"] {
-    [data-exclude="large"] {
+  [xo-reserved="true"] {
+    [xo-exclude="large"] {
       display: none;
     }
   }

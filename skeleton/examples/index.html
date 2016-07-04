@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>XO Examples</title>
+    <!-- include stylesheet using conventional link rel
+    tag or use the prefered require.js method that uses
+    require.css to load css files included in the init.js
+    file
     <link rel="stylesheet" href="../dist/css/xo.min.css">
+    -->
     <script data-main="scripts/init" src="../lib/require.js"></script>
 
 </head>
 <body>
-<section class="xo" data-xo-reserved="true">
-    <header data-exclude="small"></header>
-    <footer data-exclude="small"></footer>
-    <div class="container" data-xo-span="full"></div>
+<section class="xo" xo-reserved="true">
+    <header xo-exclude="small"></header>
+    <footer xo-exclude="small"></footer>
+    <div class="container" xo-span="full"></div>
 </section>
 </body>
 </html>
