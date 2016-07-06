@@ -146,10 +146,20 @@ var xo = {
             xo.log('Sorry! No Web Storage support..');
         }
     },
-    buildDomStructure:function(){
-        var render = "all" || null,
-            engine = [],
-            scope = "dom";
+    trigger:function(type,passValue,message){
+        message = message || null;
+        if(type == 'direct'){
+            window.location = passValue;
+        }else if(type == 'prompt'){
+            xo.prompt(message,passValue);
+        }
+    },
+    prompt:function(message,url){
+        var r = confirm(message);
+        if (r == true) {
+            window.location = url;
+        }
+        document.getElementById("demo").innerHTML = txt;
     },
     tooltip:function(object,method){
         if(method == 'add'){
@@ -171,8 +181,11 @@ var xo = {
             mouseX = e.pageX;
             mouseY = e.pageY;
             xo.tooltip($(this),'add');
-        }).on('mouseout', '[xo-trigger="tooltip"]', function(e) {
+        }).on('mouseout', '[xo-trigger="tooltip"]', function() {
             xo.tooltip(null,'delete');
+        }).on('click', '[xo-trigger="url"]', function() {
+            var goToUrl = $(this).attr('xo-trigger-url');
+            xo.trigger('direct',goToUrl,null);
         });
     }
 };
