@@ -9,10 +9,11 @@ var xo = {
         ajaxFileExtension:'.json',
         ajaxDefaultMethod:'get',
         ajaxDefaultDataType:'json',
-        localStorageKey:'aso-1866425',
+        sessionStorageKey:'xoDemo',
         showErrorLog: true,
         showErrorLogDate: false,
-        domParentNode: 'body'
+        domParentNode: 'body',
+        appRunning: false
     },
     countDomTags: function (pa) {
         pa = pa || document;
@@ -34,30 +35,32 @@ var xo = {
         });
         return A.join(', ');
     },
+    createUniqueCode:function(){
+        var a = new Date().valueOf(),
+            b = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+            return a+b;
+    },
     getPageData:function(){
         var pageData = [];
         pageData.push({url:window.location.href,proto:window.location.protocol,port:window.location.port,dom:xo.countDomTags()});
-        xo.writeToSessionStorage(pageData);
-    },
-    writeToSessionStorage:function(data){
-        if (typeof(Storage) !== "undefined") {
-            console.log(data[0]);
-        } else {
-            xo.log('Sorry! No Web Storage support..');
-        }
+        xo.saveDataToSession(pageData,'s');
     },
     init:function(advise){
         xo.pageSetUp('html','xo','true','xo set');
         advise == true ? xo.log('xo is running') : null;
-        var xoRunning = true;
+        xo.config.appRunning = true;
     },
     pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
-        $(domItem).attr({
-            'data-xo-prefix':domPrefix,
-            'data-xo-min':xoMin
-        }).addClass(xoClass);
-        $(xo.config.domParentNode).contents().wrapAll('<section class="xo" xo-reserved="true">');
-        xo.getPageData();
+        if(xo.config.appRunning !== true) {
+            $(domItem).attr({
+                'xo-prefix': domPrefix,
+                'xo-min': xoMin
+            }).addClass(xoClass);
+            $(xo.config.domParentNode).contents().wrapAll('<section class="xo" xo-reserved="true">');
+            xo.getPageData();
+        }else{
+            xo.log('An XO instance is already running');
+        }
     },
     loadExternal:function(scriptPath,scriptURI,scriptExt){
         var a = scriptPath == undefined || null || ' ' ? xo.config.loadPathDefault : scriptPath,
@@ -75,6 +78,12 @@ var xo = {
         if(xo.config.showErrorLog == true) {
             a == true ? console.warn(e,b) : console.log(e,b);
         }
+    },
+    switchNavMode:function(){
+        var a = $('html').attr('xo-prefix'),
+            b = $(xo.config.domParentNode).find('section'),
+            c = b.attr('xo-reserved'),
+            d = c == true ? xo.config.ajaxPathDefault : scriptPath;
     },
     animate:function(obj,type,speed,length){
 
@@ -107,15 +116,22 @@ var xo = {
 
             }
         }).success(function(data) {
-            xo.parseData(data,null,'demo',null);
+            xo.saveDataToSession(data,'s');
         }).error(function() {
             xo.log('ajax can\'t load that file');
         });
     },
     parseData:function(data,method,startNode,target){
-        console.log(data);
+        //working on this one
     },
-    build:function(){
+    saveDataToSession:function(data,method){
+        if (typeof(Storage) !== "undefined") {
+            method == 's' ? sessionStorage.setItem(xo.config.sessionStorageKey+xo.createUniqueCode(), data) : localStorage.setItem(xo.config.sessionStorageKey+xo.createUniqueCode(), data);
+        } else {
+            xo.log('Sorry! No Web Storage support..');
+        }
+    },
+    buildDomStructure:function(){
         var render = "all" || null,
             engine = [],
             scope = "dom";
