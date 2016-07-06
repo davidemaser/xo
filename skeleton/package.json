@@ -1,7 +1,12 @@
 {
-  "name": "EXO",
+  "name": "XO",
   "version": "0.1",
-  "main": "exo.css",
+  "update": "6/7/16",
+  "css-output": {
+    "directory":"dist/css",
+    "reradable":"xo.css",
+    "minified":"xo.min.css"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/davidemaser/exo.git"
