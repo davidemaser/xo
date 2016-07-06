@@ -1,18 +1,18 @@
-@media (min-width: 480px) {
+@media (max-width: 480px) {
   [xo-reserved="true"]{
     [xo-exclude="small"] {
       display: none;
     }
   }
 }
-@media (max-width: 640px) {
+@media (min-width: 481px) and (max-width: 640px) {
   [xo-reserved="true"] {
     [xo-exclude="medium"] {
       display: none;
     }
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 641px) and (max-width: 1024px) {
   [xo-reserved="true"] {
     [xo-exclude="large"] {
       display: none;

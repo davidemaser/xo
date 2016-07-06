@@ -63,6 +63,7 @@ var xo = {
         xo.pageSetUp('html','xo','true','xo set');
         advise == true ? xo.log('xo is running') : null;
         xo.config.appRunning = true;
+        xo.initMouseEvents();
     },
     pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
         if(xo.config.appRunning !== true) {
@@ -149,5 +150,29 @@ var xo = {
         var render = "all" || null,
             engine = [],
             scope = "dom";
+    },
+    tooltip:function(object,method){
+        if(method == 'add'){
+            var tipText = $(object).attr('xo-tooltip-text'),
+                tipEnabled = $(object).attr('xo-trigger') == 'tooltip' ? true : false,
+                toolTipTop = $(object).offset().top,
+                toolTipLeft = $(object).offset().left;
+            if(tipEnabled == true){
+                var baseHTML = '<div class="tooltip" style="left:'+toolTipLeft+';top:'+toolTipTop+';">'+tipText+'</div>';
+                $(baseHTML).insertAfter(object);
+            }
+        }else if(method == 'delete'){
+            $('.tooltip').remove();
+        }
+    },
+    initMouseEvents:function(){
+        var mouseX, mouseY;
+        $('body').on('mouseover', '[xo-trigger="tooltip"]', function(e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+            xo.tooltip($(this),'add');
+        }).on('mouseout', '[xo-trigger="tooltip"]', function(e) {
+            xo.tooltip(null,'delete');
+        });
     }
 };
