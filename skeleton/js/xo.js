@@ -15,6 +15,20 @@ var xo = {
         domParentNode: 'body',
         appRunning: false
     },
+    _define:{
+        backlog:function(){},
+        domload:function(){},
+        dataready:function(){},
+        domready:function(){},
+        targetclick:function(){},
+        targetswipe:function(){}
+    },
+    _throw:{
+        dataerror:function(){},
+        datatimeout:function(){},
+        nullified:function(){},
+        overflow:function(){}
+    },
     countDomTags: function (pa) {
         pa = pa || document;
         var O = {},
