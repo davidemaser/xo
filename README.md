@@ -40,9 +40,20 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 #### xo-trigger : defines an object that triggers an event or function. This can be :
 
 - tooltip
+-       requires one parameter : xo-tooltip-text
 - url
+-       requires one parameter : xo-trigger-url
 - modal
 - pop-up
 - script
 - data
 - ajax
+-       requires one parameter : xo-ajax-url
+
+#### xo-span : defines the span of the element inside the parent tag. This can be
+
+- full
+- half
+- pct(num%)
+- pix(numPX)
+- auto
