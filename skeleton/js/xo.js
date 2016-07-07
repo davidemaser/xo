@@ -12,7 +12,9 @@ var xo = {
         sessionStorageKey:'xoDemo',
         showErrorLog: true,
         showErrorLogDate: false,
+        animationSpeed: 500,
         domParentNode: 'body',
+        initGutter: true,
         appRunning: false
     },
     _define:{
@@ -63,6 +65,7 @@ var xo = {
         xo.pageSetUp('html','xo','true','xo set');
         advise == true ? xo.log('xo is running') : null;
         xo.config.appRunning = true;
+        xo.config.initGutter == true ? xo.gutter('init') : null;
         xo.initMouseEvents();
     },
     pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
@@ -175,6 +178,23 @@ var xo = {
             $('.tooltip').remove();
         }
     },
+    gutter:function(method){
+        //check if a gutter exists
+        var _obj = '[xo-type="gutter"]';
+        if(method == 'init') {
+            $(_obj).prepend('<div xo-type="gutter-toggle">X</div>');
+        }else{
+            if ($(_obj).length > 0) {
+                var state = $(_obj).attr('xo-state'),
+                    width = $(_obj).width();
+                if (state == 'open') {
+                    $(_obj).animate({left: -width}, xo.config.animationSpeed).attr('xo-state', 'closed');
+                } else if (state == 'closed') {
+                    $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
+                }
+            }
+        }
+    },
     initMouseEvents:function(){
         var mouseX, mouseY;
         $('body').on('mouseover', '[xo-trigger="tooltip"]', function(e) {
@@ -186,6 +206,8 @@ var xo = {
         }).on('click', '[xo-trigger="url"]', function() {
             var goToUrl = $(this).attr('xo-trigger-url');
             xo.trigger('direct',goToUrl,null);
+        }).on('click', '[xo-type="gutter-toggle"]', function() {
+            xo.gutter(null);
         });
     }
 };

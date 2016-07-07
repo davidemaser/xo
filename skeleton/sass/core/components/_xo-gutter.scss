@@ -1,0 +1,24 @@
+.xo{
+  [xo-type="gutter"]{
+    display: block;
+    position: fixed;
+    height: 100%;
+    width: 20%;
+    top: 0;
+    background: #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+  [xo-type="gutter-toggle"] {
+    position:absolute;
+    top:0;
+    right:0;
+    padding:5px;
+    cursor:pointer;
+  }
+  [xo-type-param="left"]{
+    left:0;
+  }
+  [xo-type-param="right"]{
+    right:0;
+  }
+}

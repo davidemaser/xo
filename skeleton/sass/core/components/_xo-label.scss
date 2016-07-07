@@ -1,0 +1,11 @@
+.xo {
+  [xo-type="label"] {
+    display: inline-block;
+    box-sizing: content-box;
+    background: #cecece;
+    height: auto;
+    *{
+      margin:5px 10px;
+    }
+  }
+}

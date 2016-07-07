@@ -1,0 +1,27 @@
+.xo {
+  [xo-type="breadcrumb"] {
+    padding: 10px 5px;
+    background: #c37f7f;
+    color: #fff;
+    list-style-type: none;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    -webkit-padding-start: 0;
+    li {
+      display: inline-block;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s all;
+      &:hover{
+        color:#000;
+      }
+      &:not(:first-child):before {
+        content:'>';
+        display:inline-block;
+        padding:0 10px
+      }
+    }
+  }
+}

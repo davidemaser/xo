@@ -21,7 +21,6 @@ requirejs.config({
         "xo" : '../dist/js/xo.min'
     }
 });
-
 require(['jquery', 'bootstrap','css!../dist/css/xo.min','xo'], function($){
     $(function(){
         xo.init(true);

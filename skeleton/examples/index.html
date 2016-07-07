@@ -9,6 +9,9 @@
     file
     <link rel="stylesheet" href="../dist/css/xo.min.css">
     -->
+    <script>
+        document.registerElement('xo-component');
+    </script>
     <script data-main="scripts/init" src="../lib/require.js"></script>
 
 </head>
@@ -17,6 +20,19 @@
     <footer xo-exclude="small"></footer>
     <div class="container" xo-span="full">
         <button xo-trigger="url" xo-trigger-url="page.html">Button</button>
+        <ul xo-type="breadcrumb">
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+        <div xo-type="label">
+            <div>This is a label</div>
+        </div>
+        <div xo-type="gutter" xo-type-param="left" xo-state="open" xo-object-name="left-gutter">
+            <div>Here's a gutter</div>
+        </div>
+        <a xo-type="gutter-toggle" xo-parent="left-gutter">Toggle Gutter</a>
     </div>
+
 </body>
 </html>
