@@ -14,7 +14,12 @@ var xo = {
         showErrorLogDate: false,
         animationSpeed: 500,
         domParentNode: 'body',
+        /*
+        initialise specific components and widgets
+        as needed.
+         */
         initGutter: true,
+        initVideo: true,
         appRunning: false
     },
     _define:{
@@ -64,9 +69,10 @@ var xo = {
     init:function(advise){
         xo.pageSetUp('html','xo','true','xo set');
         advise == true ? xo.log('xo is running') : null;
-        xo.config.appRunning = true;
         xo.config.initGutter == true ? xo.gutter('init') : null;
+        xo.config.initVideo == true ? xo.video() : null;
         xo.initMouseEvents();
+        xo.config.appRunning = true;
     },
     pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
         if(xo.config.appRunning !== true) {
@@ -181,37 +187,46 @@ var xo = {
     gutter:function(method){
         //check if a gutter exists
         var _obj = '[xo-type="gutter"]';
+        if ($(_obj).length > 0) {
+            var state = $(_obj).attr('xo-state'),
+                width = $(_obj).width(),
+                param = $(_obj).attr('xo-type-param');
+        }
         if(method == 'init') {
             $(_obj).prepend('<div xo-type="gutter-toggle">X</div>');
-        }else{
-            if ($(_obj).length > 0) {
-                var state = $(_obj).attr('xo-state'),
-                    width = $(_obj).width();
-                if (state == 'open') {
-                    $(_obj).animate({left: -width}, xo.config.animationSpeed).attr('xo-state', 'closed');
-                } else if (state == 'closed') {
-                    $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
-                }
+            if(state == 'closed'){
+                $(_obj).css('left',-width);
+            }
+        } else {
+            if (state == 'open') {
+                $(_obj).animate({left: -width}, xo.config.animationSpeed).attr('xo-state', 'closed');
+            } else if (state == 'closed') {
+                $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
             }
         }
     },
     video:function(){
-        var _obj = '[xo-type="video"]',
-            _vdoW = $(_obj).attr('xo-video-width'),
-            _vdoH = $(_obj).attr('xo-video-height'),
-            _vdoS = $(_obj).attr('xo-video-src'),
-            _vdoT = $(_obj).attr('xo-video-format'),
-            _vdoC = $(_obj).attr('xo-video-controls'),
-            _vdo = '<video width="'+_vdoW+'" height="'+_vdoH+'" ';
+        $('[xo-type="video"]').each(function(){
+            var _obj = '[xo-type="video"]',
+                _vdoW = $(_obj).attr('xo-video-width'),
+                _vdoH = $(_obj).attr('xo-video-height'),
+                _vdoS = $(_obj).attr('xo-video-src'),
+                _vdoT = $(_obj).attr('xo-video-format'),
+                _vdoC = $(_obj).attr('xo-video-controls'),
+                _vdoA = $(_obj).attr('xo-video-autoplay'),
+                _vdo = '<video width="'+_vdoW+'" height="'+_vdoH+'"';
             if(_vdoC == 'true') {
-                _vdo += 'controls';
+                _vdo += ' controls';
+            }
+            if(_vdoA == 'true'){
+                _vdo += ' autoplay'
             }
             _vdo += '>';
             _vdo += '<source src="'+_vdoS+'" type="video/'+_vdoT+'">';
             _vdo += 'Your browser does not support the video tag.';
             _vdo += '</video>';
-        $(_obj).append(_vdo);
-
+            $(_obj).append(_vdo);
+        })
     },
     initMouseEvents:function(){
         var mouseX, mouseY;
