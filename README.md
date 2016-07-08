@@ -1,5 +1,5 @@
-# EXO
-EXO is a skeleton framework currently beign built to simplify web site layout. 
+# XO
+XO is a skeleton framework currently beign built to simplify web site layout. 
 
 The goal of this framework is to render the task of converting layouts that use absolute sizing methods to relative sized grid layout (px to %) by wrapping pages in a global wrapper, overwriting only specific style attributes and applying inherited styles to all child objects.
 
