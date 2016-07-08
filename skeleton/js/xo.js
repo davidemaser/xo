@@ -114,7 +114,7 @@ var xo = {
     animate:function(obj,type,speed,length){
 
     },
-    getData:function(scriptPath,scriptURI,method,identifier){
+    getData:function(scriptPath,scriptURI,method,identifier,target){
         var a = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
             b = scriptURI == undefined ? "" : scriptURI,
             c = xo.config.ajaxFileExtension,
@@ -143,7 +143,7 @@ var xo = {
             }
         }).success(function(data) {
             if(method == 'p'){
-                console.log(data);
+                parseData(data,true,target);
             }else if(method == 's'){
                 xo.saveDataToSession(JSON.stringify(data),'s',xo.config.sessionStorageKey,identifier);
             }
@@ -151,8 +151,12 @@ var xo = {
             xo.log('ajax can\'t load that file');
         });
     },
-    parseData:function(data,method,startNode,target){
+    parseData:function(data,parse,target){
         //working on this one
+        if(parse == true){
+            _data = JSON.parse(data);
+        }
+        $(target).append(_data);
     },
     saveDataToSession:function(data,method,key,id){
         if (typeof(Storage) !== "undefined") {
