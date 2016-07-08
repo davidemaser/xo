@@ -23,6 +23,8 @@ requirejs.config({
 });
 require(['jquery', 'bootstrap','css!../dist/css/xo.min','xo'], function($){
     $(function(){
-        xo.init(true);
+        xo.init(true,function(){
+            xo.loadSuccess();
+        });
     });
 });

@@ -20,6 +20,7 @@ var xo = {
          */
         initGutter: true,
         initVideo: true,
+        initPanel: true,
         appRunning: false
     },
     _define:{
@@ -61,18 +62,17 @@ var xo = {
             b = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
             return a+b;
     },
-    getPageData:function(){
-        var pageData = [];
-        pageData.push({url:window.location.href,proto:window.location.protocol,port:window.location.port,dom:xo.countDomTags()});
-        xo.saveDataToSession(pageData,'s');
-    },
-    init:function(advise){
+    init:function(advise,callback){
         xo.pageSetUp('html','xo','true','xo set');
-        advise == true ? xo.log('xo is running') : null;
         xo.config.initGutter == true ? xo.gutter('init') : null;
         xo.config.initVideo == true ? xo.video() : null;
+        xo.config.initPanel == true ? xo.panel() : null;
         xo.initMouseEvents();
         xo.config.appRunning = true;
+        advise == true ? xo.log('xo is running') : null;
+        if (callback && typeof(callback) === "function") {
+            callback();
+        }
     },
     pageSetUp:function(domItem,domPrefix,xoMin,xoClass){
         if(xo.config.appRunning !== true) {
@@ -81,10 +81,12 @@ var xo = {
                 'xo-min': xoMin
             }).addClass(xoClass);
             $(xo.config.domParentNode).contents().wrapAll('<section class="xo" xo-reserved="true">');
-            xo.getPageData();
         }else{
             xo.log('An XO instance is already running');
         }
+    },
+    loadSuccess:function(){
+        $(xo.config.domParentNode).css('opacity',1);
     },
     loadExternal:function(scriptPath,scriptURI,scriptExt){
         var a = scriptPath == undefined || null || ' ' ? xo.config.loadPathDefault : scriptPath,
@@ -184,7 +186,7 @@ var xo = {
     tooltip:function(object,method){
         if(method == 'add'){
             var tipText = $(object).attr('xo-tooltip-text'),
-                tipEnabled = $(object).attr('xo-trigger') == 'tooltip' ? true : false,
+                tipEnabled = $(object).attr('xo-trigger') == 'tooltip',
                 toolTipTop = $(object).offset().top,
                 toolTipLeft = $(object).offset().left;
             if(tipEnabled == true){
@@ -194,6 +196,17 @@ var xo = {
         }else if(method == 'delete'){
             $('.tooltip').remove();
         }
+    },
+    panel:function(){
+        $('[xo-type="panel-group"]').each(function(){
+            var _obj = '[xo-type="panel"]',
+                _count = $(this).children().length,
+                _parent = $(this).width();
+            $(this).find(_obj).each(function () {
+                $(this).css('width', (_parent / _count) - _count);
+                console.log(_count);
+            })
+        });
     },
     gutter:function(method){
         //check if a gutter exists
@@ -219,8 +232,8 @@ var xo = {
     video:function(){
         $('[xo-type="video"]').each(function(){
             var _obj = '[xo-type="video"]',
-                _vdoW = $(_obj).attr('xo-video-width'),
-                _vdoH = $(_obj).attr('xo-video-height'),
+                _vdoW = $(_obj).attr('xo-video-width') || 'auto',
+                _vdoH = $(_obj).attr('xo-video-height') || 'auto',
                 _vdoS = $(_obj).attr('xo-video-src'),
                 _vdoT = $(_obj).attr('xo-video-format'),
                 _vdoC = $(_obj).attr('xo-video-controls'),
@@ -236,6 +249,7 @@ var xo = {
             _vdo += '<source src="'+_vdoS+'" type="video/'+_vdoT+'">';
             _vdo += 'Your browser does not support the video tag.';
             _vdo += '</video>';
+            $(_obj).contents().remove();//removes content from the video placeholder
             $(_obj).append(_vdo);
         })
     },
