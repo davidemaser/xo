@@ -210,7 +210,9 @@ var xo = {
     },
     gutter:function(method){
         //check if a gutter exists
-        var _obj = '[xo-type="gutter"]';
+        var _obj = '[xo-type="gutter"]',
+            _filterObj = '[xo-type="gutter-filter"]',
+            _filterCode = '<div xo-type="gutter-filter"></div>';
         if ($(_obj).length > 0) {
             var state = $(_obj).attr('xo-state'),
                 width = $(_obj).width(),
@@ -224,8 +226,14 @@ var xo = {
         } else {
             if (state == 'open') {
                 $(_obj).animate({left: -width}, xo.config.animationSpeed).attr('xo-state', 'closed');
+                $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed,function(){
+                    $(_filterObj).remove();
+                });
+
             } else if (state == 'closed') {
                 $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
+                $('section.xo').prepend(_filterCode);
+                $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
             }
         }
     },

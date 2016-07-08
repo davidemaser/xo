@@ -7,6 +7,7 @@
     top: 0;
     background: #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    z-index:99999;
   }
   [xo-type="gutter-toggle"] {
     position:absolute;
@@ -14,6 +15,14 @@
     right:0;
     padding:5px;
     cursor:pointer;
+  }
+  [xo-type="gutter-filter"] {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    height: 100%;
+    width: 100%;
+    z-index: 99998;
+    opacity:0;
   }
   [xo-type-param="left"]{
     left:0;
