@@ -5,11 +5,11 @@ var xo = {
     config:{
         loadPathDefault:'../dist/js/',
         loadPathExtension:'.js',
-        ajaxPathDefault:'json/',
+        ajaxPathDefault:'../dist/json/',
         ajaxFileExtension:'.json',
         ajaxDefaultMethod:'get',
         ajaxDefaultDataType:'json',
-        sessionStorageKey:'xoDemo',
+        sessionStorageKey:'xo-',
         showErrorLog: true,
         showErrorLogDate: false,
         animationSpeed: 500,
@@ -112,7 +112,7 @@ var xo = {
     animate:function(obj,type,speed,length){
 
     },
-    getData:function(scriptPath,scriptURI){
+    getData:function(scriptPath,scriptURI,method,identifier){
         var a = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
             b = scriptURI == undefined ? "" : scriptURI,
             c = xo.config.ajaxFileExtension,
@@ -140,7 +140,11 @@ var xo = {
 
             }
         }).success(function(data) {
-            xo.saveDataToSession(data,'s');
+            if(method == 'p'){
+                console.log(data);
+            }else if(method == 's'){
+                xo.saveDataToSession(JSON.stringify(data),'s',xo.config.sessionStorageKey,identifier);
+            }
         }).error(function() {
             xo.log('ajax can\'t load that file');
         });
@@ -148,12 +152,19 @@ var xo = {
     parseData:function(data,method,startNode,target){
         //working on this one
     },
-    saveDataToSession:function(data,method){
+    saveDataToSession:function(data,method,key,id){
         if (typeof(Storage) !== "undefined") {
-            method == 's' ? sessionStorage.setItem(xo.config.sessionStorageKey+xo.createUniqueCode(), data) : localStorage.setItem(xo.config.sessionStorageKey+xo.createUniqueCode(), data);
+            method == 's' ? sessionStorage.setItem(key+id, data) : localStorage.setItem(xo.config.sessionStorageKey+xo.createUniqueCode(), data);
         } else {
             xo.log('Sorry! No Web Storage support..');
         }
+    },
+    getDataFromSession:function(key,id,parse){
+        var _data = sessionStorage.getItem(key+'-'+id);
+        if(parse == true){
+            _data = JSON.parse(_data);
+        }
+        console.log(_data);
     },
     trigger:function(type,passValue,message){
         message = message || null;
