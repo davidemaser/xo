@@ -26,7 +26,7 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - panel : creates a panel layout
 - mobile-item : this item will only be shown to mobile navigators
 - video : creates a video object with specific parameters
--       requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-autoplay (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)
+  - requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-autoplay (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)
 
 #### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
