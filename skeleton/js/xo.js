@@ -81,7 +81,7 @@ var xo = {
                 'xo-prefix': domPrefix,
                 'xo-min': xoMin
             }).addClass(xoClass);
-            $(xo.config.domParentNode).contents().wrapAll('<'+xo.config.defaultXOWrapper+'' class="xo" xo-reserved="true">');
+            $(xo.config.domParentNode).contents().wrapAll('<'+xo.config.defaultXOWrapper+' class="xo" xo-reserved="true">');
         }else{
             xo.log('An XO instance is already running');
         }
