@@ -281,6 +281,8 @@ var xo = {
             xo.gutter(null);
         }).on('click', '[xo-trigger="gutter-toggle"]', function() {
             xo.gutter(null);
+        }).on('click', '[xo-type="gutter-filter"]', function() {
+            xo.gutter(null);
         });
     }
 };
