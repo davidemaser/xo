@@ -126,7 +126,7 @@ var xo = {
             type: xo.config.ajaxDefaultMethod,
             statusCode: {
                 404: function() {
-                    xo.log('ajax can\'t load that file');
+                    xo.log('XO can\'t load that file');
                 },
                 500: function() {
                     xo.log('the server has encountered an internal error');
