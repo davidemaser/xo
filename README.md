@@ -20,11 +20,13 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 ##### xo-type : defines the html object's type. This can be :
 
 - gutter : creates a gutter panel that can be animated
-- gutter-toggle : toggles into view a gutter object on the page
+- gutter-toggle : toggles the view of a gutter object on the page
 - label : create's a basic label view
 - breadcrumb : creates a breadcrumb navigation layout
 - panel : creates a panel layout
 - mobile-item : this item will only be shown to mobile navigators
+- video : creates a video object with specific parameters
+-       requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)
 
 #### xo-type-param : defines parameters of a specific xo-object type. This can be :
 

@@ -195,6 +195,24 @@ var xo = {
             }
         }
     },
+    video:function(){
+        var _obj = '[xo-type="video"]',
+            _vdoW = $(_obj).attr('xo-video-width'),
+            _vdoH = $(_obj).attr('xo-video-height'),
+            _vdoS = $(_obj).attr('xo-video-src'),
+            _vdoT = $(_obj).attr('xo-video-format'),
+            _vdoC = $(_obj).attr('xo-video-controls'),
+            _vdo = '<video width="'+_vdoW+'" height="'+_vdoH+'" ';
+            if(_vdoC == 'true') {
+                _vdo += 'controls';
+            }
+            _vdo += '>';
+            _vdo += '<source src="'+_vdoS+'" type="video/'+_vdoT+'">';
+            _vdo += 'Your browser does not support the video tag.';
+            _vdo += '</video>';
+        $(_obj).append(_vdo);
+
+    },
     initMouseEvents:function(){
         var mouseX, mouseY;
         $('body').on('mouseover', '[xo-trigger="tooltip"]', function(e) {
