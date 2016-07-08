@@ -32,7 +32,88 @@
 
 <p>Any collaboration on this project would be greatly appreciated.</p>
 
-<p><code>See /exo/skeleton/sass for latest core css.</code></p>
+<h2>
+<a id="html-data-attributes" class="anchor" href="#html-data-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HTML DATA ATTRIBUTES</h2>
+
+<p>The core features of XO reside in html tag data-attributes. HTML items can be bound to css styles or components as well as bound to javascript functions and events by adding specific data-attributes and values.</p>
+
+<p><code>&lt;div xo-type="objectType" xo-type-value="aValue" xo-trigger"triggersSomething"&gt;Foo&lt;/div&gt;</code></p>
+
+<p>XO data tags all start with xo-. What follows will be either an action, the value of the action or a parameter. Below is a list of currently implemented data-attributes</p>
+
+<h5>
+<a id="xo-type--defines-the-html-objects-type-this-can-be-" class="anchor" href="#xo-type--defines-the-html-objects-type-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-type : defines the html object's type. This can be :</h5>
+
+<ul>
+<li>gutter : creates a gutter panel that can be animated</li>
+<li>gutter-toggle : toggles the view of a gutter object on the page</li>
+<li>label : create's a basic label view</li>
+<li>breadcrumb : creates a breadcrumb navigation layout</li>
+<li>panel : creates a panel layout</li>
+<li>mobile-item : this item will only be shown to mobile navigators</li>
+<li>video : creates a video object with specific parameters
+
+<ul>
+<li>requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-autoplay (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)</li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="xo-type-param--defines-parameters-of-a-specific-xo-object-type-this-can-be-" class="anchor" href="#xo-type-param--defines-parameters-of-a-specific-xo-object-type-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-type-param : defines parameters of a specific xo-object type. This can be :</h4>
+
+<ul>
+<li>left</li>
+<li>right</li>
+</ul>
+
+<h4>
+<a id="xo-state--defines-the-visual-state-of-an-xo-object-this-can-be-" class="anchor" href="#xo-state--defines-the-visual-state-of-an-xo-object-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-state : defines the visual state of an xo-object. This can be :</h4>
+
+<ul>
+<li>open (applies to gutters, panels or accordions)</li>
+<li>closed (applies to gutters, panels or accordions)</li>
+<li>hidden (hides the element)</li>
+</ul>
+
+<h4>
+<a id="xo-trigger--defines-an-object-that-triggers-an-event-or-function-this-can-be-" class="anchor" href="#xo-trigger--defines-an-object-that-triggers-an-event-or-function-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-trigger : defines an object that triggers an event or function. This can be :</h4>
+
+<ul>
+<li>tooltip
+
+<ul>
+<li>requires one parameter : xo-tooltip-text</li>
+</ul>
+</li>
+<li>url
+
+<ul>
+<li>requires one parameter : xo-trigger-url</li>
+</ul>
+</li>
+<li>modal</li>
+<li>pop-up</li>
+<li>script</li>
+<li>data</li>
+<li>ajax
+
+<ul>
+<li>requires one parameter : xo-ajax-url</li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="xo-span--defines-the-span-of-the-element-inside-the-parent-tag-this-can-be" class="anchor" href="#xo-span--defines-the-span-of-the-element-inside-the-parent-tag-this-can-be" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-span : defines the span of the element inside the parent tag. This can be</h4>
+
+<ul>
+<li>full</li>
+<li>half</li>
+<li>pct(num%)</li>
+<li>pix(numPX)</li>
+<li>auto</li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/davidemaser/xo">XO</a> is maintained by <a href="https://github.com/davidemaser">davidemaser</a>.</span>
