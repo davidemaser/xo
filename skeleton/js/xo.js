@@ -14,6 +14,7 @@ var xo = {
         showErrorLogDate: false,
         animationSpeed: 500,
         domParentNode: 'body',
+        defaultXOWrapper: 'section',
         /*
         initialise specific components and widgets
         as needed.
@@ -80,7 +81,7 @@ var xo = {
                 'xo-prefix': domPrefix,
                 'xo-min': xoMin
             }).addClass(xoClass);
-            $(xo.config.domParentNode).contents().wrapAll('<section class="xo" xo-reserved="true">');
+            $(xo.config.domParentNode).contents().wrapAll('<'+xo.config.defaultXOWrapper+'' class="xo" xo-reserved="true">');
         }else{
             xo.log('An XO instance is already running');
         }
@@ -107,7 +108,7 @@ var xo = {
     },
     switchNavMode:function(){
         var a = $('html').attr('xo-prefix'),
-            b = $(xo.config.domParentNode).find('section'),
+            b = $(xo.config.domParentNode).find(xo.config.defaultXOWrapper),
             c = b.attr('xo-reserved'),
             d = c == true ? xo.config.ajaxPathDefault : scriptPath;
     },
@@ -236,7 +237,7 @@ var xo = {
 
             } else if (state == 'closed') {
                 $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
-                $('section.xo').prepend(_filterCode);
+                $(xo.config.defaultXOWrapper+'.xo').prepend(_filterCode);
                 $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
             }
         }
