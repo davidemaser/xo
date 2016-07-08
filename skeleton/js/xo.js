@@ -279,6 +279,8 @@ var xo = {
             xo.trigger('direct',goToUrl,null);
         }).on('click', '[xo-type="gutter-toggle"]', function() {
             xo.gutter(null);
+        }).on('click', '[xo-trigger="gutter-toggle"]', function() {
+            xo.gutter(null);
         });
     }
 };
