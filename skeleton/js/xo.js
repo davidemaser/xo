@@ -215,10 +215,47 @@ var xo = {
             })
         });
     },
-    modal:function(method){
+    getTemplateObjects:function(type,template){
+        var templateArray = template.split(',');
+        switch(type) {
+            case 'modal':
+                var t = templateArray[0],
+                    b = templateArray[1],
+                    bt = templateArray[2];
+                if(bt.indexOf('/')>-1) {
+                    var buttonArray = bt.split('/'),
+                        bt1 = buttonArray[0],
+                        bt2 = buttonArray[1];
+                }
+                var modalHTML = '<div class="xo modal title">'+t+'</div>';
+                    modalHTML += '<div class="xo modal body">'+b+'</div>';
+                    modalHTML += '<div class="xo modal buttons">';
+                if(Array.isArray(buttonArray)){
+                    modalHTML += '<button>'+bt1+'</button>';
+                    modalHTML += '<button>'+bt2+'</button>';
+                }else{
+                    modalHTML += '<button>'+bt+'</button>';
+                }
+                    modalHTML += '</div>';
+                return modalHTML;
+                break;
+            case 'popup':
+                break;
+        }
+
+    },
+    modal:function(method,template){
         var _obj = '[xo-type="modal"]',
             _filterObj = '[xo-type="modal-filter"]',
-            _filterCode = '<div xo-type="modal-filter"></div>';
+            _filterCode = '<div xo-type="modal-filter"></div>',
+            _inlineTemplate = $(_obj).attr('xo-data-template');
+        if (typeof _inlineTemplate !== typeof undefined && _inlineTemplate !== false) {
+            $(_obj).contents().not('[xo-type="modal-toggle"]').remove();
+            $(_obj).append(xo.getTemplateObjects('modal',_inlineTemplate));
+        }else if(template !== undefined){
+            $(_obj).contents().not('[xo-type="modal-toggle"]').remove(); //empty modal content to avoid duplicates.
+            $(_obj).append(xo.getTemplateObjects('modal',template));
+        }
         if ($(_obj).length > 0) {
             var state = $(_obj).attr('xo-state'),
                 param = $(_obj).attr('xo-type-param');
@@ -311,7 +348,9 @@ var xo = {
         }).on('click', '[xo-type="gutter-filter"]', function() {
             xo.gutter(null);
         }).on('click', '[xo-type="modal-toggle"]', function() {
-            xo.modal();
+            if($(this).attr('xo-data-template') !== ""){
+                xo.modal(null,$(this).attr('xo-data-template'))
+            }
         }).on('click', '[xo-type="modal-filter"]', function() {
             xo.modal();
         });

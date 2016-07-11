@@ -28,15 +28,15 @@
         <div xo-type="gutter" xo-type-param="left" xo-state="closed" xo-object-name="left-gutter">
             <div>Here's a gutter</div>
         </div>
-        <div xo-type="modal" xo-type-param="center" xo-state="closed" xo-object-name="main-modal">
+        <div xo-type="modal" xo-type-param="center" xo-state="closed" xo-object-name="main-modal" xo-data-template="This is the title,This is the body,Yes/No">
             this is a modal
             </div>
         <a xo-type="gutter-toggle" xo-parent="left-gutter">Toggle Gutter</a>
-        <a xo-type="modal-toggle" xo-parent="main-modal">Toggle Modal</a>
+        <a xo-type="modal-toggle" xo-parent="main-modal" xo-data-template="This is the title,This is the body,Yes/No">Toggle Modal</a>
         <div xo-type="video" xo-video-src="http://www.w3schools.com/html/movie.mp4" xo-video-format="mp4" xo-video-controls="true" xo-video-autoplay="true"></div>
         <div xo-type="panel-group">
             <div xo-type="panel">panel1</div>
-            <div xo-type="panel"><button xo-trigger="url" xo-trigger-url="page.html">Button</button></div>
+            <div xo-type="panel">panel2</div>
             <div xo-type="panel">panel3</div>
             <div xo-type="panel">panel4</div>
             <div xo-type="panel">panel5</div>
