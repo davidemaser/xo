@@ -213,6 +213,26 @@ var xo = {
             })
         });
     },
+    modal:function(){
+        var _obj = '[xo-type="modal"]',
+            _filterObj = '[xo-type="modal-filter"]',
+            _filterCode = '<div xo-type="modal-filter"></div>';
+        if ($(_obj).length > 0) {
+            var state = $(_obj).attr('xo-state'),
+                param = $(_obj).attr('xo-type-param');
+        }
+        if (state == 'open') {
+            $(_obj).css('display','block').attr('xo-state', 'closed');
+            $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed,function(){
+                $(_filterObj).remove();
+            });
+
+        } else if (state == 'closed') {
+            $(_obj).css('display','none').attr('xo-state', 'open');
+            $(xo.config.defaultXOWrapper+'.xo').prepend(_filterCode);
+            $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
+        }
+    },
     gutter:function(method){
         //check if a gutter exists
         var _obj = '[xo-type="gutter"]',
