@@ -1,0 +1,36 @@
+{
+  "form": [
+    {
+      "item": "text",
+      "name":"Name",
+      "label":"First Name",
+      "class": "class",
+      "id": "f_name",
+      "required": true,
+      "placeholder": "Enter your first name",
+      "value": "",
+      "min-length": 1,
+      "max-length": 20
+    },
+    {
+      "item": "select",
+      "class": "class",
+      "id": null,
+      "option": [
+        {
+          "name": "Canada",
+          "value": "CAN",
+          "selected": true
+        },
+        {
+          "name": "USA",
+          "value": "USA"
+        },
+        {
+          "name": "United Kingdom",
+          "value": "UK"
+        }
+      ]
+    }
+  ]
+}

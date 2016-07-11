@@ -122,7 +122,7 @@ var xo = {
             b = scriptURI == undefined ? "" : scriptURI,
             c = xo.config.ajaxFileExtension,
             d = a+b+c;
-        $.ajax({
+        return $.ajax({
             dataType: xo.config.ajaxDefaultDataType,
             url: d,
             type: xo.config.ajaxDefaultMethod,
@@ -146,9 +146,15 @@ var xo = {
             }
         }).success(function(data) {
             if(method == 'p'){
-                parseData(data,true,target);
+                xo.parseData(data,true,target);
             }else if(method == 's'){
                 xo.saveDataToSession(JSON.stringify(data),'s',xo.config.sessionStorageKey,identifier);
+            }else if(method == 'b'){
+                if (sessionStorage.getItem(xo.config.sessionStorageKey+identifier) === null) {
+                    xo.saveDataToSession(JSON.stringify(data),'s',xo.config.sessionStorageKey,identifier);
+                    xo.log('Saved '+xo.config.sessionStorageKey+identifier+' to session storage');
+                }
+                xo.getDataFromSession('xo',identifier,true);
             }
         }).error(function() {
             xo.log('ajax can\'t load that file');
@@ -157,7 +163,7 @@ var xo = {
     parseData:function(data,parse,target){
         //working on this one
         if(parse == true){
-            _data = JSON.parse(data);
+            var _data = JSON.parse(data);
         }
         $(target).append(_data);
     },
@@ -173,7 +179,7 @@ var xo = {
         if(parse == true){
             _data = JSON.parse(_data);
         }
-        console.log(_data);
+        return _data;
     },
     trigger:function(type,passValue,message){
         message = message || null;
@@ -252,24 +258,23 @@ var xo = {
         if (typeof _inlineTemplate !== typeof undefined && _inlineTemplate !== false) {
             $(_obj).contents().not('[xo-type="modal-toggle"]').remove();
             $(_obj).append(xo.getTemplateObjects('modal',_inlineTemplate));
-        }else if(template !== undefined){
+        }else if(template !== typeof undefined && template !== false){
             $(_obj).contents().not('[xo-type="modal-toggle"]').remove(); //empty modal content to avoid duplicates.
             $(_obj).append(xo.getTemplateObjects('modal',template));
         }
         if ($(_obj).length > 0) {
-            var state = $(_obj).attr('xo-state'),
-                param = $(_obj).attr('xo-type-param');
+            var _state = $(_obj).attr('xo-state');
         }
         if(method == 'init') {
             $(_obj).prepend('<div xo-type="modal-toggle">X</div>');
             $(_obj).wrap('<div class="modal-wrapper">');
         } else {
-            if (state == 'open') {
+            if (_state == 'open') {
                 $(_obj).attr('xo-state', 'closed');
                 $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
                     $(_filterObj).remove();
                 });
-            } else if (state == 'closed') {
+            } else if (_state == 'closed') {
                 $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
                 $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed,function(){
                     $(_obj).attr('xo-state', 'open');
@@ -283,28 +288,31 @@ var xo = {
             _filterObj = '[xo-type="gutter-filter"]',
             _filterCode = '<div xo-type="gutter-filter"></div>';
         if ($(_obj).length > 0) {
-            var state = $(_obj).attr('xo-state'),
-                width = $(_obj).width(),
-                param = $(_obj).attr('xo-type-param');
+            var _state = $(_obj).attr('xo-state'),
+                _width = $(_obj).width(),
+                _param = $(_obj).attr('xo-type-param');
         }
         if(method == 'init') {
             $(_obj).prepend('<div xo-type="gutter-toggle">X</div>');
-            if(state == 'closed'){
-                $(_obj).css('left',-width);
+            if(_state == 'closed'){
+                $(_obj).css('left',-_width);
             }
         } else {
-            if (state == 'open') {
-                $(_obj).animate({left: -width}, xo.config.animationSpeed).attr('xo-state', 'closed');
+            if (_state == 'open') {
+                $(_obj).animate({left: -_width}, xo.config.animationSpeed).attr('xo-state', 'closed');
                 $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed,function(){
                     $(_filterObj).remove();
                 });
 
-            } else if (state == 'closed') {
+            } else if (_state == 'closed') {
                 $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
                 $(xo.config.defaultXOWrapper+'.xo').prepend(_filterCode);
                 $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
             }
         }
+    },
+    navbar:function(){
+
     },
     video:function(){
         $('[xo-type="video"]').each(function(){
@@ -329,6 +337,39 @@ var xo = {
             $(_obj).contents().remove();//removes content from the video placeholder
             $(_obj).append(_vdo);
         })
+    },
+    formBuilder:function(source,target,host){
+        var _tempData = (xo.getData(null,source,'b',target)),
+            _tempArray = [];
+        _tempData.success(function (data) {
+            var _processData = data.form;
+            Object.keys(_processData).forEach(function (key) {
+                _tempArray.push({
+                    item:_processData[key].item,
+                    name:_processData[key].name,
+                    label:_processData[key].label || null,
+                    class:_processData[key].class || null,
+                    id:_processData[key].id || null,
+                    required:_processData[key].required || null,
+                    placeholder:_processData[key].placeholder || null,
+                    value:_processData[key].value || null,
+                    min:_processData[key].min-length || null,
+                    max:_processData[key].max-length || null
+                });
+            });
+            console.log(_tempArray);
+            var _formLength = _tempArray.length;
+            for(var i=0; i<_formLength;i++){
+                if(_tempArray[i].item == 'text'){
+                    var _formCode = '<input type="text" name="'+_tempArray[i].name+'" class="'+_tempArray[i].class+'" id="'+_tempArray[i].id+'"';
+                    if(_tempArray[i].required == true){
+                        _formCode += ' required';
+                    }
+                    _formCode += ' placeholder="'+_tempArray[i].placeholder+'" value="'+_tempArray[i].value+'" minlength="'+_tempArray[i].min+'" maxlength="'+_tempArray[i].max+'">';
+                }
+            }
+            console.log(_formCode);
+        });
     },
     initMouseEvents:function(){
         var mouseX, mouseY;
