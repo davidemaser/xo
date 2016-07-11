@@ -1,0 +1,39 @@
+.xo{
+  [xo-type="modal"] {
+    position: relative;
+    width: 500px;
+    margin: auto auto;
+    height: 500px;
+    background: #000;
+    z-index:99999;
+    &[xo-state="closed"]{
+      display: none!important;
+    }
+    &[xo-state="open"]{
+      display: block!important;
+    }
+  }
+  [xo-type="modal-toggle"] {
+    color:#fff;
+    position:absolute;
+    top:0;
+    right:0;
+    padding:5px;
+    cursor:pointer;
+  }
+  a[xo-type="modal-toggle"] {
+    color:inherit;
+    position:relative;
+    padding:5px;
+    cursor:pointer;
+  }
+  [xo-type="modal-filter"] {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    height: 100%;
+    width: 100%;
+    z-index: 99998;
+    opacity:0;
+  }
+  .modal-wrapper {position: fixed;width: 100%;height: 100%;top: 20%;}
+}

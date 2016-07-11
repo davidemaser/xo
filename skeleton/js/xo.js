@@ -22,6 +22,7 @@ var xo = {
         initGutter: true,
         initVideo: true,
         initPanel: true,
+        initModal: true,
         appRunning: false
     },
     _define:{
@@ -68,6 +69,7 @@ var xo = {
         xo.config.initGutter == true ? xo.gutter('init') : null;
         xo.config.initVideo == true ? xo.video() : null;
         xo.config.initPanel == true ? xo.panel() : null;
+        xo.config.initModal == true ? xo.modal('init') : null;
         xo.initMouseEvents();
         xo.config.appRunning = true;
         advise == true ? xo.log('xo is running') : null;
@@ -213,7 +215,7 @@ var xo = {
             })
         });
     },
-    modal:function(){
+    modal:function(method){
         var _obj = '[xo-type="modal"]',
             _filterObj = '[xo-type="modal-filter"]',
             _filterCode = '<div xo-type="modal-filter"></div>';
@@ -221,16 +223,21 @@ var xo = {
             var state = $(_obj).attr('xo-state'),
                 param = $(_obj).attr('xo-type-param');
         }
-        if (state == 'open') {
-            $(_obj).css('display','block').attr('xo-state', 'closed');
-            $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed,function(){
-                $(_filterObj).remove();
-            });
-
-        } else if (state == 'closed') {
-            $(_obj).css('display','none').attr('xo-state', 'open');
-            $(xo.config.defaultXOWrapper+'.xo').prepend(_filterCode);
-            $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
+        if(method == 'init') {
+            $(_obj).prepend('<div xo-type="modal-toggle">X</div>');
+            $(_obj).wrap('<div class="modal-wrapper">');
+        } else {
+            if (state == 'open') {
+                $(_obj).attr('xo-state', 'closed');
+                $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
+                    $(_filterObj).remove();
+                });
+            } else if (state == 'closed') {
+                $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
+                $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed,function(){
+                    $(_obj).attr('xo-state', 'open');
+                });
+            }
         }
     },
     gutter:function(method){
@@ -303,6 +310,10 @@ var xo = {
             xo.gutter(null);
         }).on('click', '[xo-type="gutter-filter"]', function() {
             xo.gutter(null);
+        }).on('click', '[xo-type="modal-toggle"]', function() {
+            xo.modal();
+        }).on('click', '[xo-type="modal-filter"]', function() {
+            xo.modal();
         });
     }
 };

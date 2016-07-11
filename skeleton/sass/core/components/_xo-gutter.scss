@@ -16,6 +16,12 @@
     padding:5px;
     cursor:pointer;
   }
+  a[xo-type="gutter-toggle"] {
+    color:inherit;
+    position:relative;
+    padding:5px;
+    cursor:pointer;
+  }
   [xo-type="gutter-filter"] {
     position: fixed;
     background: rgba(0, 0, 0, 0.4);
