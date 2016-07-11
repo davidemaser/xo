@@ -14,8 +14,12 @@
     },
     {
       "item": "select",
+      "name":"Country",
+      "label":"Country",
       "class": "class",
       "id": null,
+      "required": true,
+      "multiple":false,
       "option": [
         {
           "name": "Canada",
