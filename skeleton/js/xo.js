@@ -373,52 +373,72 @@ var xo = {
             _tempArray = [],
             _tempOptions = '[',
             _tempRadioOptions = '[',
-            _tempCheckOptions = '[';
+            _tempCheckOptions = '[',
+            _tempDataListOptions = '[';
         _tempData.success(function (data) {
-            var _processData = data.form;
+            var _initData = [],
+                _processData = data.form;
+                _initData.push({action:data.formAction,method:data.formMethod,id:data.formId,class:data.formClass});
             Object.keys(_processData).forEach(function (key) {
-                if (_processData[key].item == 'select') {
-                    if (typeof _processData[key].option === 'object') {
-                        var _optionDepth = _processData[key].option.length;
-                        for (var o = 0; o < _optionDepth; o++) {
-                            _tempOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                            _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : '';
-                            _tempOptions += '}';
-                            if (o < _optionDepth - 1) {
-                                _tempOptions += ',';
+                switch (_processData[key].item) {
+                    case 'select':
+                        if (typeof _processData[key].option === 'object') {
+                            var _optionDepth = _processData[key].option.length;
+                            for (var o = 0; o < _optionDepth; o++) {
+                                _tempOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                                _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : '';
+                                _tempOptions += '}';
+                                if (o < _optionDepth - 1) {
+                                    _tempOptions += ',';
+                                }
                             }
+                            _tempOptions += ']';
+                            _tempOptions = JSON.parse(_tempOptions);
                         }
-                        _tempOptions += ']';
-                        _tempOptions = JSON.parse(_tempOptions);
-                    }
-                }else if (_processData[key].item == 'radiogroup') {
-                    if (typeof _processData[key].option === 'object') {
-                        _optionDepth = _processData[key].option.length;
-                        for (o = 0; o < _optionDepth; o++) {
-                            _tempRadioOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                            _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
-                            _tempRadioOptions += '}';
-                            if (o < _optionDepth - 1) {
-                                _tempRadioOptions += ',';
+                        break;
+                    case 'radiogroup':
+                        if (typeof _processData[key].option === 'object') {
+                            _optionDepth = _processData[key].option.length;
+                            for (o = 0; o < _optionDepth; o++) {
+                                _tempRadioOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                                _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
+                                _tempRadioOptions += '}';
+                                if (o < _optionDepth - 1) {
+                                    _tempRadioOptions += ',';
+                                }
                             }
+                            _tempRadioOptions += ']';
+                            _tempRadioOptions = JSON.parse(_tempRadioOptions);
                         }
-                        _tempRadioOptions += ']';
-                        _tempRadioOptions = JSON.parse(_tempRadioOptions);
-                    }
-                }else if (_processData[key].item == 'checkbox') {
-                    if (typeof _processData[key].option === 'object') {
-                        _optionDepth = _processData[key].option.length;
-                        for (o = 0; o < _optionDepth; o++) {
-                            _tempCheckOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                            _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
-                            _tempCheckOptions += '}';
-                            if (o < _optionDepth - 1) {
-                                _tempCheckOptions += ',';
+                        break;
+                    case 'checkbox':
+                        if (typeof _processData[key].option === 'object') {
+                            _optionDepth = _processData[key].option.length;
+                            for (o = 0; o < _optionDepth; o++) {
+                                _tempCheckOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                                _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
+                                _tempCheckOptions += '}';
+                                if (o < _optionDepth - 1) {
+                                    _tempCheckOptions += ',';
+                                }
                             }
+                            _tempCheckOptions += ']';
+                            _tempCheckOptions = JSON.parse(_tempCheckOptions);
                         }
-                        _tempCheckOptions += ']';
-                        _tempCheckOptions = JSON.parse(_tempCheckOptions);
-                    }
+                        break;
+                    case 'datalist':
+                        if (typeof _processData[key].option === 'object') {
+                            _optionDepth = _processData[key].option.length;
+                            for (o = 0; o < _optionDepth; o++) {
+                                _tempDataListOptions += '{"optionValue":"' + _processData[key].option[o].value + '"}';
+                                if (o < _optionDepth - 1) {
+                                    _tempDataListOptions += ',';
+                                }
+                            }
+                            _tempDataListOptions += ']';
+                            _tempDataListOptions = JSON.parse(_tempDataListOptions);
+                        }
+                        break;
                 }
                 _tempArray.push({
                     item: _processData[key].item,
@@ -430,82 +450,102 @@ var xo = {
                     multiple: _processData[key].multiple || null,
                     placeholder: _processData[key].placeholder || null,
                     value: _processData[key].value || null,
-                    min: _processData[key].min - length || null,
-                    max: _processData[key].max - length || null,
-                    rows: _processData[key].rows - length || null,
-                    cols: _processData[key].cols - length || null,
-                    options: _tempOptions || _tempRadioOptions || _tempCheckOptions
+                    min: _processData[key].min-length || null,
+                    max: _processData[key].max-length || null,
+                    rows: _processData[key].rows || null,
+                    cols: _processData[key].cols || null,
+                    submit: _processData[key].submit || null,
+                    options: _tempOptions || _tempRadioOptions || _tempCheckOptions || _tempDataListOptions
                 });
             });
             var _formLength = _tempArray.length;
             for (var i = 0; i < _formLength; i++) {
-                if (_tempArray[i].item == 'text') {
-                    var _formCode = '<div class="form-line '+_tempArray[i].item+'">';
-                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                    _formCode += '<input type="text"';
-                    _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
-                    _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
-                    _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
-                    _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
-                    _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
-                    _formCode += _tempArray[i].value !== null ? ' value="' + _tempArray[i].value + '"' : '';
-                    _formCode += _tempArray[i].min !== null ? ' minlength="' + _tempArray[i].min + '"' : '';
-                    _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
-                    _formCode += '></div>';
-                }else if (_tempArray[i].item == 'textarea') {
-                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
-                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                    _formCode += '<textarea';
-                    _formCode += _tempArray[i].rows !== null ? ' rows="'+ _tempArray[i].rows +'"' : '';
-                    _formCode += _tempArray[i].cols !== null ? ' cols="'+ _tempArray[i].cols +'"' : '';
-                    _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
-                    _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
-                    _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
-                    _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
-                    _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
-                    _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
-                    _formCode += '></textarea></div>';
-                } else if (_tempArray[i].item == 'select') {
-                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
-                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                    _formCode += '<select';
-                    _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
-                    _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
-                    _formCode += _tempArray[i].multiple !== null && _tempArray[i].multiple == true ? ' multiple' : '';
-                    _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
-                    _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
-                    _formCode += '>';
-                    for (var j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
-                        _formCode += '<option';
-                        _formCode += _tempArray[i].options[j].optionSelected !== null && _tempArray[i].options[j].optionSelected == true ? ' selected' : '';
-                        console.log(_tempArray[i].options[j].optionSelected);
-                        _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
-                        _formCode += _tempArray[i].options[j].optionName + '</option>';
-                    }
-                    _formCode += '</select></div>';
-                } else if (_tempArray[i].item == 'radiogroup') {
-                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
-                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                    for (j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
-                        _formCode += '<input type="radio"';
-                        _formCode += ' name="'+_tempArray[i].name+'"';
-                        _formCode += _tempArray[i].options[j].optionChecked !== null && _tempArray[i].options[j].optionChecked == true ? ' checked' : '';
-                        _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
-                    }
-                    _formCode += '</div>';
-                } else if (_tempArray[i].item == 'checkbox') {
-                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
-                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                    for (j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
-                        _formCode += '<input type="checkbox"';
-                        _formCode += ' name="'+_tempArray[i].name+'"';
-                        _formCode += _tempArray[i].options[j].optionChecked !== null && _tempArray[i].options[j].optionChecked == true ? ' checked' : '';
-                        _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
-                    }
-                    _formCode += '</div>';
+                switch (_tempArray[i].item) {
+                    case 'text':
+                        var _formCode = '<div class="form-line ' + _tempArray[i].item + '">';
+                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                        _formCode += '<input type="text"';
+                        _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                        _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                        _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                        _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                        _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
+                        _formCode += _tempArray[i].value !== null ? ' value="' + _tempArray[i].value + '"' : '';
+                        _formCode += _tempArray[i].min !== null ? ' minlength="' + _tempArray[i].min + '"' : '';
+                        _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
+                        _formCode += '></div>';
+                        break;
+                    case 'textarea':
+                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                        _formCode += '<textarea';
+                        _formCode += _tempArray[i].rows !== null ? ' rows="' + _tempArray[i].rows + '"' : '';
+                        _formCode += _tempArray[i].cols !== null ? ' cols="' + _tempArray[i].cols + '"' : '';
+                        _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                        _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                        _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                        _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                        _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
+                        _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
+                        _formCode += '></textarea></div>';
+                        break;
+                    case 'select':
+                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                        _formCode += '<select';
+                        _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                        _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                        _formCode += _tempArray[i].multiple !== null && _tempArray[i].multiple == true ? ' multiple' : '';
+                        _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                        _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                        _formCode += '>';
+                        for (var j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
+                            _formCode += '<option';
+                            _formCode += _tempArray[i].options[j].optionSelected !== null && _tempArray[i].options[j].optionSelected == true ? ' selected' : '';
+                            _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
+                            _formCode += _tempArray[i].options[j].optionName + '</option>';
+                        }
+                        _formCode += '</select></div>';
+                        break;
+                    case 'radiogroup':
+                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                        for (var k = 0, kk = _tempArray[i].options.length; k < kk; k++) {
+                            _formCode += '<input type="radio"';
+                            _formCode += ' name="' + _tempArray[i].name + '"';
+                            _formCode += _tempArray[i].options[k].optionChecked !== null && _tempArray[i].options[k].optionChecked == true ? ' checked' : '';
+                            _formCode += ' value="' + _tempArray[i].options[k].optionValue + '">';
+                        }
+                        _formCode += '</div>';
+                        break;
+                    case 'checkbox':
+                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                        for (var l = 0, ll = _tempArray[i].options.length; l < ll; l++) {
+                            _formCode += '<input type="checkbox"';
+                            _formCode += ' name="' + _tempArray[i].name + '"';
+                            _formCode += _tempArray[i].options[l].optionChecked !== null && _tempArray[i].options[l].optionChecked == true ? ' checked' : '';
+                            _formCode += ' value="' + _tempArray[i].options[l].optionValue + '">';
+                        }
+                        _formCode += '</div>';
+                        break;
+                    case 'datalist':
+                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                        _formCode += '<input list="' + _tempArray[i].id + '" name="' + _tempArray[i].name + '">';
+                        _formCode += '<datalist id="' + _tempArray[i].id + '">';
+                        for (var m = 0, mm = _tempArray[i].options.length; m < mm; m++) {
+                            _formCode += '<option value="' + _tempArray[i].options[m].optionValue + '">';
+                        }
+                        _formCode += '</datalist>';
+                        _formCode += _tempArray[i].submit !== true ? '' : '<input type="submit">';
+                        _formCode += '</div>';
+                        break;
                 }
             }
-            $('[xo-object-name="' + host + '"]').append(_formCode);
+            var _formPrepend = '<form action="'+_initData[0].action+'" method="'+_initData[0].method+'" id="'+_initData[0].id+'" class="'+_initData[0].class+'">',
+                _formAppend = '</form>';
+            $('[xo-object-name="' + host + '"]').append(_formPrepend+_formCode+_formAppend);
         });
     },
     initMouseEvents: function () {

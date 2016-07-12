@@ -1,4 +1,8 @@
 {
+  "formAction":"myform.php",
+  "formMethod":"POST",
+  "formId":"main-push-form",
+  "formClass":"noclass",
   "form": [
     {
       "item": "text",
@@ -55,6 +59,7 @@
       "label":"Nice?",
       "class": "class",
       "id": null,
+      "required": true,
       "option": [
         {
           "name": "Canada",
@@ -76,6 +81,7 @@
       "name":"Country",
       "label":"Country",
       "class": "class",
+      "required": true,
       "id": null,
       "option": [
         {
@@ -90,6 +96,26 @@
         {
           "name": "United Kingdom",
           "value": "UK"
+        }
+      ]
+    },
+    {
+      "item": "datalist",
+      "name":"make",
+      "label":"Manufacturer",
+      "class": "class",
+      "id": "maker",
+      "required": true,
+      "submit":true,
+      "option": [
+        {
+          "value": "Toshiba"
+        },
+        {
+          "value": "Sharp"
+        },
+        {
+          "value": "Samsung"
         }
       ]
     }
