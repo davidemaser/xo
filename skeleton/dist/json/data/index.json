@@ -16,6 +16,7 @@
           "xoSpan":"full",
           "xoObjectName":null,
           "xoTypeParam":null,
+          "xoParent":null,
           "content":"this is content"
         },
         {
@@ -27,18 +28,32 @@
           "xoSpan":"full",
           "xoObjectName":null,
           "xoTypeParam":null,
+          "xoParent":null,
           "content":"this is more content that has and ID and a class"
         },
         {
           "type":"div",
           "class":null,
           "id":null,
-          "xoType":null,
+          "xoType":"gutter-toggle",
           "xoState":null,
           "xoSpan":"full",
           "xoObjectName":null,
           "xoTypeParam":null,
-          "content":"this is a div"
+          "xoParent":"left-gutter",
+          "content":"this is a div that has a xo-type gutter-toggle. It is bound to the left-gutter. Click on it."
+        },
+        {
+          "type":"div",
+          "class":null,
+          "id":null,
+          "xoType":"modal-toggle",
+          "xoState":null,
+          "xoSpan":"full",
+          "xoObjectName":null,
+          "xoTypeParam":null,
+          "xoParent":"main-modal",
+          "content":"this is another div that has a xo-type modal-toggle. It is bound to the main-modal. Click on it."
         }
       ]
     }

@@ -423,7 +423,7 @@ var xo = {
                             var _optionDepth = _processData[key].option.length;
                             for (var o = 0; o < _optionDepth; o++) {
                                 _tempOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                                _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : '';
+                                _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : ',"optionSelected":false';
                                 _tempOptions += '}';
                                 if (o < _optionDepth - 1) {
                                     _tempOptions += ',';
@@ -438,7 +438,7 @@ var xo = {
                             _optionDepth = _processData[key].option.length;
                             for (o = 0; o < _optionDepth; o++) {
                                 _tempRadioOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                                _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
+                                _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : ',"optionChecked":false';
                                 _tempRadioOptions += '}';
                                 if (o < _optionDepth - 1) {
                                     _tempRadioOptions += ',';
@@ -453,7 +453,7 @@ var xo = {
                             _optionDepth = _processData[key].option.length;
                             for (o = 0; o < _optionDepth; o++) {
                                 _tempCheckOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                                _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
+                                _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : ',"optionChecked":false';
                                 _tempCheckOptions += '}';
                                 if (o < _optionDepth - 1) {
                                     _tempCheckOptions += ',';
@@ -605,7 +605,6 @@ var xo = {
         _tempData.success(function (data) {
             var _processData = data.page;
             Object.keys(_processData).forEach(function (key) {
-
                         if (typeof _processData[key].node === 'object') {
                             var _optionDepth = _processData[key].node.length;
                             for (var o = 0; o < _optionDepth; o++) {
@@ -617,6 +616,7 @@ var xo = {
                                 _tempOptions += _processData[key].node[o].xoSpan !== null ? '"nodexoSpan":"'+_processData[key].node[o].xoSpan+'",' : '"nodexoSpan":null,';
                                 _tempOptions += _processData[key].node[o].xoObjectName !== null ? '"nodexoObjectName":"'+_processData[key].node[o].xoObjectName+'",' : '"nodexoObjectName":null,';
                                 _tempOptions += _processData[key].node[o].xoTypeParam !== null ? '"nodexoTypeParam":"'+_processData[key].node[o].xoTypeParam+'",' : '"nodexoTypeParam":null,';
+                                _tempOptions += _processData[key].node[o].xoParent !== null ? '"nodexoParent":"'+_processData[key].node[o].xoParent+'",' : '"nodexoParent":null,';
                                 _tempOptions += '"nodeContent":"'+_processData[key].node[o].content+'"';
                                 _tempOptions += '}';
                                 if (o < _optionDepth - 1) {
@@ -626,7 +626,6 @@ var xo = {
                             _tempOptions += ']';
                             _tempOptions = JSON.parse(_tempOptions);
                         }
-
                 _tempArray.push({
                     page:_processData[key].id,
                     title:_processData[key].title,
@@ -644,6 +643,7 @@ var xo = {
                             _layoutCode += _baseNode[i].nodexoSpan !== null && _baseNode[i].nodexoSpan !== undefined ? ' xo-span="'+_baseNode[i].nodexoSpan+'"' : '';
                             _layoutCode += _baseNode[i].nodexoObjectName !== null && _baseNode[i].nodexoObjectName !== undefined ? ' xo-object-name="'+_baseNode[i].nodexoObjectName+'"' : '';
                             _layoutCode += _baseNode[i].nodexoTypeParam !== null && _baseNode[i].nodexoTypeParam !== undefined ? ' xo-type-param="'+_baseNode[i].nodexoTypeParam+'"' : '';
+                            _layoutCode += _baseNode[i].nodexoParent !== null && _baseNode[i].nodexoParent !== undefined ? ' xo-parent="'+_baseNode[i].nodexoParent+'"' : '';
                             _layoutCode += '>'+_baseNode[i].nodeContent+'</'+_baseNode[i].nodeType+'>';
                 }
                 //console.log(_layoutCode);

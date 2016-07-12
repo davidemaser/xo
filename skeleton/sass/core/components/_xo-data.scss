@@ -1,5 +1,16 @@
 .xo{
   [xo-type="data"]{
-
+    > div {
+      margin: 1em 0;
+    }
+    [xo-type="gutter-toggle"]{
+      position: inherit;
+      padding:inherit;
+    }
+    [xo-type="modal-toggle"]{
+      position: inherit;
+      padding:inherit;
+      color:inherit;;
+    }
   }
 }
