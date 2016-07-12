@@ -284,10 +284,11 @@ var xo = {
         }
         if (method == 'init') {
             $(_obj).prepend('<div xo-type="modal-toggle">X</div>');
-            $(_obj).wrap('<div class="modal-wrapper">');
+            $(_obj).wrap('<div class="modal-wrapper" xo-state="closed">');
         } else {
             if (_state == 'open') {
                 $(_obj).attr('xo-state', 'closed');
+                $(_obj).parent().attr('xo-state', 'closed');
                 $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
                     $(_filterObj).remove();
                 });
@@ -295,6 +296,7 @@ var xo = {
                 $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
                 $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed, function () {
                     $(_obj).attr('xo-state', 'open');
+                    $(_obj).parent().attr('xo-state', 'open');
                 });
             }
         }
@@ -369,7 +371,9 @@ var xo = {
     formBuilder: function (source, target, host) {
         var _tempData = (xo.getData(null, source, 'b', target)),
             _tempArray = [],
-            _tempOptions = '[';
+            _tempOptions = '[',
+            _tempRadioOptions = '[',
+            _tempCheckOptions = '[';
         _tempData.success(function (data) {
             var _processData = data.form;
             Object.keys(_processData).forEach(function (key) {
@@ -378,7 +382,7 @@ var xo = {
                         var _optionDepth = _processData[key].option.length;
                         for (var o = 0; o < _optionDepth; o++) {
                             _tempOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                            _tempOptions += _processData[key].option[o].selected !== null && _processData[key].option[o].selected == true ? ',"optionSelected":' + _processData[key].option[o].selected : '';
+                            _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : '';
                             _tempOptions += '}';
                             if (o < _optionDepth - 1) {
                                 _tempOptions += ',';
@@ -386,6 +390,34 @@ var xo = {
                         }
                         _tempOptions += ']';
                         _tempOptions = JSON.parse(_tempOptions);
+                    }
+                }else if (_processData[key].item == 'radiogroup') {
+                    if (typeof _processData[key].option === 'object') {
+                        _optionDepth = _processData[key].option.length;
+                        for (o = 0; o < _optionDepth; o++) {
+                            _tempRadioOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                            _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
+                            _tempRadioOptions += '}';
+                            if (o < _optionDepth - 1) {
+                                _tempRadioOptions += ',';
+                            }
+                        }
+                        _tempRadioOptions += ']';
+                        _tempRadioOptions = JSON.parse(_tempRadioOptions);
+                    }
+                }else if (_processData[key].item == 'checkbox') {
+                    if (typeof _processData[key].option === 'object') {
+                        _optionDepth = _processData[key].option.length;
+                        for (o = 0; o < _optionDepth; o++) {
+                            _tempCheckOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                            _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : '';
+                            _tempCheckOptions += '}';
+                            if (o < _optionDepth - 1) {
+                                _tempCheckOptions += ',';
+                            }
+                        }
+                        _tempCheckOptions += ']';
+                        _tempCheckOptions = JSON.parse(_tempCheckOptions);
                     }
                 }
                 _tempArray.push({
@@ -400,13 +432,16 @@ var xo = {
                     value: _processData[key].value || null,
                     min: _processData[key].min - length || null,
                     max: _processData[key].max - length || null,
-                    options: _tempOptions
+                    rows: _processData[key].rows - length || null,
+                    cols: _processData[key].cols - length || null,
+                    options: _tempOptions || _tempRadioOptions || _tempCheckOptions
                 });
             });
             var _formLength = _tempArray.length;
             for (var i = 0; i < _formLength; i++) {
                 if (_tempArray[i].item == 'text') {
-                    var _formCode = _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                    var _formCode = '<div class="form-line '+_tempArray[i].item+'">';
+                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
                     _formCode += '<input type="text"';
                     _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
                     _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
@@ -416,8 +451,22 @@ var xo = {
                     _formCode += _tempArray[i].value !== null ? ' value="' + _tempArray[i].value + '"' : '';
                     _formCode += _tempArray[i].min !== null ? ' minlength="' + _tempArray[i].min + '"' : '';
                     _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
-                    _formCode += '>';
+                    _formCode += '></div>';
+                }else if (_tempArray[i].item == 'textarea') {
+                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
+                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                    _formCode += '<textarea';
+                    _formCode += _tempArray[i].rows !== null ? ' rows="'+ _tempArray[i].rows +'"' : '';
+                    _formCode += _tempArray[i].cols !== null ? ' cols="'+ _tempArray[i].cols +'"' : '';
+                    _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                    _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                    _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                    _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                    _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
+                    _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
+                    _formCode += '></textarea></div>';
                 } else if (_tempArray[i].item == 'select') {
+                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
                     _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
                     _formCode += '<select';
                     _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
@@ -429,14 +478,34 @@ var xo = {
                     for (var j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
                         _formCode += '<option';
                         _formCode += _tempArray[i].options[j].optionSelected !== null && _tempArray[i].options[j].optionSelected == true ? ' selected' : '';
+                        console.log(_tempArray[i].options[j].optionSelected);
                         _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
                         _formCode += _tempArray[i].options[j].optionName + '</option>';
                     }
-                    _formCode += '</select>';
+                    _formCode += '</select></div>';
+                } else if (_tempArray[i].item == 'radiogroup') {
+                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
+                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                    for (j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
+                        _formCode += '<input type="radio"';
+                        _formCode += ' name="'+_tempArray[i].name+'"';
+                        _formCode += _tempArray[i].options[j].optionChecked !== null && _tempArray[i].options[j].optionChecked == true ? ' checked' : '';
+                        _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
+                    }
+                    _formCode += '</div>';
+                } else if (_tempArray[i].item == 'checkbox') {
+                    _formCode += '<div class="form-line '+_tempArray[i].item+'">';
+                    _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                    for (j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
+                        _formCode += '<input type="checkbox"';
+                        _formCode += ' name="'+_tempArray[i].name+'"';
+                        _formCode += _tempArray[i].options[j].optionChecked !== null && _tempArray[i].options[j].optionChecked == true ? ' checked' : '';
+                        _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
+                    }
+                    _formCode += '</div>';
                 }
             }
             $('[xo-object-name="' + host + '"]').append(_formCode);
-            //console.log(_formCode);
         });
     },
     initMouseEvents: function () {

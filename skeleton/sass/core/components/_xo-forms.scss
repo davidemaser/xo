@@ -1,0 +1,43 @@
+.xo {
+  input,textarea{
+    &:focus::-webkit-input-placeholder { transition:all 0.5s; color:transparent; }
+    &:focus:-moz-placeholder { transition:all 0.5s; color:transparent; }
+    &:focus::-moz-placeholder { transition:all 0.5s; color:transparent; }
+    &:focus:-ms-input-placeholder { transition:all 0.5s; color:transparent; }
+  }
+  [xo-type="form"] {
+    width:50%;
+  }
+  .form-line{
+    display: block;
+    margin: 10px;
+    @extend %clearfix;
+    &.text{
+
+    }
+    &.select{
+
+    }
+    &.textarea{
+      label {
+        display: inline-block;
+        width: 10%;
+        vertical-align: top;
+      }
+    }
+    label {
+      display: inline-block;
+      width: 10%;
+    }
+    &.radiogroup {
+      input[type="radio"] {
+        margin: 0 5px 0 0;
+      }
+    }
+    &.checkbox {
+      input[type="checkbox"] {
+        margin: 0 5px 0 0;
+      }
+    }
+  }
+}

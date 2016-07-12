@@ -35,6 +35,63 @@
           "value": "UK"
         }
       ]
+    },
+    {
+      "item": "textarea",
+      "name":"Address",
+      "label":"Address",
+      "class": "class",
+      "id": "f_name",
+      "required": true,
+      "placeholder": "Hey how about an address",
+      "value": "",
+      "rows": 10,
+      "cols": 20,
+      "max-length": 20
+    },
+    {
+      "item": "radiogroup",
+      "name":"Nice?",
+      "label":"Nice?",
+      "class": "class",
+      "id": null,
+      "option": [
+        {
+          "name": "Canada",
+          "value": "CAN",
+          "checked": true
+        },
+        {
+          "name": "USA",
+          "value": "USA"
+        },
+        {
+          "name": "United Kingdom",
+          "value": "UK"
+        }
+      ]
+    },
+    {
+      "item": "checkbox",
+      "name":"Country",
+      "label":"Country",
+      "class": "class",
+      "id": null,
+      "option": [
+        {
+          "name": "Canada",
+          "value": "CAN",
+          "checked": true
+        },
+        {
+          "name": "USA",
+          "value": "USA"
+        },
+        {
+          "name": "United Kingdom",
+          "value": "UK"
+        }
+      ]
     }
   ]
 }
