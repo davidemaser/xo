@@ -26,6 +26,7 @@ var xo = {
         initPanel: true,
         initModal: true,
         initForms: true,
+        initData: false,
         /*
         app is running so set a flag and a key
         to force reinitialisation.
@@ -65,6 +66,7 @@ var xo = {
             xo.config.initPanel == true ? xo.panel() : null;
             xo.config.initModal == true ? xo.modal('init') : null;
             xo.config.initForms == true ? xo.formToPage() : null;
+            xo.config.initData == true ? xo.layoutToPage() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
             advise == true ? xo.log('xo is running') : null;
