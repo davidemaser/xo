@@ -10,11 +10,13 @@ var xo = {
         ajaxDefaultMethod: 'get',
         ajaxDefaultDataType: 'json',
         sessionStorageKey: 'xo-',
+        sessionFlushRule: false,
         showErrorLog: true,
         showErrorLogDate: false,
         animationSpeed: 500,
         domParentNode: 'body',
         defaultXOWrapper: 'section',
+        defaultXOPage: 'index',
         /*
          initialise specific components and widgets
          as needed.
@@ -24,6 +26,10 @@ var xo = {
         initPanel: true,
         initModal: true,
         initForms: true,
+        /*
+        app is running so set a flag and a key
+        to force reinitialisation.
+         */
         appRunning: false,
         reInitKey: '0188846aREvvS7'
     },
@@ -51,6 +57,24 @@ var xo = {
         overflow: function () {
         }
     },
+    init: function (advise, callback) {
+        if(xo.config.appRunning !== true) {
+            xo.pageSetUp('html', 'xo', 'true', 'xo set');
+            xo.config.initGutter == true ? xo.gutter('init') : null;
+            xo.config.initVideo == true ? xo.video() : null;
+            xo.config.initPanel == true ? xo.panel() : null;
+            xo.config.initModal == true ? xo.modal('init') : null;
+            xo.config.initForms == true ? xo.formToPage() : null;
+            xo.initMouseEvents();
+            xo.config.appRunning = true;
+            advise == true ? xo.log('xo is running') : null;
+            if (callback && typeof(callback) === "function") {
+                callback();
+            }
+        } else {
+            xo.log('An XO instance is already running');
+        }
+    },
     countDomTags: function (pa) {
         pa = pa || document;
         var O = {},
@@ -76,24 +100,6 @@ var xo = {
             b = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
         return a + b;
     },
-    init: function (advise, callback) {
-        if(xo.config.appRunning !== true) {
-            xo.pageSetUp('html', 'xo', 'true', 'xo set');
-            xo.config.initGutter == true ? xo.gutter('init') : null;
-            xo.config.initVideo == true ? xo.video() : null;
-            xo.config.initPanel == true ? xo.panel() : null;
-            xo.config.initModal == true ? xo.modal('init') : null;
-            xo.config.initForms == true ? xo.formToPage() : null;
-            xo.initMouseEvents();
-            xo.config.appRunning = true;
-            advise == true ? xo.log('xo is running') : null;
-            if (callback && typeof(callback) === "function") {
-                callback();
-            }
-        } else {
-            xo.log('An XO instance is already running');
-        }
-    },
     pageSetUp: function (domItem, domPrefix, xoMin, xoClass) {
         if (xo.config.appRunning !== true) {
             $(domItem).attr({
@@ -109,12 +115,16 @@ var xo = {
         $(xo.config.domParentNode).css('opacity', 1);
     },
     loadExternal: function (scriptPath, scriptURI, scriptExt) {
+        /*
+        load external scripts asynchronously and execute their
+        functions. This can be used to load jQuery plugins or
+        other components after the main xo core has been built
+         */
         var a = scriptPath == undefined || null || ' ' ? xo.config.loadPathDefault : scriptPath,
             b = scriptURI == undefined ? "" : scriptURI,
             c = scriptExt == undefined || null || ' ' ? xo.config.loadPathExtension : scriptExt,
             d = a + b + c;
         $.getScript(d, function (xoCore) {
-            //console.log("Script "+xoCore+" loaded but not necessarily executed.");
             eval(xoCore);
         });
     },
@@ -134,7 +144,14 @@ var xo = {
     animate: function (obj, type, speed, length) {
 
     },
-    getData: function (scriptPath, scriptURI, method, identifier, target) {
+    getData: function (scriptPath, scriptURI, method, identifier, target, flush) {
+        /*
+        query a json file or json response object.
+        Loaded data can be saved to session, parse and
+        displayed or new functions can be created to
+        handle specific data formats.
+        The ajax call returns a data object.
+         */
         var a = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
             b = scriptURI == undefined ? "" : scriptURI,
             c = xo.config.ajaxFileExtension,
@@ -171,7 +188,7 @@ var xo = {
                     xo.saveDataToSession(JSON.stringify(data), 's', xo.config.sessionStorageKey, identifier);
                     xo.log('Saved ' + xo.config.sessionStorageKey + identifier + ' to session storage');
                 }
-                xo.getDataFromSession('xo', identifier, true);
+                xo.getDataFromSession('xo', identifier, true, flush||xo.config.sessionFlushRule);
             }
         }).error(function () {
             xo.log('ajax can\'t load that file');
@@ -191,10 +208,13 @@ var xo = {
             xo.log('Sorry! No Web Storage support..');
         }
     },
-    getDataFromSession: function (key, id, parse) {
+    getDataFromSession: function (key, id, parse, flush) {
         var _data = sessionStorage.getItem(key + '-' + id);
         if (parse == true) {
             _data = JSON.parse(_data);
+        }
+        if(flush == true){
+            sessionStorage.removeItem(key + '-' + id);
         }
         return _data;
     },
@@ -207,6 +227,10 @@ var xo = {
         }
     },
     prompt: function (message, url) {
+        /*
+        utility function that creates a user prompt
+        on an xo prompt object.
+         */
         var r = confirm(message);
         if (r == true) {
             window.location = url;
@@ -302,6 +326,12 @@ var xo = {
         }
     },
     gutter: function (method) {
+        /*
+        creates an animatable gutter instance out of
+        any html element. XO parameters define where
+        it is placed and what it's initial state is
+        to be.
+         */
         //check if a gutter exists
         var _obj = '[xo-type="gutter"]',
             _filterObj = '[xo-type="gutter-filter"]',
@@ -334,6 +364,12 @@ var xo = {
 
     },
     video: function () {
+        /*
+        creates a video instance on the page. Writes
+        the code necessary inside the html object that
+        has the xo-type video. XO params define the
+        source url, video format, etc..
+         */
         $('[xo-type="video"]').each(function () {
             var _obj = '[xo-type="video"]',
                 _vdoW = $(_obj).attr('xo-video-width') || 'auto',
@@ -361,7 +397,8 @@ var xo = {
         /*
          function launched by init. Cycles through all objects
          on the page that have the xo-type="form" attribute and
-         injects the correct form into them.
+         injects the correct form into them by calling the
+         formBuilder function.
          */
         $('[xo-type="form"]').each(function () {
             var _formTarget = $(this).attr('xo-object-name');
@@ -369,7 +406,7 @@ var xo = {
         })
     },
     formBuilder: function (source, target, host) {
-        var _tempData = (xo.getData(null, source, 'b', target)),
+        var _tempData = xo.getData(null, source, 'b', target, false),
             _tempArray = [],
             _tempOptions = '[',
             _tempRadioOptions = '[',
@@ -546,6 +583,72 @@ var xo = {
             var _formPrepend = '<form action="'+_initData[0].action+'" method="'+_initData[0].method+'" id="'+_initData[0].id+'" class="'+_initData[0].class+'">',
                 _formAppend = '</form>';
             $('[xo-object-name="' + host + '"]').append(_formPrepend+_formCode+_formAppend);
+        });
+    },
+    layoutToPage: function () {
+        /*
+         function launched by init. Cycles through all objects
+         on the page that have the xo-type="form" attribute and
+         injects the correct form into them by calling the
+         formBuilder function.
+         */
+        $('[xo-type="data"]').each(function () {
+            var _dataTarget = $(this).attr('xo-object-name'),
+                _dataSource = $(this).attr('xo-data-source');
+            xo.layoutBuilder(_dataSource, _dataTarget, _dataTarget);
+        })
+    },
+    layoutBuilder:function(source, target, host){
+        var _tempData = (xo.getData(null, source, 'b', target,false)),
+            _tempArray = [],
+            _tempOptions = '[';
+        _tempData.success(function (data) {
+            var _processData = data.page;
+            Object.keys(_processData).forEach(function (key) {
+
+                        if (typeof _processData[key].node === 'object') {
+                            var _optionDepth = _processData[key].node.length;
+                            for (var o = 0; o < _optionDepth; o++) {
+                                _tempOptions += '{"nodeType":"' + _processData[key].node[o].type + '",';
+                                _tempOptions += _processData[key].node[o].class !== null ? '"nodeClass":"'+_processData[key].node[o].class+'",' : '"nodeClass":null,';
+                                _tempOptions += _processData[key].node[o].id !== null ? '"nodeID":"'+_processData[key].node[o].id+'",' : '"nodeId":null,';
+                                _tempOptions += _processData[key].node[o].xoType !== null ? '"nodexoType":"'+_processData[key].node[o].xoType+'",' : '"nodexoType":null,';
+                                _tempOptions += _processData[key].node[o].xoState !== null ? '"nodexoState":"'+_processData[key].node[o].xoState+'",' : '"nodexoState":null,';
+                                _tempOptions += _processData[key].node[o].xoSpan !== null ? '"nodexoSpan":"'+_processData[key].node[o].xoSpan+'",' : '"nodexoSpan":null,';
+                                _tempOptions += _processData[key].node[o].xoObjectName !== null ? '"nodexoObjectName":"'+_processData[key].node[o].xoObjectName+'",' : '"nodexoObjectName":null,';
+                                _tempOptions += _processData[key].node[o].xoTypeParam !== null ? '"nodexoTypeParam":"'+_processData[key].node[o].xoTypeParam+'",' : '"nodexoTypeParam":null,';
+                                _tempOptions += '"nodeContent":"'+_processData[key].node[o].content+'"';
+                                _tempOptions += '}';
+                                if (o < _optionDepth - 1) {
+                                    _tempOptions += ',';
+                                }
+                            }
+                            _tempOptions += ']';
+                            _tempOptions = JSON.parse(_tempOptions);
+                        }
+
+                _tempArray.push({
+                    page:_processData[key].id,
+                    title:_processData[key].title,
+                    metas:_processData[key].metas,
+                    node:_tempOptions
+                });
+                var _layoutCode = '',
+                    _baseNode = _tempArray[0].node;
+                for(var i=0,ii=_baseNode.length;i<ii;i++){
+                            _layoutCode += '<'+_baseNode[i].nodeType;
+                            _layoutCode += _baseNode[i].nodexoType !== null && _baseNode[i].nodexoType !== undefined ? ' xo-type="'+_baseNode[i].nodexoType+'"' : '';
+                            _layoutCode += _baseNode[i].nodeClass !== null && _baseNode[i].nodeClass !== undefined ? ' class="'+_baseNode[i].nodeClass+'"' : '';
+                            _layoutCode += _baseNode[i].nodeID !== null && _baseNode[i].nodeID !== undefined ? ' id="'+_baseNode[i].nodeID+'"' : '';
+                            _layoutCode += _baseNode[i].nodexoState !== null && _baseNode[i].nodexoState !== undefined ? ' xo-state="'+_baseNode[i].nodexoState+'"' : '';
+                            _layoutCode += _baseNode[i].nodexoSpan !== null && _baseNode[i].nodexoSpan !== undefined ? ' xo-span="'+_baseNode[i].nodexoSpan+'"' : '';
+                            _layoutCode += _baseNode[i].nodexoObjectName !== null && _baseNode[i].nodexoObjectName !== undefined ? ' xo-object-name="'+_baseNode[i].nodexoObjectName+'"' : '';
+                            _layoutCode += _baseNode[i].nodexoTypeParam !== null && _baseNode[i].nodexoTypeParam !== undefined ? ' xo-type-param="'+_baseNode[i].nodexoTypeParam+'"' : '';
+                            _layoutCode += '>'+_baseNode[i].nodeContent+'</'+_baseNode[i].nodeType+'>';
+                }
+                //console.log(_layoutCode);
+                $('[xo-object-name="' + host + '"]').append(_layoutCode);
+            });
         });
     },
     initMouseEvents: function () {

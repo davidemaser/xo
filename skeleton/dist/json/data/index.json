@@ -1,0 +1,46 @@
+{
+  "page": [
+    {
+      "id":"index",
+      "title": "Page Title",
+      "metas":{
+
+      },
+      "node":[
+        {
+          "type":"p",
+          "class":null,
+          "id":null,
+          "xoType":null,
+          "xoState":null,
+          "xoSpan":"full",
+          "xoObjectName":null,
+          "xoTypeParam":null,
+          "content":"this is content"
+        },
+        {
+          "type":"p",
+          "class":"mime",
+          "id":"hoho",
+          "xoType":null,
+          "xoState":null,
+          "xoSpan":"full",
+          "xoObjectName":null,
+          "xoTypeParam":null,
+          "content":"this is more content that has and ID and a class"
+        },
+        {
+          "type":"div",
+          "class":null,
+          "id":null,
+          "xoType":null,
+          "xoState":null,
+          "xoSpan":"full",
+          "xoObjectName":null,
+          "xoTypeParam":null,
+          "content":"this is a div"
+        }
+      ]
+    }
+  ]
+}
