@@ -1,7 +1,13 @@
 .xo {
-  [xo-type="dropdown"]{
+  [xo-type="dropdown"],[xo-type="jsondropdown"]{
     display: inline-block;
     vertical-align: top;
+    [xo-type="gutter-toggle"],[xo-type="modal-toggle"] {
+      color:inherit;
+      position:relative;
+      //padding:5px;
+      cursor:pointer;
+    }
     &[xo-state="closed"] ul{
       display:none;
     }

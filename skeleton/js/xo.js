@@ -263,7 +263,6 @@ var xo = {
                 _parent = $(this).width();
             $(this).find(_obj).each(function () {
                 $(this).css('width', (_parent / _count) - _count);
-                console.log(_count);
             })
         });
     },
@@ -705,63 +704,37 @@ var xo = {
                 $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
                 break;
             case 'json':
-                var _tempData = xo.getData(null, source, 'b', target,false),
-                    _tempArray = [],
-                    _tempOptions = '[',
-                    _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+object);
+                var _this = '[xo-object-name="'+object+'"]',
+                    _initialState = $(_this).attr('xo-state'),
+                    _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>',
+                    _tempData = xo.getData(null, source, 'b', null,false),
+                    _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+object),
+                    _dropdownHTML = '';
                 if(_sessionSourceLoaded !== true) {
                     _tempData.success(function (data) {
-                        var _processData = data.page;
+                        var _processData = data.dropdown;
+                        _dropdownHTML += '<ul xo-object-name="'+object+'" xo-state="'+_initialState+'">';
                         Object.keys(_processData).forEach(function (key) {
-                            if (typeof _processData[key].node === 'object') {
-                                var _optionDepth = _processData[key].node.length;
-                                for (var o = 0; o < _optionDepth; o++) {
-                                    _tempOptions += '{"nodeType":"' + _processData[key].node[o].type + '",';
-                                    _tempOptions += _processData[key].node[o].class !== null ? '"nodeClass":"' + _processData[key].node[o].class + '",' : '"nodeClass":null,';
-                                    _tempOptions += _processData[key].node[o].id !== null ? '"nodeID":"' + _processData[key].node[o].id + '",' : '"nodeId":null,';
-                                    _tempOptions += _processData[key].node[o].xoType !== null ? '"nodexoType":"' + _processData[key].node[o].xoType + '",' : '"nodexoType":null,';
-                                    _tempOptions += _processData[key].node[o].xoState !== null ? '"nodexoState":"' + _processData[key].node[o].xoState + '",' : '"nodexoState":null,';
-                                    _tempOptions += _processData[key].node[o].xoSpan !== null ? '"nodexoSpan":"' + _processData[key].node[o].xoSpan + '",' : '"nodexoSpan":null,';
-                                    _tempOptions += _processData[key].node[o].xoObjectName !== null ? '"nodexoObjectName":"' + _processData[key].node[o].xoObjectName + '",' : '"nodexoObjectName":null,';
-                                    _tempOptions += _processData[key].node[o].xoTypeParam !== null ? '"nodexoTypeParam":"' + _processData[key].node[o].xoTypeParam + '",' : '"nodexoTypeParam":null,';
-                                    _tempOptions += _processData[key].node[o].xoParent !== null ? '"nodexoParent":"' + _processData[key].node[o].xoParent + '",' : '"nodexoParent":null,';
-                                    _tempOptions += '"nodeContent":"' + _processData[key].node[o].content + '"';
-                                    _tempOptions += '}';
-                                    if (o < _optionDepth - 1) {
-                                        _tempOptions += ',';
-                                    }
-                                }
-                                _tempOptions += ']';
-                                _tempOptions = JSON.parse(_tempOptions);
-                            }
-                            _tempArray.push({
-                                page: _processData[key].id,
-                                title: _processData[key].title,
-                                metas: _processData[key].metas,
-                                node: _tempOptions
-                            });
-                            var _layoutCode = '',
-                                _baseNode = _tempArray[0].node;
-                            for (var i = 0, ii = _baseNode.length; i < ii; i++) {
-                                _layoutCode += '<' + _baseNode[i].nodeType;
-                                _layoutCode += _baseNode[i].nodexoType !== null && _baseNode[i].nodexoType !== undefined ? ' xo-type="' + _baseNode[i].nodexoType + '"' : '';
-                                _layoutCode += _baseNode[i].nodeClass !== null && _baseNode[i].nodeClass !== undefined ? ' class="' + _baseNode[i].nodeClass + '"' : '';
-                                _layoutCode += _baseNode[i].nodeID !== null && _baseNode[i].nodeID !== undefined ? ' id="' + _baseNode[i].nodeID + '"' : '';
-                                _layoutCode += _baseNode[i].nodexoState !== null && _baseNode[i].nodexoState !== undefined ? ' xo-state="' + _baseNode[i].nodexoState + '"' : '';
-                                _layoutCode += _baseNode[i].nodexoSpan !== null && _baseNode[i].nodexoSpan !== undefined ? ' xo-span="' + _baseNode[i].nodexoSpan + '"' : '';
-                                _layoutCode += _baseNode[i].nodexoObjectName !== null && _baseNode[i].nodexoObjectName !== undefined ? ' xo-object-name="' + _baseNode[i].nodexoObjectName + '"' : '';
-                                _layoutCode += _baseNode[i].nodexoTypeParam !== null && _baseNode[i].nodexoTypeParam !== undefined ? ' xo-type-param="' + _baseNode[i].nodexoTypeParam + '"' : '';
-                                _layoutCode += _baseNode[i].nodexoParent !== null && _baseNode[i].nodexoParent !== undefined ? ' xo-parent="' + _baseNode[i].nodexoParent + '"' : '';
-                                _layoutCode += '>' + _baseNode[i].nodeContent + '</' + _baseNode[i].nodeType + '>';
-                            }
-                            $('[xo-object-name="' + host + '"]').append(_layoutCode);
-                            xo.saveLoadedItems(xo.config.sessionStorageKey + host);
+                            _dropdownHTML += '<li';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-type="'+_processData[key].xotype+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-trigger="'+_processData[key].xotrigger+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-trigger-url="'+_processData[key].xotriggerurl+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-state="'+_processData[key].xostate+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-object-name="'+_processData[key].xoobjectname+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-parent="'+_processData[key].xoparent+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' class="'+_processData[key].class+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null ? ' id="'+_processData[key].id+'"' : '';
+                            _dropdownHTML += '>';
+                            _dropdownHTML += _processData[key].content;
+                            _dropdownHTML += '</li>';
                         });
+                        _dropdownHTML += '</ul>';
+                        $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
+                        $('[xo-object-name="' + object + '"]').append(_dropdownHTML);
                     });
                 }else{
                     xo.log('This data instance has already been loaded');
                 }
-                xo.getData(null, source, 'b', target,false);
                 break;
         }
     },

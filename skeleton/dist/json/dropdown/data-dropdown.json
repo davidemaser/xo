@@ -1,37 +1,37 @@
 {
   "dropdown": [
     {
-      "content":"",
+      "content":"First item toggles gutter",
       "class":"class",
       "id":"id",
-      "xo-type":"gutter",
-      "xo-trigger":"url",
-      "xo-trigger-url":"page.html",
-      "xo-state":"closed",
-      "xo-object-name":"left-gutter",
-      "xo-parent":"parent"
+      "xotype":"gutter-toggle",
+      "xotrigger":"url",
+      "xotriggerurl":"page.html",
+      "xostate":"closed",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
     },
     {
-      "content":"",
+      "content":"Second item toggles modal",
       "class":"class",
       "id":"id",
-      "xo-type":"gutter",
-      "xo-trigger":"url",
-      "xo-trigger-url":"page.html",
-      "xo-state":"closed",
-      "xo-object-name":"left-gutter",
-      "xo-parent":"parent"
+      "xotype":"modal-toggle",
+      "xotrigger":"url",
+      "xotriggerurl":"page.html",
+      "xostate":"closed",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
     },
     {
-      "content":"",
+      "content":"Third item triggers url",
       "class":"class",
       "id":"id",
-      "xo-type":"gutter",
-      "xo-trigger":"url",
-      "xo-trigger-url":"page.html",
-      "xo-state":"closed",
-      "xo-object-name":"left-gutter",
-      "xo-parent":"parent"
+      "xotype":null,
+      "xotrigger":"url",
+      "xotriggerurl":"page.html",
+      "xostate":"closed",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
     }
   ]
 }
