@@ -33,6 +33,7 @@
             </div>
         <a xo-type="gutter-toggle" xo-parent="left-gutter">Toggle Gutter</a>
         <a xo-type="modal-toggle" xo-parent="main-modal" xo-data-template="This is the title,This is the body,Yes/No">Toggle Modal</a>
+        <a xo-type="data-toggle">Toggle Data Elements</a>
         <div xo-type="video" xo-video-src="http://www.w3schools.com/html/movie.mp4" xo-video-format="mp4" xo-video-controls="true" xo-video-autoplay="true"></div>
         <div xo-type="panel-group">
             <div xo-type="panel">panel1</div>
@@ -51,6 +52,13 @@
         <div xo-type="form" xo-data-source="forms/main-form" xo-object-name="main-form"></div>
         <div xo-type="data" xo-data-source="data/index" xo-object-name="welcome" xo-span="full" xo-state="open"></div>
         <div xo-type="dropdown" xo-state="closed" xo-dropdown-button="A Dropdown" xo-object-name="first-dropdown">
+            <ul>
+                <li>First line</li>
+                <li xo-trigger="url" xo-trigger-url="page.html">Second line</li>
+                <li>Third line</li>
+            </ul>
+        </div>
+        <div xo-type="dropdown" xo-state="closed" xo-dropdown-button="Another Dropdown" xo-object-name="second-dropdown">
             <ul>
                 <li>First line</li>
                 <li xo-trigger="url" xo-trigger-url="page.html">Second line</li>

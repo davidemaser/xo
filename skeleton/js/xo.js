@@ -11,6 +11,7 @@ var xo = {
         ajaxDefaultDataType: 'json',
         sessionStorageKey: 'xo-',
         sessionFlushRule: false,
+        dataLoadedItems:[],
         showErrorLog: true,
         showErrorLogDate: false,
         animationSpeed: 500,
@@ -415,179 +416,190 @@ var xo = {
             _tempOptions = '[',
             _tempRadioOptions = '[',
             _tempCheckOptions = '[',
-            _tempDataListOptions = '[';
-        _tempData.success(function (data) {
-            var _initData = [],
-                _processData = data.form;
-                _initData.push({action:data.formAction,method:data.formMethod,id:data.formId,class:data.formClass});
-            Object.keys(_processData).forEach(function (key) {
-                switch (_processData[key].item) {
-                    case 'select':
-                        if (typeof _processData[key].option === 'object') {
-                            var _optionDepth = _processData[key].option.length;
-                            for (var o = 0; o < _optionDepth; o++) {
-                                _tempOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                                _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : ',"optionSelected":false';
-                                _tempOptions += '}';
-                                if (o < _optionDepth - 1) {
-                                    _tempOptions += ',';
-                                }
-                            }
-                            _tempOptions += ']';
-                            _tempOptions = JSON.parse(_tempOptions);
-                        }
-                        break;
-                    case 'radiogroup':
-                        if (typeof _processData[key].option === 'object') {
-                            _optionDepth = _processData[key].option.length;
-                            for (o = 0; o < _optionDepth; o++) {
-                                _tempRadioOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                                _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : ',"optionChecked":false';
-                                _tempRadioOptions += '}';
-                                if (o < _optionDepth - 1) {
-                                    _tempRadioOptions += ',';
-                                }
-                            }
-                            _tempRadioOptions += ']';
-                            _tempRadioOptions = JSON.parse(_tempRadioOptions);
-                        }
-                        break;
-                    case 'checkbox':
-                        if (typeof _processData[key].option === 'object') {
-                            _optionDepth = _processData[key].option.length;
-                            for (o = 0; o < _optionDepth; o++) {
-                                _tempCheckOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
-                                _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : ',"optionChecked":false';
-                                _tempCheckOptions += '}';
-                                if (o < _optionDepth - 1) {
-                                    _tempCheckOptions += ',';
-                                }
-                            }
-                            _tempCheckOptions += ']';
-                            _tempCheckOptions = JSON.parse(_tempCheckOptions);
-                        }
-                        break;
-                    case 'datalist':
-                        if (typeof _processData[key].option === 'object') {
-                            _optionDepth = _processData[key].option.length;
-                            for (o = 0; o < _optionDepth; o++) {
-                                _tempDataListOptions += '{"optionValue":"' + _processData[key].option[o].value + '"}';
-                                if (o < _optionDepth - 1) {
-                                    _tempDataListOptions += ',';
-                                }
-                            }
-                            _tempDataListOptions += ']';
-                            _tempDataListOptions = JSON.parse(_tempDataListOptions);
-                        }
-                        break;
-                }
-                _tempArray.push({
-                    item: _processData[key].item,
-                    name: _processData[key].name,
-                    label: _processData[key].label || null,
-                    class: _processData[key].class || null,
-                    id: _processData[key].id || null,
-                    required: _processData[key].required || null,
-                    multiple: _processData[key].multiple || null,
-                    placeholder: _processData[key].placeholder || null,
-                    value: _processData[key].value || null,
-                    min: _processData[key].min-length || null,
-                    max: _processData[key].max-length || null,
-                    rows: _processData[key].rows || null,
-                    cols: _processData[key].cols || null,
-                    submit: _processData[key].submit || null,
-                    options: _tempOptions || _tempRadioOptions || _tempCheckOptions || _tempDataListOptions
+            _tempDataListOptions = '[',
+            _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+host);
+        if(_sessionSourceLoaded !== true) {
+            _tempData.success(function (data) {
+                var _initData = [],
+                    _processData = data.form;
+                _initData.push({
+                    action: data.formAction,
+                    method: data.formMethod,
+                    id: data.formId,
+                    class: data.formClass
                 });
-            });
-            var _formLength = _tempArray.length;
-            for (var i = 0; i < _formLength; i++) {
-                switch (_tempArray[i].item) {
-                    case 'text':
-                        var _formCode = '<div class="form-line ' + _tempArray[i].item + '">';
-                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                        _formCode += '<input type="text"';
-                        _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
-                        _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
-                        _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
-                        _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
-                        _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
-                        _formCode += _tempArray[i].value !== null ? ' value="' + _tempArray[i].value + '"' : '';
-                        _formCode += _tempArray[i].min !== null ? ' minlength="' + _tempArray[i].min + '"' : '';
-                        _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
-                        _formCode += '></div>';
-                        break;
-                    case 'textarea':
-                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
-                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                        _formCode += '<textarea';
-                        _formCode += _tempArray[i].rows !== null ? ' rows="' + _tempArray[i].rows + '"' : '';
-                        _formCode += _tempArray[i].cols !== null ? ' cols="' + _tempArray[i].cols + '"' : '';
-                        _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
-                        _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
-                        _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
-                        _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
-                        _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
-                        _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
-                        _formCode += '></textarea></div>';
-                        break;
-                    case 'select':
-                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
-                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                        _formCode += '<select';
-                        _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
-                        _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
-                        _formCode += _tempArray[i].multiple !== null && _tempArray[i].multiple == true ? ' multiple' : '';
-                        _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
-                        _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
-                        _formCode += '>';
-                        for (var j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
-                            _formCode += '<option';
-                            _formCode += _tempArray[i].options[j].optionSelected !== null && _tempArray[i].options[j].optionSelected == true ? ' selected' : '';
-                            _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
-                            _formCode += _tempArray[i].options[j].optionName + '</option>';
-                        }
-                        _formCode += '</select></div>';
-                        break;
-                    case 'radiogroup':
-                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
-                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                        for (var k = 0, kk = _tempArray[i].options.length; k < kk; k++) {
-                            _formCode += '<input type="radio"';
-                            _formCode += ' name="' + _tempArray[i].name + '"';
-                            _formCode += _tempArray[i].options[k].optionChecked !== null && _tempArray[i].options[k].optionChecked == true ? ' checked' : '';
-                            _formCode += ' value="' + _tempArray[i].options[k].optionValue + '">';
-                        }
-                        _formCode += '</div>';
-                        break;
-                    case 'checkbox':
-                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
-                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                        for (var l = 0, ll = _tempArray[i].options.length; l < ll; l++) {
-                            _formCode += '<input type="checkbox"';
-                            _formCode += ' name="' + _tempArray[i].name + '"';
-                            _formCode += _tempArray[i].options[l].optionChecked !== null && _tempArray[i].options[l].optionChecked == true ? ' checked' : '';
-                            _formCode += ' value="' + _tempArray[i].options[l].optionValue + '">';
-                        }
-                        _formCode += '</div>';
-                        break;
-                    case 'datalist':
-                        _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
-                        _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
-                        _formCode += '<input list="' + _tempArray[i].id + '" name="' + _tempArray[i].name + '">';
-                        _formCode += '<datalist id="' + _tempArray[i].id + '">';
-                        for (var m = 0, mm = _tempArray[i].options.length; m < mm; m++) {
-                            _formCode += '<option value="' + _tempArray[i].options[m].optionValue + '">';
-                        }
-                        _formCode += '</datalist>';
-                        _formCode += _tempArray[i].submit !== true ? '' : '<input type="submit">';
-                        _formCode += '</div>';
-                        break;
+                Object.keys(_processData).forEach(function (key) {
+                    switch (_processData[key].item) {
+                        case 'select':
+                            if (typeof _processData[key].option === 'object') {
+                                var _optionDepth = _processData[key].option.length;
+                                for (var o = 0; o < _optionDepth; o++) {
+                                    _tempOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                                    _tempOptions += _processData[key].option[o].selected == true ? ',"optionSelected":true' : ',"optionSelected":false';
+                                    _tempOptions += '}';
+                                    if (o < _optionDepth - 1) {
+                                        _tempOptions += ',';
+                                    }
+                                }
+                                _tempOptions += ']';
+                                _tempOptions = JSON.parse(_tempOptions);
+                            }
+                            break;
+                        case 'radiogroup':
+                            if (typeof _processData[key].option === 'object') {
+                                _optionDepth = _processData[key].option.length;
+                                for (o = 0; o < _optionDepth; o++) {
+                                    _tempRadioOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                                    _tempRadioOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : ',"optionChecked":false';
+                                    _tempRadioOptions += '}';
+                                    if (o < _optionDepth - 1) {
+                                        _tempRadioOptions += ',';
+                                    }
+                                }
+                                _tempRadioOptions += ']';
+                                _tempRadioOptions = JSON.parse(_tempRadioOptions);
+                            }
+                            break;
+                        case 'checkbox':
+                            if (typeof _processData[key].option === 'object') {
+                                _optionDepth = _processData[key].option.length;
+                                for (o = 0; o < _optionDepth; o++) {
+                                    _tempCheckOptions += '{"optionName":"' + _processData[key].option[o].name + '","optionValue":"' + _processData[key].option[o].value + '"';
+                                    _tempCheckOptions += _processData[key].option[o].checked == true ? ',"optionChecked":true' : ',"optionChecked":false';
+                                    _tempCheckOptions += '}';
+                                    if (o < _optionDepth - 1) {
+                                        _tempCheckOptions += ',';
+                                    }
+                                }
+                                _tempCheckOptions += ']';
+                                _tempCheckOptions = JSON.parse(_tempCheckOptions);
+                            }
+                            break;
+                        case 'datalist':
+                            if (typeof _processData[key].option === 'object') {
+                                _optionDepth = _processData[key].option.length;
+                                for (o = 0; o < _optionDepth; o++) {
+                                    _tempDataListOptions += '{"optionValue":"' + _processData[key].option[o].value + '"}';
+                                    if (o < _optionDepth - 1) {
+                                        _tempDataListOptions += ',';
+                                    }
+                                }
+                                _tempDataListOptions += ']';
+                                _tempDataListOptions = JSON.parse(_tempDataListOptions);
+                            }
+                            break;
+                    }
+                    _tempArray.push({
+                        item: _processData[key].item,
+                        name: _processData[key].name,
+                        label: _processData[key].label || null,
+                        class: _processData[key].class || null,
+                        id: _processData[key].id || null,
+                        required: _processData[key].required || null,
+                        multiple: _processData[key].multiple || null,
+                        placeholder: _processData[key].placeholder || null,
+                        value: _processData[key].value || null,
+                        min: _processData[key].min - length || null,
+                        max: _processData[key].max - length || null,
+                        rows: _processData[key].rows || null,
+                        cols: _processData[key].cols || null,
+                        submit: _processData[key].submit || null,
+                        options: _tempOptions || _tempRadioOptions || _tempCheckOptions || _tempDataListOptions
+                    });
+                });
+                var _formLength = _tempArray.length;
+                for (var i = 0; i < _formLength; i++) {
+                    switch (_tempArray[i].item) {
+                        case 'text':
+                            var _formCode = '<div class="form-line ' + _tempArray[i].item + '">';
+                            _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                            _formCode += '<input type="text"';
+                            _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                            _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                            _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                            _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                            _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
+                            _formCode += _tempArray[i].value !== null ? ' value="' + _tempArray[i].value + '"' : '';
+                            _formCode += _tempArray[i].min !== null ? ' minlength="' + _tempArray[i].min + '"' : '';
+                            _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
+                            _formCode += '></div>';
+                            break;
+                        case 'textarea':
+                            _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                            _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                            _formCode += '<textarea';
+                            _formCode += _tempArray[i].rows !== null ? ' rows="' + _tempArray[i].rows + '"' : '';
+                            _formCode += _tempArray[i].cols !== null ? ' cols="' + _tempArray[i].cols + '"' : '';
+                            _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                            _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                            _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                            _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                            _formCode += _tempArray[i].placeholder !== null ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
+                            _formCode += _tempArray[i].max !== null ? ' maxlength="' + _tempArray[i].max + '"' : '';
+                            _formCode += '></textarea></div>';
+                            break;
+                        case 'select':
+                            _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                            _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                            _formCode += '<select';
+                            _formCode += _tempArray[i].name !== null ? ' name="' + _tempArray[i].name + '"' : '';
+                            _formCode += _tempArray[i].required !== null && _tempArray[i].required == true ? ' required' : '';
+                            _formCode += _tempArray[i].multiple !== null && _tempArray[i].multiple == true ? ' multiple' : '';
+                            _formCode += _tempArray[i].class !== null ? ' class="' + _tempArray[i].class + '"' : '';
+                            _formCode += _tempArray[i].id !== null ? ' id="' + _tempArray[i].id + '"' : '';
+                            _formCode += '>';
+                            for (var j = 0, jj = _tempArray[i].options.length; j < jj; j++) {
+                                _formCode += '<option';
+                                _formCode += _tempArray[i].options[j].optionSelected !== null && _tempArray[i].options[j].optionSelected == true ? ' selected' : '';
+                                _formCode += ' value="' + _tempArray[i].options[j].optionValue + '">';
+                                _formCode += _tempArray[i].options[j].optionName + '</option>';
+                            }
+                            _formCode += '</select></div>';
+                            break;
+                        case 'radiogroup':
+                            _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                            _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                            for (var k = 0, kk = _tempArray[i].options.length; k < kk; k++) {
+                                _formCode += '<input type="radio"';
+                                _formCode += ' name="' + _tempArray[i].name + '"';
+                                _formCode += _tempArray[i].options[k].optionChecked !== null && _tempArray[i].options[k].optionChecked == true ? ' checked' : '';
+                                _formCode += ' value="' + _tempArray[i].options[k].optionValue + '">';
+                            }
+                            _formCode += '</div>';
+                            break;
+                        case 'checkbox':
+                            _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                            _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                            for (var l = 0, ll = _tempArray[i].options.length; l < ll; l++) {
+                                _formCode += '<input type="checkbox"';
+                                _formCode += ' name="' + _tempArray[i].name + '"';
+                                _formCode += _tempArray[i].options[l].optionChecked !== null && _tempArray[i].options[l].optionChecked == true ? ' checked' : '';
+                                _formCode += ' value="' + _tempArray[i].options[l].optionValue + '">';
+                            }
+                            _formCode += '</div>';
+                            break;
+                        case 'datalist':
+                            _formCode += '<div class="form-line ' + _tempArray[i].item + '">';
+                            _formCode += _tempArray[i].label !== null ? '<label for="' + _tempArray[i].name + '">' + _tempArray[i].label + '</label>' : '';
+                            _formCode += '<input list="' + _tempArray[i].id + '" name="' + _tempArray[i].name + '">';
+                            _formCode += '<datalist id="' + _tempArray[i].id + '">';
+                            for (var m = 0, mm = _tempArray[i].options.length; m < mm; m++) {
+                                _formCode += '<option value="' + _tempArray[i].options[m].optionValue + '">';
+                            }
+                            _formCode += '</datalist>';
+                            _formCode += _tempArray[i].submit !== true ? '' : '<input type="submit">';
+                            _formCode += '</div>';
+                            break;
+                    }
                 }
-            }
-            var _formPrepend = '<form action="'+_initData[0].action+'" method="'+_initData[0].method+'" id="'+_initData[0].id+'" class="'+_initData[0].class+'">',
-                _formAppend = '</form>';
-            $('[xo-object-name="' + host + '"]').append(_formPrepend+_formCode+_formAppend);
-        });
+                var _formPrepend = '<form action="' + _initData[0].action + '" method="' + _initData[0].method + '" id="' + _initData[0].id + '" class="' + _initData[0].class + '">',
+                    _formAppend = '</form>';
+                $('[xo-object-name="' + host + '"]').append(_formPrepend + _formCode + _formAppend);
+                xo.saveLoadedItems(xo.config.sessionStorageKey + host);
+            });
+        }else{
+            xo.log('This form instance has already been loaded');
+        }
     },
     layoutToPage: function () {
         /*
@@ -605,54 +617,68 @@ var xo = {
     layoutBuilder:function(source, target, host){
         var _tempData = (xo.getData(null, source, 'b', target,false)),
             _tempArray = [],
-            _tempOptions = '[';
-        _tempData.success(function (data) {
-            var _processData = data.page;
-            Object.keys(_processData).forEach(function (key) {
-                        if (typeof _processData[key].node === 'object') {
-                            var _optionDepth = _processData[key].node.length;
-                            for (var o = 0; o < _optionDepth; o++) {
-                                _tempOptions += '{"nodeType":"' + _processData[key].node[o].type + '",';
-                                _tempOptions += _processData[key].node[o].class !== null ? '"nodeClass":"'+_processData[key].node[o].class+'",' : '"nodeClass":null,';
-                                _tempOptions += _processData[key].node[o].id !== null ? '"nodeID":"'+_processData[key].node[o].id+'",' : '"nodeId":null,';
-                                _tempOptions += _processData[key].node[o].xoType !== null ? '"nodexoType":"'+_processData[key].node[o].xoType+'",' : '"nodexoType":null,';
-                                _tempOptions += _processData[key].node[o].xoState !== null ? '"nodexoState":"'+_processData[key].node[o].xoState+'",' : '"nodexoState":null,';
-                                _tempOptions += _processData[key].node[o].xoSpan !== null ? '"nodexoSpan":"'+_processData[key].node[o].xoSpan+'",' : '"nodexoSpan":null,';
-                                _tempOptions += _processData[key].node[o].xoObjectName !== null ? '"nodexoObjectName":"'+_processData[key].node[o].xoObjectName+'",' : '"nodexoObjectName":null,';
-                                _tempOptions += _processData[key].node[o].xoTypeParam !== null ? '"nodexoTypeParam":"'+_processData[key].node[o].xoTypeParam+'",' : '"nodexoTypeParam":null,';
-                                _tempOptions += _processData[key].node[o].xoParent !== null ? '"nodexoParent":"'+_processData[key].node[o].xoParent+'",' : '"nodexoParent":null,';
-                                _tempOptions += '"nodeContent":"'+_processData[key].node[o].content+'"';
-                                _tempOptions += '}';
-                                if (o < _optionDepth - 1) {
-                                    _tempOptions += ',';
-                                }
+            _tempOptions = '[',
+            _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+host);
+        if(_sessionSourceLoaded !== true) {
+            _tempData.success(function (data) {
+                var _processData = data.page;
+                Object.keys(_processData).forEach(function (key) {
+                    if (typeof _processData[key].node === 'object') {
+                        var _optionDepth = _processData[key].node.length;
+                        for (var o = 0; o < _optionDepth; o++) {
+                            _tempOptions += '{"nodeType":"' + _processData[key].node[o].type + '",';
+                            _tempOptions += _processData[key].node[o].class !== null ? '"nodeClass":"' + _processData[key].node[o].class + '",' : '"nodeClass":null,';
+                            _tempOptions += _processData[key].node[o].id !== null ? '"nodeID":"' + _processData[key].node[o].id + '",' : '"nodeId":null,';
+                            _tempOptions += _processData[key].node[o].xoType !== null ? '"nodexoType":"' + _processData[key].node[o].xoType + '",' : '"nodexoType":null,';
+                            _tempOptions += _processData[key].node[o].xoState !== null ? '"nodexoState":"' + _processData[key].node[o].xoState + '",' : '"nodexoState":null,';
+                            _tempOptions += _processData[key].node[o].xoSpan !== null ? '"nodexoSpan":"' + _processData[key].node[o].xoSpan + '",' : '"nodexoSpan":null,';
+                            _tempOptions += _processData[key].node[o].xoObjectName !== null ? '"nodexoObjectName":"' + _processData[key].node[o].xoObjectName + '",' : '"nodexoObjectName":null,';
+                            _tempOptions += _processData[key].node[o].xoTypeParam !== null ? '"nodexoTypeParam":"' + _processData[key].node[o].xoTypeParam + '",' : '"nodexoTypeParam":null,';
+                            _tempOptions += _processData[key].node[o].xoParent !== null ? '"nodexoParent":"' + _processData[key].node[o].xoParent + '",' : '"nodexoParent":null,';
+                            _tempOptions += '"nodeContent":"' + _processData[key].node[o].content + '"';
+                            _tempOptions += '}';
+                            if (o < _optionDepth - 1) {
+                                _tempOptions += ',';
                             }
-                            _tempOptions += ']';
-                            _tempOptions = JSON.parse(_tempOptions);
                         }
-                _tempArray.push({
-                    page:_processData[key].id,
-                    title:_processData[key].title,
-                    metas:_processData[key].metas,
-                    node:_tempOptions
+                        _tempOptions += ']';
+                        _tempOptions = JSON.parse(_tempOptions);
+                    }
+                    _tempArray.push({
+                        page: _processData[key].id,
+                        title: _processData[key].title,
+                        metas: _processData[key].metas,
+                        node: _tempOptions
+                    });
+                    var _layoutCode = '',
+                        _baseNode = _tempArray[0].node;
+                    for (var i = 0, ii = _baseNode.length; i < ii; i++) {
+                        _layoutCode += '<' + _baseNode[i].nodeType;
+                        _layoutCode += _baseNode[i].nodexoType !== null && _baseNode[i].nodexoType !== undefined ? ' xo-type="' + _baseNode[i].nodexoType + '"' : '';
+                        _layoutCode += _baseNode[i].nodeClass !== null && _baseNode[i].nodeClass !== undefined ? ' class="' + _baseNode[i].nodeClass + '"' : '';
+                        _layoutCode += _baseNode[i].nodeID !== null && _baseNode[i].nodeID !== undefined ? ' id="' + _baseNode[i].nodeID + '"' : '';
+                        _layoutCode += _baseNode[i].nodexoState !== null && _baseNode[i].nodexoState !== undefined ? ' xo-state="' + _baseNode[i].nodexoState + '"' : '';
+                        _layoutCode += _baseNode[i].nodexoSpan !== null && _baseNode[i].nodexoSpan !== undefined ? ' xo-span="' + _baseNode[i].nodexoSpan + '"' : '';
+                        _layoutCode += _baseNode[i].nodexoObjectName !== null && _baseNode[i].nodexoObjectName !== undefined ? ' xo-object-name="' + _baseNode[i].nodexoObjectName + '"' : '';
+                        _layoutCode += _baseNode[i].nodexoTypeParam !== null && _baseNode[i].nodexoTypeParam !== undefined ? ' xo-type-param="' + _baseNode[i].nodexoTypeParam + '"' : '';
+                        _layoutCode += _baseNode[i].nodexoParent !== null && _baseNode[i].nodexoParent !== undefined ? ' xo-parent="' + _baseNode[i].nodexoParent + '"' : '';
+                        _layoutCode += '>' + _baseNode[i].nodeContent + '</' + _baseNode[i].nodeType + '>';
+                    }
+                    $('[xo-object-name="' + host + '"]').append(_layoutCode);
+                    xo.saveLoadedItems(xo.config.sessionStorageKey + host);
                 });
-                var _layoutCode = '',
-                    _baseNode = _tempArray[0].node;
-                for(var i=0,ii=_baseNode.length;i<ii;i++){
-                            _layoutCode += '<'+_baseNode[i].nodeType;
-                            _layoutCode += _baseNode[i].nodexoType !== null && _baseNode[i].nodexoType !== undefined ? ' xo-type="'+_baseNode[i].nodexoType+'"' : '';
-                            _layoutCode += _baseNode[i].nodeClass !== null && _baseNode[i].nodeClass !== undefined ? ' class="'+_baseNode[i].nodeClass+'"' : '';
-                            _layoutCode += _baseNode[i].nodeID !== null && _baseNode[i].nodeID !== undefined ? ' id="'+_baseNode[i].nodeID+'"' : '';
-                            _layoutCode += _baseNode[i].nodexoState !== null && _baseNode[i].nodexoState !== undefined ? ' xo-state="'+_baseNode[i].nodexoState+'"' : '';
-                            _layoutCode += _baseNode[i].nodexoSpan !== null && _baseNode[i].nodexoSpan !== undefined ? ' xo-span="'+_baseNode[i].nodexoSpan+'"' : '';
-                            _layoutCode += _baseNode[i].nodexoObjectName !== null && _baseNode[i].nodexoObjectName !== undefined ? ' xo-object-name="'+_baseNode[i].nodexoObjectName+'"' : '';
-                            _layoutCode += _baseNode[i].nodexoTypeParam !== null && _baseNode[i].nodexoTypeParam !== undefined ? ' xo-type-param="'+_baseNode[i].nodexoTypeParam+'"' : '';
-                            _layoutCode += _baseNode[i].nodexoParent !== null && _baseNode[i].nodexoParent !== undefined ? ' xo-parent="'+_baseNode[i].nodexoParent+'"' : '';
-                            _layoutCode += '>'+_baseNode[i].nodeContent+'</'+_baseNode[i].nodeType+'>';
-                }
-                $('[xo-object-name="' + host + '"]').append(_layoutCode);
             });
-        });
+        }else{
+            xo.log('This data instance has already been loaded');
+        }
+    },
+    saveLoadedItems:function(item){
+        xo.config.dataLoadedItems.push(item);
+    },
+    checkLoadedItems:function(item){
+        if(xo.config.dataLoadedItems.indexOf(item)>-1){
+            return true;
+        }
     },
     warningBar:function(type, title, content, host){
         var _objectHTML = '<div xo-type=""';
@@ -669,15 +695,6 @@ var xo = {
             _initialState = $(_this).attr('xo-state'),
             _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>';
         $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
-        $('body').on('click','[xo-type="dropdown-button"]',function(){
-            var _target = $(this).attr('xo-parent'),
-                _clickedState = $('ul[xo-object-name="' + _target + '"]').attr('xo-state');
-            if(_clickedState == 'open') {
-                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
-            }else if(_clickedState == 'closed') {
-                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'open').parent().attr('xo-state', 'open');
-            }
-        })
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
@@ -694,6 +711,10 @@ var xo = {
             xo.gutter(null);
         }).on('click', '[xo-trigger="gutter-toggle"]', function () {
             xo.gutter(null);
+        }).on('click', '[xo-type="data-toggle"]', function () {
+            xo.layoutToPage();
+        }).on('click', '[xo-trigger="data-toggle"]', function () {
+            xo.layoutToPage();
         }).on('click', '[xo-type="gutter-filter"]', function () {
             xo.gutter(null);
         }).on('click', '[xo-type="modal-toggle"]', function () {
@@ -702,6 +723,14 @@ var xo = {
             }
         }).on('click', '[xo-type="modal-filter"]', function () {
             xo.modal();
+        }).on('click','[xo-type="dropdown-button"]',function(){
+            var _target = $(this).attr('xo-parent'),
+                _clickedState = $('ul[xo-object-name="' + _target + '"]').attr('xo-state');
+            if(_clickedState == 'open') {
+                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
+            }else if(_clickedState == 'closed') {
+                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'open').parent().attr('xo-state', 'open');
+            }
         });
     }
 };
