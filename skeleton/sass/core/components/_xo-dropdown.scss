@@ -1,0 +1,26 @@
+.xo {
+  [xo-type="dropdown"]{
+    display: inline-block;
+    &[xo-state="closed"] ul{
+      display:none;
+    }
+    ul {
+      list-style: none;
+      -webkit-padding-start: 0;
+      padding: 10px;
+      -webkit-margin-before: 0;
+      -webkit-margin-after: 0;
+      -webkit-margin-start: 0;
+      -webkit-margin-end: 0;
+      background: #ececec;
+     //display: none;
+      li {
+        padding: 5px 10px;
+        &:hover {
+          background: #ccc;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

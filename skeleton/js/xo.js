@@ -27,6 +27,7 @@ var xo = {
         initModal: true,
         initForms: true,
         initData: false,
+        initDropdowns: true,
         /*
         app is running so set a flag and a key
         to force reinitialisation.
@@ -67,6 +68,7 @@ var xo = {
             xo.config.initModal == true ? xo.modal('init') : null;
             xo.config.initForms == true ? xo.formToPage() : null;
             xo.config.initData == true ? xo.layoutToPage() : null;
+            xo.config.initDropdowns == true ? xo.dropDownInit() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
             advise == true ? xo.log('xo is running') : null;
@@ -648,10 +650,34 @@ var xo = {
                             _layoutCode += _baseNode[i].nodexoParent !== null && _baseNode[i].nodexoParent !== undefined ? ' xo-parent="'+_baseNode[i].nodexoParent+'"' : '';
                             _layoutCode += '>'+_baseNode[i].nodeContent+'</'+_baseNode[i].nodeType+'>';
                 }
-                //console.log(_layoutCode);
                 $('[xo-object-name="' + host + '"]').append(_layoutCode);
             });
         });
+    },
+    warningBar:function(type, title, content, host){
+        var _objectHTML = '<div xo-type=""';
+    },
+    dropDownInit:function(){
+        $('[xo-type="dropdown"]').each(function () {
+            var _buttonLabel = $(this).attr('xo-dropdown-button'),
+                _objectName = $(this).attr('xo-object-name');
+            xo.dropDownBuilder(_buttonLabel, _objectName);
+        })
+    },
+    dropDownBuilder:function(button,object){
+        var _this = '[xo-object-name="'+object+'"]',
+            _initialState = $(_this).attr('xo-state'),
+            _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>';
+        $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
+        $('body').on('click','[xo-type="dropdown-button"]',function(){
+            var _target = $(this).attr('xo-parent'),
+                _clickedState = $('ul[xo-object-name="' + _target + '"]').attr('xo-state');
+            if(_clickedState == 'open') {
+                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
+            }else if(_clickedState == 'closed') {
+                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'open').parent().attr('xo-state', 'open');
+            }
+        })
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
