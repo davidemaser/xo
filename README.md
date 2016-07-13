@@ -27,6 +27,9 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - mobile-item : this item will only be shown to mobile navigators
 - video : creates a video object with specific parameters
   - requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-autoplay (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)
+- data : pulls data from a json datasource specified in the html attribute tag (documentation in preperation)
+- modal : creates a modal pop up with content template injected from the xo-template tag  (documentation in preperation)
+- form : creates a form from a json file (documentation in preperation)
 
 #### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
