@@ -1,0 +1,37 @@
+{
+  "dropdown": [
+    {
+      "content":"",
+      "class":"class",
+      "id":"id",
+      "xo-type":"gutter",
+      "xo-trigger":"url",
+      "xo-trigger-url":"page.html",
+      "xo-state":"closed",
+      "xo-object-name":"left-gutter",
+      "xo-parent":"parent"
+    },
+    {
+      "content":"",
+      "class":"class",
+      "id":"id",
+      "xo-type":"gutter",
+      "xo-trigger":"url",
+      "xo-trigger-url":"page.html",
+      "xo-state":"closed",
+      "xo-object-name":"left-gutter",
+      "xo-parent":"parent"
+    },
+    {
+      "content":"",
+      "class":"class",
+      "id":"id",
+      "xo-type":"gutter",
+      "xo-trigger":"url",
+      "xo-trigger-url":"page.html",
+      "xo-state":"closed",
+      "xo-object-name":"left-gutter",
+      "xo-parent":"parent"
+    }
+  ]
+}
