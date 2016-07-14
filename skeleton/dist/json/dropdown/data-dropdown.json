@@ -5,9 +5,7 @@
       "class":"class",
       "id":"id",
       "xotype":"gutter-toggle",
-      "xotrigger":"url",
-      "xotriggerurl":"page.html",
-      "xostate":"closed",
+      "xostate":"open",
       "xoobjectname":"left-gutter",
       "xoparent":"parent"
     },
@@ -16,9 +14,7 @@
       "class":"class",
       "id":"id",
       "xotype":"modal-toggle",
-      "xotrigger":"url",
-      "xotriggerurl":"page.html",
-      "xostate":"closed",
+      "xostate":"open",
       "xoobjectname":"left-gutter",
       "xoparent":"parent"
     },
@@ -29,7 +25,7 @@
       "xotype":null,
       "xotrigger":"url",
       "xotriggerurl":"page.html",
-      "xostate":"closed",
+      "xostate":"open",
       "xoobjectname":"left-gutter",
       "xoparent":"parent"
     }

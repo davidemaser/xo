@@ -680,7 +680,18 @@ var xo = {
         }
     },
     warningBar:function(type, title, content, host){
-        var _objectHTML = '<div xo-type=""';
+        /*
+        xo-type can be
+        success : green bar
+        attention : blue bar
+        alert : yellow bar
+        error : red bar
+         */
+        var _objectHTML = '<div xo-type="warning" xo-type-param="'+type+'" xo-state="open">';
+            _objectHTML += title !== null && title !== undefined ? '<div class="message title">'+title+'</div>' : '';
+            _objectHTML += content !== null && content !== undefined ? '<div class="message content">'+content+'</div>' : '';
+            _objectHTML += '</div>';
+        host == 'body' ? $(xo.config.domParentNode).prepend(_objectHTML) : $('[xo-object-name="'+host+'"]').prepend(_objectHTML);
     },
     dropDownInit:function(){
         $('[xo-type="dropdown"]').each(function () {
@@ -693,6 +704,7 @@ var xo = {
                 _objectName = $(this).attr('xo-object-name'),
                 _objectSource = $(this).attr('xo-data-source');
             xo.dropDownBuilder(_buttonLabel, _objectName, 'json',_objectSource);
+            console.log(_buttonLabel+' : '+_objectName+' : '+_objectSource)
         })
     },
     dropDownBuilder:function(button,object,type,source){
@@ -716,14 +728,14 @@ var xo = {
                         _dropdownHTML += '<ul xo-object-name="'+object+'" xo-state="'+_initialState+'">';
                         Object.keys(_processData).forEach(function (key) {
                             _dropdownHTML += '<li';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-type="'+_processData[key].xotype+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-trigger="'+_processData[key].xotrigger+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-trigger-url="'+_processData[key].xotriggerurl+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-state="'+_processData[key].xostate+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-object-name="'+_processData[key].xoobjectname+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' xo-parent="'+_processData[key].xoparent+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' class="'+_processData[key].class+'"' : '';
-                            _dropdownHTML += _processData[key].xotype !== null ? ' id="'+_processData[key].id+'"' : '';
+                            _dropdownHTML += _processData[key].xotype !== null && _processData[key].xotype !== undefined ? ' xo-type="'+_processData[key].xotype+'"' : '';
+                            _dropdownHTML += _processData[key].xotrigger !== null && _processData[key].xotrigger !== undefined ? ' xo-trigger="'+_processData[key].xotrigger+'"' : '';
+                            _dropdownHTML += _processData[key].xotriggerurl !== null && _processData[key].xotriggerurl !== undefined ? ' xo-trigger-url="'+_processData[key].xotriggerurl+'"' : '';
+                            _dropdownHTML += _processData[key].xostate !== null && _processData[key].xostate !== undefined ? ' xo-state="'+_processData[key].xostate+'"' : '';
+                            _dropdownHTML += _processData[key].xoobjectname !== null && _processData[key].xoobjectname !== undefined ? ' xo-object-name="'+_processData[key].xoobjectname+'"' : '';
+                            _dropdownHTML += _processData[key].xoparent !== null && _processData[key].xoparent !== undefined ? ' xo-parent="'+_processData[key].xoparent+'"' : '';
+                            _dropdownHTML += _processData[key].class !== null && _processData[key].class !== undefined ? ' class="'+_processData[key].class+'"' : '';
+                            _dropdownHTML += _processData[key].id !== null && _processData[key].id !== undefined ? ' id="'+_processData[key].id+'"' : '';
                             _dropdownHTML += '>';
                             _dropdownHTML += _processData[key].content;
                             _dropdownHTML += '</li>';
@@ -767,12 +779,15 @@ var xo = {
             xo.modal();
         }).on('click','[xo-type="dropdown-button"]',function(){
             var _target = $(this).attr('xo-parent'),
-                _clickedState = $('ul[xo-object-name="' + _target + '"]').attr('xo-state');
+                _object = 'ul[xo-object-name="' + _target + '"]',
+                _clickedState = $(_object).attr('xo-state');
             if(_clickedState == 'open') {
-                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
+                $(_object).attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
             }else if(_clickedState == 'closed') {
-                $('ul[xo-object-name="' + _target + '"]').attr('xo-state', 'open').parent().attr('xo-state', 'open');
+                $(_object).attr('xo-state', 'open').parent().attr('xo-state', 'open');
             }
+        }).on('click','[xo-type="warning"]',function(){
+            $(this).slideToggle(500);
         });
     }
 };

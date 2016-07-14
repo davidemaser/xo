@@ -1,0 +1,36 @@
+.xo {
+  [xo-type="warning"]{
+   padding: 10px;
+    &[xo-type-param="success"]{
+      background: #2c8064;
+      color:#fff;
+    }
+    &[xo-type-param="attention"]{
+      background: #5d6280;
+      color: #fff;
+    }
+    &[xo-type-param="alert"]{
+      background: #faff3b;
+      color:#000;
+    }
+    &[xo-type-param="error"]{
+      background: #d92500;
+      color:#fff;
+    }
+  }
+  .message{
+    &.title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    &.content {
+      &:after {
+        content:'';
+        height:10px;
+        clear:both;
+        display:block;
+      }
+    }
+  }
+}
