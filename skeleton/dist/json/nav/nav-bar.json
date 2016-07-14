@@ -1,0 +1,101 @@
+{
+  "nav": [
+    {
+      "type":"image",
+      "label":null,
+      "url":"",
+      "class":"class",
+      "id":"id",
+      "xotype":null,
+      "xotrigger":"url",
+      "xotriggerurl":"page.html",
+      "xostate":"open",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
+    },
+    {
+      "type":"dropdown",
+      "label":"First item toggles gutter",
+      "children":[
+        {
+          "type":"button",
+          "label":"Second item toggles modal",
+          "class":"class",
+          "id":"id",
+          "xotype":"modal-toggle",
+          "xostate":"open",
+          "xoobjectname":"left-gutter",
+          "xoparent":"parent"
+        },{
+          "type":"button",
+          "label":"Second item toggles modal",
+          "class":"class",
+          "id":"id",
+          "xotype":"modal-toggle",
+          "xostate":"open",
+          "xoobjectname":"left-gutter",
+          "xoparent":"parent"
+        },
+        {
+          "type":"seperator"
+        },
+        {
+          "type":"button",
+          "label":"Second item toggles modal",
+          "class":"class",
+          "id":"id",
+          "xotype":"modal-toggle",
+          "xostate":"open",
+          "xoobjectname":"left-gutter",
+          "xoparent":"parent"
+        }
+      ],
+      "class":"class",
+      "id":"id",
+      "xotype":"gutter-toggle",
+      "xostate":"open",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
+    },
+    {
+      "type":"button",
+      "label":"Second item toggles modal",
+      "class":"class",
+      "id":"id",
+      "xotype":"modal-toggle",
+      "xostate":"open",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
+    },
+    {
+      "type":"button",
+      "label":"Third item triggers url",
+      "class":"class",
+      "id":"id",
+      "xotype":null,
+      "xotrigger":"url",
+      "xotriggerurl":"page.html",
+      "xostate":"open",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
+    },
+    {
+      "type":"search",
+      "label":null,
+      "placeholder":"search...",
+      "button":{
+        "label":"",
+        "xotrigger":"url",
+        "xotriggerurl":"page.html"
+      },
+      "class":"class",
+      "id":"id",
+      "xotype":null,
+      "xotrigger":"url",
+      "xotriggerurl":"page.html",
+      "xostate":"open",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent"
+    }
+  ]
+}

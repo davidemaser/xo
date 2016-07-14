@@ -22,13 +22,14 @@ var xo = {
          initialise specific components and widgets
          as needed.
          */
-        initGutter: true,
-        initVideo: true,
-        initPanel: true,
-        initModal: true,
-        initForms: true,
         initData: false,
         initDropdowns: true,
+        initForms: true,
+        initGutter: true,
+        initModal: true,
+        initNav: false,
+        initPanel: true,
+        initVideo: false,
         /*
         app is running so set a flag and a key
         to force reinitialisation.
@@ -63,13 +64,14 @@ var xo = {
     init: function (advise, callback) {
         if(xo.config.appRunning !== true) {
             xo.pageSetUp('html', 'xo', 'true', 'xo set');
-            xo.config.initGutter == true ? xo.gutter('init') : null;
-            xo.config.initVideo == true ? xo.video() : null;
-            xo.config.initPanel == true ? xo.panel() : null;
-            xo.config.initModal == true ? xo.modal('init') : null;
-            xo.config.initForms == true ? xo.formToPage() : null;
             xo.config.initData == true ? xo.layoutToPage() : null;
             xo.config.initDropdowns == true ? xo.dropDownInit() : null;
+            xo.config.initForms == true ? xo.formToPage() : null;
+            xo.config.initGutter == true ? xo.gutter('init') : null;
+            xo.config.initModal == true ? xo.modal('init') : null;
+            xo.config.initNav == true ? xo.navInit() : null;
+            xo.config.initPanel == true ? xo.panel() : null;
+            xo.config.initVideo == true ? xo.video() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
             advise == true ? xo.log('xo is running') : null;
@@ -99,6 +101,14 @@ var xo = {
             return b - a;
         });
         return A.join(', ');
+    },
+    saveLoadedItems:function(item){
+        xo.config.dataLoadedItems.push(item);
+    },
+    checkLoadedItems:function(item){
+        if(xo.config.dataLoadedItems.indexOf(item)>-1){
+            return true;
+        }
     },
     createUniqueCode: function () {
         var a = new Date().valueOf(),
@@ -671,28 +681,6 @@ var xo = {
             xo.warningBar('attention','DATA LOADED','This data instance has already been loaded','body');
         }
     },
-    saveLoadedItems:function(item){
-        xo.config.dataLoadedItems.push(item);
-    },
-    checkLoadedItems:function(item){
-        if(xo.config.dataLoadedItems.indexOf(item)>-1){
-            return true;
-        }
-    },
-    warningBar:function(type, title, content, host){
-        /*
-        xo-type can be
-        success : green bar
-        attention : blue bar
-        alert : yellow bar
-        error : red bar
-         */
-        var _objectHTML = '<div xo-type="warning" xo-type-param="'+type+'" xo-state="open">';
-            _objectHTML += title !== null && title !== undefined ? '<div class="message title">'+title+'</div>' : '';
-            _objectHTML += content !== null && content !== undefined ? '<div class="message content">'+content+'</div>' : '';
-            _objectHTML += '</div>';
-        host == 'body' ? $(xo.config.domParentNode).prepend(_objectHTML) : $('[xo-object-name="'+host+'"]').prepend(_objectHTML);
-    },
     dropDownInit:function(){
         $('[xo-type="dropdown"]').each(function () {
             var _buttonLabel = $(this).attr('xo-dropdown-button'),
@@ -718,7 +706,7 @@ var xo = {
                 var _this = '[xo-object-name="'+object+'"]',
                     _initialState = $(_this).attr('xo-state'),
                     _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>',
-                    _tempData = xo.getData(null, source, 'b', null,false),
+                    _tempData = xo.getData(null, source, 'b', object,false),
                     _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+object),
                     _dropdownHTML = '';
                 if(_sessionSourceLoaded !== true) {
@@ -742,12 +730,72 @@ var xo = {
                         _dropdownHTML += '</ul>';
                         $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
                         $('[xo-object-name="' + object + '"]').append(_dropdownHTML);
+                        xo.saveLoadedItems(xo.config.sessionStorageKey + object);
                     });
                 }else{
                     xo.warningBar('attention','DATA LOADED','This data instance has already been loaded','body');
                 }
                 break;
         }
+    },
+    navInit:function(){
+        $('[xo-type="navigation"]').each(function () {
+            var _objectName = $(this).attr('xo-object-name'),
+                _objectSource = $(this).attr('xo-data-source');
+            xo.navBuilder(_objectSource, _objectName);
+        });
+    },
+    navBuilder:function(source, target){
+        var _tempData = xo.getData(null, source, 'b', target,false),
+            _tempArray = [],
+            _tempOptions = '[',
+            _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+target);
+        if(_sessionSourceLoaded !== true) {
+            _tempData.success(function (data) {
+                var _processData = data.nav;
+                Object.keys(_processData).forEach(function (key) {
+                    if (_processData[key].children !== undefined && typeof _processData[key].children === 'object') {
+                        var _optionDepth = _processData[key].children.length;
+                        for (var o = 0; o < _optionDepth; o++) {
+                            _tempOptions += '{"nodeType":"' + _processData[key].children[o].type + '",';
+                            _tempOptions += _processData[key].children[o].class !== null && _processData[key].children[o].class !== undefined ? '"nodeClass":"' + _processData[key].children[o].class + '",' : '';
+                            _tempOptions += _processData[key].children[o].id !== null && _processData[key].children[o].id !== undefined ? '"nodeID":"' + _processData[key].children[o].id + '",' : '';
+                            _tempOptions += _processData[key].children[o].xotype !== null && _processData[key].children[o].xotype !== undefined ? '"nodexotype":"' + _processData[key].children[o].xoState + '",' : '';
+                            _tempOptions += _processData[key].children[o].xostate !== null && _processData[key].children[o].xostate !== undefined ? '"nodexostate":"' + _processData[key].children[o].xoSpan + '",' : '';
+                            _tempOptions += _processData[key].children[o].xoObjectName !== null && _processData[key].children[o].xoObjectName !== undefined ? '"nodexoObjectName":"' + _processData[key].children[o].xoObjectName + '",' : '';
+                            _tempOptions += _processData[key].children[o].xoParent !== null && _processData[key].children[o].xoParent !== undefined ? '"nodexoParent":"' + _processData[key].children[o].xoParent + '",' : '';
+                            _tempOptions += '"nodeContent":"' + _processData[key].children[o].label + '"';
+                            _tempOptions += '}';
+                            if (o < _optionDepth - 1) {
+                                _tempOptions += ',';
+                            }
+                        }
+                        _tempOptions += ']';
+                        _tempOptions = JSON.parse(_tempOptions);
+                    }
+                    _tempArray.push({
+                        type: _processData[key].type,
+                        label: _processData[key].label,
+                        node: _tempOptions
+                    });
+                });
+
+            });
+        }
+    },
+    warningBar:function(type, title, content, host){
+        /*
+         xo-type can be
+         success : green bar
+         attention : blue bar
+         alert : yellow bar
+         error : red bar
+         */
+        var _objectHTML = '<div xo-type="warning" xo-type-param="'+type+'" xo-state="open">';
+        _objectHTML += title !== null && title !== undefined ? '<div class="message title">'+title+'</div>' : '';
+        _objectHTML += content !== null && content !== undefined ? '<div class="message content">'+content+'</div>' : '';
+        _objectHTML += '</div>';
+        host == 'body' ? $(xo.config.domParentNode).prepend(_objectHTML) : $('[xo-object-name="'+host+'"]').prepend(_objectHTML);
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
