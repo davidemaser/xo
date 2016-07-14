@@ -1,0 +1,45 @@
+.xo {
+  [xo-type="navigation"]{
+    display: block;
+    background: #eaeaea;
+    > * {
+      display: inline-block!important;
+      background: #eaeaea;
+    }
+    [xo-type="modal-toggle"] {
+      color:inherit;
+      position:relative;
+      //padding:5px;
+      cursor:pointer;
+    }
+    ul {
+      list-style: none;
+      -webkit-padding-start: 0;
+      padding: 10px 0;
+      -webkit-margin-before: 0;
+      -webkit-margin-after: 0;
+      -webkit-margin-start: 0;
+      -webkit-margin-end: 0;
+      background: #ececec;
+      //display: none;
+      li {
+        padding: 5px 10px;
+        &:hover {
+          background: #ccc;
+          cursor: pointer;
+        }
+        &[xo-type="dropdown-seperator"] {height: 2px;background: #ddd;padding: 0;margin: 3px 0;}
+      }
+    }
+    button {
+      padding: 0 2rem;
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .nav-dropdown ul {
+      position: absolute;
+      z-index: 999999;
+      width: initial;
+    }
+  }
+}

@@ -2,10 +2,10 @@
   [xo-span="full"]{
     width:100%;
   }
-  [xo-state="open"]{
+  [xo-state="open"]:not([xo-type="dropdown"]):not([xo-type="jsondropdown"]):not(.nav-dropdown) {
     display:block;
   }
-  [xo-state="closed"]{
+  [xo-state="closed"]:not([xo-type="dropdown"]):not([xo-type="jsondropdown"]):not(.nav-dropdown){
     display:none;
   }
 }

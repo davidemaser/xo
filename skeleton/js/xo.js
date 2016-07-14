@@ -27,7 +27,7 @@ var xo = {
         initForms: true,
         initGutter: true,
         initModal: true,
-        initNav: false,
+        initNav: true,
         initPanel: true,
         initVideo: false,
         /*
@@ -742,44 +742,128 @@ var xo = {
         $('[xo-type="navigation"]').each(function () {
             var _objectName = $(this).attr('xo-object-name'),
                 _objectSource = $(this).attr('xo-data-source');
+            console.log(_objectSource+' : '+_objectName);
             xo.navBuilder(_objectSource, _objectName);
         });
     },
     navBuilder:function(source, target){
         var _tempData = xo.getData(null, source, 'b', target,false),
             _tempArray = [],
-            _tempOptions = '[',
             _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+target);
         if(_sessionSourceLoaded !== true) {
             _tempData.success(function (data) {
                 var _processData = data.nav;
                 Object.keys(_processData).forEach(function (key) {
-                    if (_processData[key].children !== undefined && typeof _processData[key].children === 'object') {
-                        var _optionDepth = _processData[key].children.length;
+                    if (_processData[key].nodes !== null && _processData[key].nodes !== undefined && _processData[key].nodes !== "undefined" && typeof _processData[key].nodes === 'object') {
+                        var _optionDepth = _processData[key].nodes.length,
+                            _tempNodes = '[';
                         for (var o = 0; o < _optionDepth; o++) {
-                            _tempOptions += '{"nodeType":"' + _processData[key].children[o].type + '",';
-                            _tempOptions += _processData[key].children[o].class !== null && _processData[key].children[o].class !== undefined ? '"nodeClass":"' + _processData[key].children[o].class + '",' : '';
-                            _tempOptions += _processData[key].children[o].id !== null && _processData[key].children[o].id !== undefined ? '"nodeID":"' + _processData[key].children[o].id + '",' : '';
-                            _tempOptions += _processData[key].children[o].xotype !== null && _processData[key].children[o].xotype !== undefined ? '"nodexotype":"' + _processData[key].children[o].xoState + '",' : '';
-                            _tempOptions += _processData[key].children[o].xostate !== null && _processData[key].children[o].xostate !== undefined ? '"nodexostate":"' + _processData[key].children[o].xoSpan + '",' : '';
-                            _tempOptions += _processData[key].children[o].xoObjectName !== null && _processData[key].children[o].xoObjectName !== undefined ? '"nodexoObjectName":"' + _processData[key].children[o].xoObjectName + '",' : '';
-                            _tempOptions += _processData[key].children[o].xoParent !== null && _processData[key].children[o].xoParent !== undefined ? '"nodexoParent":"' + _processData[key].children[o].xoParent + '",' : '';
-                            _tempOptions += '"nodeContent":"' + _processData[key].children[o].label + '"';
-                            _tempOptions += '}';
+                            _tempNodes += '{"nodetype":"' + _processData[key].nodes[o].type + '"';
+                            _tempNodes += _processData[key].nodes[o].class !== null && _processData[key].nodes[o].class !== "undefined" && _processData[key].nodes[o].class !== undefined ? ',"nodeclass":"' + _processData[key].nodes[o].class + '"' : '';
+                            _tempNodes += _processData[key].nodes[o].id !== null && _processData[key].nodes[o].id !== "undefined" && _processData[key].nodes[o].id !== undefined ? ',"nodeid":"' + _processData[key].nodes[o].id + '"' : '';
+                            _tempNodes += _processData[key].nodes[o].xotype !== null && _processData[key].nodes[o].xotype !== "undefined" && _processData[key].nodes[o].xotype !== undefined ? ',"nodexotype":"' + _processData[key].nodes[o].xotype + '"' : '';
+                            _tempNodes += _processData[key].nodes[o].xostate !== null && _processData[key].nodes[o].xostate !== "undefined" && _processData[key].nodes[o].xostate !== undefined ? ',"nodexostate":"' + _processData[key].nodes[o].xostate + '"' : '';
+                            _tempNodes += _processData[key].nodes[o].xoObjectName !== null && _processData[key].nodes[o].xoobjectname !== "undefined" && _processData[key].nodes[o].xoobjectname !== undefined ? ',"nodexoobjectname":"' + _processData[key].nodes[o].xoobjectname + '"' : '';
+                            _tempNodes += _processData[key].nodes[o].xoParent !== null && _processData[key].nodes[o].xoparent !== "undefined" && _processData[key].nodes[o].xoparent !== undefined ? ',"nodexoparent":"' + _processData[key].nodes[o].xoparent + '"' : '';
+                            _tempNodes += _processData[key].nodes[o].label !== null && _processData[key].nodes[o].label !== "undefined" && _processData[key].nodes[o].label !== undefined ? ',"nodecontent":"' + _processData[key].nodes[o].label + '"' : '';
+                            _tempNodes += '}';
                             if (o < _optionDepth - 1) {
-                                _tempOptions += ',';
+                                _tempNodes += ',';
                             }
                         }
-                        _tempOptions += ']';
-                        _tempOptions = JSON.parse(_tempOptions);
+                        _tempNodes += ']';
+                        _tempNodes = JSON.parse(_tempNodes);
                     }
                     _tempArray.push({
                         type: _processData[key].type,
                         label: _processData[key].label,
-                        node: _tempOptions
+                        url: _processData[key].url,
+                        class: _processData[key].class,
+                        id: _processData[key].id,
+                        xotype: _processData[key].xotype,
+                        xotrigger: _processData[key].xotrigger,
+                        xotriggerurl:_processData[key].xotriggerurl,
+                        xostate:_processData[key].xostate,
+                        xoobjectname:_processData[key].xoobjectname,
+                        xoparent:_processData[key].xoparent,
+                        placeholder:_processData[key].placeholder,
+                        button:_processData[key].buttonLabel,
+                        node: _tempNodes
                     });
                 });
+                var _navCode = '';
+                for (var i = 0, ii = _tempArray.length; i < ii; i++) {
+                    switch (_tempArray[i].type) {
+                        case 'image':
+                            _navCode += '<img';
+                            _navCode += _tempArray[i].xotype !== null && _tempArray[i].xotype !== "undefined" && _tempArray[i].xotype !== undefined ? ' xo-type="' + _tempArray[i].xotype + '"' : '';
+                            _navCode += _tempArray[i].xotrigger !== null && _tempArray[i].xotrigger !== "undefined" && _tempArray[i].xotrigger !== undefined ? ' xo-trigger="' + _tempArray[i].xotrigger + '"' : '';
+                            _navCode += _tempArray[i].xotriggerurl !== null && _tempArray[i].xotriggerurl !== "undefined" && _tempArray[i].xotriggerurl !== undefined ? ' xo-trigger-url="' + _tempArray[i].xotriggerurl + '"' : '';
+                            _navCode += _tempArray[i].xostate !== null && _tempArray[i].xostate !== "undefined" && _tempArray[i].xostate !== undefined ? ' xo-state="' + _tempArray[i].xostate + '"' : '';
+                            _navCode += _tempArray[i].xoobjectname !== null && _tempArray[i].xoobjectname !== "undefined" && _tempArray[i].xoobjectname !== undefined ? ' xo-object-name="' + _tempArray[i].xoobjectname + '"' : '';
+                            _navCode += _tempArray[i].xoparent !== null && _tempArray[i].xoparent !== "undefined" && _tempArray[i].xoparent !== undefined ? ' xo-parent="' + _tempArray[i].xoparent + '"' : '';
+                            _navCode += _tempArray[i].class !== null && _tempArray[i].class !== "undefined" && _tempArray[i].class !== undefined ? ' class="' + _tempArray[i].class + '"' : '';
+                            _navCode += _tempArray[i].id !== null && _tempArray[i].id !== "undefined" && _tempArray[i].id !== undefined ? ' id="' + _tempArray[i].id + '"' : '';
+                            _navCode += ' src="'+_tempArray[i].url;
+                            _navCode += '" />';
+                            break;
+                        case 'button':
+                            _navCode += '<button';
+                            _navCode += _tempArray[i].xotype !== null && _tempArray[i].xotype !== "undefined" && _tempArray[i].xotype !== undefined ? ' xo-type="' + _tempArray[i].xotype + '"' : '';
+                            _navCode += _tempArray[i].xotrigger !== null && _tempArray[i].xotrigger !== "undefined" && _tempArray[i].xotrigger !== undefined ? ' xo-trigger="' + _tempArray[i].xotrigger + '"' : '';
+                            _navCode += _tempArray[i].xotriggerurl !== null && _tempArray[i].xotriggerurl !== "undefined" && _tempArray[i].xotriggerurl !== undefined ? ' xo-trigger-url="' + _tempArray[i].xotriggerurl + '"' : '';
+                            _navCode += _tempArray[i].xostate !== null && _tempArray[i].xostate !== "undefined" && _tempArray[i].xostate !== undefined ? ' xo-state="' + _tempArray[i].xostate + '"' : '';
+                            _navCode += _tempArray[i].xoobjectname !== null && _tempArray[i].xoobjectname !== "undefined" && _tempArray[i].xoobjectname !== undefined ? ' xo-object-name="' + _tempArray[i].xoobjectname + '"' : '';
+                            _navCode += _tempArray[i].xoparent !== null && _tempArray[i].xoparent !== "undefined" && _tempArray[i].xoparent !== undefined ? ' xo-parent="' + _tempArray[i].xoparent + '"' : '';
+                            _navCode += _tempArray[i].class !== null && _tempArray[i].class !== "undefined" && _tempArray[i].class !== undefined ? ' class="' + _tempArray[i].class + '"' : '';
+                            _navCode += _tempArray[i].id !== null && _tempArray[i].id !== "undefined" && _tempArray[i].id !== undefined ? ' id="' + _tempArray[i].id + '"' : '';
+                            _navCode += '>';
+                            _navCode += _tempArray[i].label;
+                            _navCode += '</button>';
+                            break;
+                        case 'search':
+                            _navCode += '<form';
+                            _navCode += _tempArray[i].xotype !== null && _tempArray[i].xotype !== "undefined" && _tempArray[i].xotype !== undefined ? ' xo-type="' + _tempArray[i].xotype + '"' : '';
+                            _navCode += _tempArray[i].xotrigger !== null && _tempArray[i].xotrigger !== "undefined" && _tempArray[i].xotrigger !== undefined ? ' xo-trigger="' + _tempArray[i].xotrigger + '"' : '';
+                            _navCode += _tempArray[i].xotriggerurl !== null && _tempArray[i].xotriggerurl !== "undefined" && _tempArray[i].xotriggerurl !== undefined ? ' xo-trigger-url="' + _tempArray[i].xotriggerurl + '"' : '';
+                            _navCode += _tempArray[i].xostate !== null && _tempArray[i].xostate !== "undefined" && _tempArray[i].xostate !== undefined ? ' xo-state="' + _tempArray[i].xostate + '"' : '';
+                            _navCode += _tempArray[i].xoobjectname !== null && _tempArray[i].xoobjectname !== "undefined" && _tempArray[i].xoobjectname !== undefined ? ' xo-object-name="' + _tempArray[i].xoobjectname + '"' : '';
+                            _navCode += _tempArray[i].xoparent !== null && _tempArray[i].xoparent !== "undefined" && _tempArray[i].xoparent !== undefined ? ' xo-parent="' + _tempArray[i].xoparent + '"' : '';
+                            _navCode += _tempArray[i].class !== null && _tempArray[i].class !== "undefined" && _tempArray[i].class !== undefined ? ' class="' + _tempArray[i].class + '"' : '';
+                            _navCode += _tempArray[i].id !== null && _tempArray[i].id !== "undefined" && _tempArray[i].id !== undefined ? ' id="' + _tempArray[i].id + '"' : '';
+                            _navCode += '><input type="text"';
+                            _navCode += _tempArray[i].placeholder !== null && _tempArray[i].placeholder !== "undefined" && _tempArray[i].placeholder !== undefined ? ' placeholder="' + _tempArray[i].placeholder + '"' : '';
+                            _navCode += '>';
+                            _navCode += _tempArray[i].buttonLabel !== null && _tempArray[i].buttonLabel !== "undefined" && _tempArray[i].buttonLabel !== undefined ? '<input type="submit" value="'+_tempArray[i].buttonLabel+'">' : '';
+                            _navCode += '</form>';
+                            break;
+                        case 'dropdown':
+                            _navCode += '<div class="nav-dropdown">';
+                            _navCode += '<button xo-type="'+_tempArray[i].xotype+'" xo-parent="'+_tempArray[i].xoparent+'">'+_tempArray[i].label+'</button>';
+                            if(_tempArray[i].node !== null && _tempArray[i].node !== undefined && _tempArray[i].node !== "undefined" && _tempArray[i].node !== '') {
+                                /*
+                                 this creates a dropdown below the nav item
+                                 (usually a button) if the json has child
+                                 nodes
+                                 */
+                                _navCode += '<ul xo-object-name="'+_tempArray[i].xoparent+'" xo-state="closed">';
+                                for (var j = 0, jj = _tempArray[i].node.length; j < jj; j++) {
+                                    //nodes
+                                    console.log(_tempArray[i].node[j].nodetype);
+                                    if(_tempArray[i].node[j].nodetype == 'line'){
+                                        _navCode += '<li xo-type="'+_tempArray[i].node[j].nodexotype+'" xo-state="'+_tempArray[i].node[j].nodexostate+'" xo-object-name="'+_tempArray[i].node[j].nodexoobjectname+'" xo-parent="'+_tempArray[i].node[j].nodexoparent+'" class="'+_tempArray[i].node[j].nodeclass+'" id="'+_tempArray[i].node[j].nodeid+'">'+_tempArray[i].node[j].nodecontent+'</li>';
+                                    }else if(_tempArray[i].node[j].nodetype == 'seperator'){
+                                        _navCode += '<li xo-type="dropdown-seperator"></li>';
+                                    }
+                                }
+                            }
+                            _navCode += '</div>';
+                            break;
+                    }
 
+                }
+                //console.log(_navCode);
+                $('[xo-object-name="'+target+'"]').append(_navCode);
             });
         }
     },

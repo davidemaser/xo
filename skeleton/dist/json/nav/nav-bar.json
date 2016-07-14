@@ -3,7 +3,7 @@
     {
       "type":"image",
       "label":null,
-      "url":"",
+      "url":"image_url",
       "class":"class",
       "id":"id",
       "xotype":null,
@@ -15,10 +15,16 @@
     },
     {
       "type":"dropdown",
-      "label":"First item toggles gutter",
-      "children":[
+      "label":"First item is a dropdown",
+      "class":"class",
+      "id":"id",
+      "xotype":"dropdown-button",
+      "xostate":"open",
+      "xoobjectname":"left-gutter",
+      "xoparent":"parent",
+      "nodes":[
         {
-          "type":"button",
+          "type":"line",
           "label":"Second item toggles modal",
           "class":"class",
           "id":"id",
@@ -27,7 +33,7 @@
           "xoobjectname":"left-gutter",
           "xoparent":"parent"
         },{
-          "type":"button",
+          "type":"line",
           "label":"Second item toggles modal",
           "class":"class",
           "id":"id",
@@ -40,7 +46,7 @@
           "type":"seperator"
         },
         {
-          "type":"button",
+          "type":"line",
           "label":"Second item toggles modal",
           "class":"class",
           "id":"id",
@@ -49,13 +55,7 @@
           "xoobjectname":"left-gutter",
           "xoparent":"parent"
         }
-      ],
-      "class":"class",
-      "id":"id",
-      "xotype":"gutter-toggle",
-      "xostate":"open",
-      "xoobjectname":"left-gutter",
-      "xoparent":"parent"
+      ]
     },
     {
       "type":"button",
@@ -82,20 +82,16 @@
     {
       "type":"search",
       "label":null,
-      "placeholder":"search...",
-      "button":{
-        "label":"",
-        "xotrigger":"url",
-        "xotriggerurl":"page.html"
-      },
       "class":"class",
       "id":"id",
       "xotype":null,
-      "xotrigger":"url",
+      "xotrigger":"form",
       "xotriggerurl":"page.html",
       "xostate":"open",
       "xoobjectname":"left-gutter",
-      "xoparent":"parent"
+      "xoparent":"parent",
+      "placeholder":"search...",
+      "buttonLabel":"Click Me"
     }
   ]
 }
