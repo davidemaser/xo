@@ -597,7 +597,7 @@ var xo = {
                 xo.saveLoadedItems(xo.config.sessionStorageKey + host);
             });
         }else{
-            xo.log('This form instance has already been loaded');
+            xo.warningBar('attention','DATA LOADED','This form instance has already been loaded','body');
         }
     },
     layoutToPage: function () {
@@ -668,7 +668,7 @@ var xo = {
                 });
             });
         }else{
-            xo.log('This data instance has already been loaded');
+            xo.warningBar('attention','DATA LOADED','This data instance has already been loaded','body');
         }
     },
     saveLoadedItems:function(item){
@@ -704,7 +704,6 @@ var xo = {
                 _objectName = $(this).attr('xo-object-name'),
                 _objectSource = $(this).attr('xo-data-source');
             xo.dropDownBuilder(_buttonLabel, _objectName, 'json',_objectSource);
-            console.log(_buttonLabel+' : '+_objectName+' : '+_objectSource)
         })
     },
     dropDownBuilder:function(button,object,type,source){
@@ -745,7 +744,7 @@ var xo = {
                         $('[xo-object-name="' + object + '"]').append(_dropdownHTML);
                     });
                 }else{
-                    xo.log('This data instance has already been loaded');
+                    xo.warningBar('attention','DATA LOADED','This data instance has already been loaded','body');
                 }
                 break;
         }
