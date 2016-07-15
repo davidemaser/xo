@@ -4,8 +4,51 @@
     box-sizing: content-box;
     background: #cecece;
     height: auto;
-    *{
-      margin:5px 10px;
+    padding:5px 10px;
+    &:before {
+      display:block;
+      font-family: 'icomoon' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    &[xo-type-param="add"]:before {
+      content: "\e3ba";
+    }
+    &[xo-type-param="app"]:before {
+      content: "\e5c3";
+    }
+    &[xo-type-param="flag"]:before {
+      content: "\e153";
+    }
+    &[xo-type-param="cloud"]:before {
+      content: "\e2c3";
+    }
+    &[xo-type-param="wrench"]:before {
+      content: "\e869";
+    }
+    &[xo-type-param="tag"]:before {
+      content: "\e8e6";
+    }
+    &[xo-type-param="phone"]:before {
+      content: "\e0cd";
+    }
+    &[xo-type-param="camera"]:before {
+      content: "\e412";
+    }
+    &[xo-type-param="cancel"]:before {
+      content: "\e5c9";
+    }
+    &[xo-type-param="chat"]:before {
+      content: "\e0b7";
+    }
+    &[xo-type-param="check"]:before {
+      content: "\e834";
     }
   }
 }
