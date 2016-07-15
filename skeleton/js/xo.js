@@ -739,6 +739,12 @@ var xo = {
         }
     },
     navInit:function(){
+        /*
+        initializes the display of navigation bars as needed.
+        Feature can be enabled in xo.config. navInit cycles
+        through the page dom to find xo-type navigation objects
+        and displays the nav bar in place
+         */
         $('[xo-type="navigation"]').each(function () {
             var _objectName = $(this).attr('xo-object-name'),
                 _objectSource = $(this).attr('xo-data-source');
@@ -747,6 +753,14 @@ var xo = {
         });
     },
     navBuilder:function(source, target){
+        /*
+        this function builds a navigation bar from
+        a json file. Check the nav-bar.json file
+        in dist/json/nav for the structure and
+        options that are available.
+        The navBuilder reuses functions and features
+        such as buttons, dropdowns, form objects.
+         */
         var _tempData = xo.getData(null, source, 'b', target,false),
             _tempArray = [],
             _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+target);
@@ -839,16 +853,16 @@ var xo = {
                             break;
                         case 'dropdown':
                             _navCode += '<div class="nav-dropdown">';
-                            _navCode += '<button xo-type="'+_tempArray[i].xotype+'" xo-parent="'+_tempArray[i].xoparent+'">'+_tempArray[i].label+'</button>';
+                            _navCode += '<button xo-type="'+_tempArray[i].xotype+'" xo-parent="'+_tempArray[i].xoparent+'" class="'+_tempArray[i].class+'">'+_tempArray[i].label+'</button>';
                             if(_tempArray[i].node !== null && _tempArray[i].node !== undefined && _tempArray[i].node !== "undefined" && _tempArray[i].node !== '') {
                                 /*
                                  this creates a dropdown below the nav item
                                  (usually a button) if the json has child
-                                 nodes
+                                 nodes. See the documentation for how this
+                                 is used
                                  */
                                 _navCode += '<ul xo-object-name="'+_tempArray[i].xoparent+'" xo-state="closed">';
                                 for (var j = 0, jj = _tempArray[i].node.length; j < jj; j++) {
-                                    //nodes
                                     console.log(_tempArray[i].node[j].nodetype);
                                     if(_tempArray[i].node[j].nodetype == 'line'){
                                         _navCode += '<li xo-type="'+_tempArray[i].node[j].nodexotype+'" xo-state="'+_tempArray[i].node[j].nodexostate+'" xo-object-name="'+_tempArray[i].node[j].nodexoobjectname+'" xo-parent="'+_tempArray[i].node[j].nodexoparent+'" class="'+_tempArray[i].node[j].nodeclass+'" id="'+_tempArray[i].node[j].nodeid+'">'+_tempArray[i].node[j].nodecontent+'</li>';
@@ -862,7 +876,6 @@ var xo = {
                     }
 
                 }
-                //console.log(_navCode);
                 $('[xo-object-name="'+target+'"]').append(_navCode);
             });
         }

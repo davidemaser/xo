@@ -16,7 +16,7 @@
     {
       "type":"dropdown",
       "label":"First item is a dropdown",
-      "class":"class",
+      "class":"xo-icon icon-home",
       "id":"id",
       "xotype":"dropdown-button",
       "xostate":"open",
