@@ -1,5 +1,19 @@
 /**
- * Created by david-maser on 23/06/16.
+ * Copyright (c) <2016> <David Maser>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 var xo = {
     config: {
@@ -82,26 +96,6 @@ var xo = {
             xo.log('An XO instance is already running');
         }
     },
-    countDomTags: function (pa) {
-        pa = pa || document;
-        var O = {},
-            A = [], tag, D = pa.getElementsByTagName('*');
-        D = A.slice.apply(D, [0, D.length]);
-        while (D.length) {
-            tag = D.shift().tagName.toLowerCase();
-            if (!O[tag]) O[tag] = 0;
-            O[tag] += 1;
-        }
-        for (var p in O) {
-            A[A.length] = p + ': ' + O[p];
-        }
-        A.sort(function (a, b) {
-            a = a.split(':')[1] * 1;
-            b = b.split(':')[1] * 1;
-            return b - a;
-        });
-        return A.join(', ');
-    },
     saveLoadedItems:function(item){
         xo.config.dataLoadedItems.push(item);
     },
@@ -109,11 +103,6 @@ var xo = {
         if(xo.config.dataLoadedItems.indexOf(item)>-1){
             return true;
         }
-    },
-    createUniqueCode: function () {
-        var a = new Date().valueOf(),
-            b = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-        return a + b;
     },
     pageSetUp: function (domItem, domPrefix, xoMin, xoClass) {
         if (xo.config.appRunning !== true) {
@@ -143,6 +132,9 @@ var xo = {
             eval(xoCore);
         });
     },
+    /*
+    utility functions
+     */
     log: function (e) {
         var a = navigator.vendor.indexOf("Google") > -1,
             b = xo.config.showErrorLogDate == true ? new Date() : "";
@@ -150,14 +142,50 @@ var xo = {
             a == true ? console.warn(e, b) : console.log(e, b);
         }
     },
+    prompt: function (message, url) {
+        var r = confirm(message);
+        if (r == true) {
+            window.location = url;
+        }
+        document.getElementById("demo").innerHTML = txt;
+    },
+    createUniqueCode: function () {
+        var a = new Date().valueOf(),
+            b = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+        return a + b;
+    },
+    countDomTags: function (pa) {
+        pa = pa || document;
+        var O = {},
+            A = [], tag, D = pa.getElementsByTagName('*');
+        D = A.slice.apply(D, [0, D.length]);
+        while (D.length) {
+            tag = D.shift().tagName.toLowerCase();
+            if (!O[tag]) O[tag] = 0;
+            O[tag] += 1;
+        }
+        for (var p in O) {
+            A[A.length] = p + ': ' + O[p];
+        }
+        A.sort(function (a, b) {
+            a = a.split(':')[1] * 1;
+            b = b.split(':')[1] * 1;
+            return b - a;
+        });
+        return A.join(', ');
+    },
+    /*
+     end utility functions
+     */
     switchNavMode: function () {
+        //not implemented yet
         var a = $('html').attr('xo-prefix'),
             b = $(xo.config.domParentNode).find(xo.config.defaultXOWrapper),
             c = b.attr('xo-reserved'),
             d = c == true ? xo.config.ajaxPathDefault : scriptPath;
     },
     animate: function (obj, type, speed, length) {
-
+        //not implemented yet
     },
     getData: function (scriptPath, scriptURI, method, identifier, target, flush) {
         /*
@@ -167,13 +195,13 @@ var xo = {
         handle specific data formats.
         The ajax call returns a data object.
          */
-        var a = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
-            b = scriptURI == undefined ? "" : scriptURI,
-            c = xo.config.ajaxFileExtension,
-            d = a + b + c;
+        var _path = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
+            _uri = scriptURI == undefined ? "" : scriptURI,
+            _extension = xo.config.ajaxFileExtension,
+            _dataURL = _path + _uri + _extension;
         return $.ajax({
             dataType: xo.config.ajaxDefaultDataType,
-            url: d,
+            url: _dataURL,
             type: xo.config.ajaxDefaultMethod,
             statusCode: {
                 404: function () {
@@ -241,17 +269,6 @@ var xo = {
         } else if (type == 'prompt') {
             xo.prompt(message, passValue);
         }
-    },
-    prompt: function (message, url) {
-        /*
-        utility function that creates a user prompt
-        on an xo prompt object.
-         */
-        var r = confirm(message);
-        if (r == true) {
-            window.location = url;
-        }
-        document.getElementById("demo").innerHTML = txt;
     },
     tooltip: function (object, method) {
         if (method == 'add') {
@@ -377,9 +394,6 @@ var xo = {
                 $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
             }
         }
-    },
-    navbar: function () {
-
     },
     video: function () {
         /*
