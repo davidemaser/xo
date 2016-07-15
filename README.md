@@ -30,6 +30,9 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - data : pulls data from a json datasource specified in the html attribute tag (documentation in preperation)
 - modal : creates a modal pop up with content template injected from the xo-template tag  (documentation in preperation)
 - form : creates a form from a json file (documentation in preperation)
+- dropdown : creates a dropdown from the ul found within the tag
+- jsondropdown : creates a data driven dropdown from a json source
+- navigation : creates a horizontal navigation pane that can contain images, buttons, icons, forms or dropdowns. The navigation object is data driven json source
 
 #### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
