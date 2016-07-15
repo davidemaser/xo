@@ -29,12 +29,13 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - mobile-item : this item will only be shown to mobile navigators
 - video : creates a video object with specific parameters
   - requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-autoplay (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)
-- data : pulls data from a json datasource specified in the html attribute tag (documentation in preperation)
+- data : pulls data from a json datasource specified in the html attribute tag (see getData function documentation)
 - modal : creates a modal pop up with content template injected from the xo-template tag  (documentation in preperation)
 - form : creates a form from a json file (documentation in preperation)
 - dropdown : creates a dropdown from the ul found within the tag
 - jsondropdown : creates a data driven dropdown from a json source
 - navigation : creates a horizontal navigation pane that can contain images, buttons, icons, forms or dropdowns. The navigation object is data driven json source
+- warning : creates a contextual alert message within an xo object or page
 
 ##### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
@@ -54,11 +55,15 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - url
   - requires one parameter : xo-trigger-url
 - modal
-- pop-up
+- popup
 - script
 - data
 - ajax
   - requires one parameter : xo-ajax-url
+
+##### xo-template : defines a JSON formatted template tag that can modify display features of specific xo objects
+
+(documentation in preparation)
 
 ##### xo-span : defines the span of the element inside the parent tag. This can be
 

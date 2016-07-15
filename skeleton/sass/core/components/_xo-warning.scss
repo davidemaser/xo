@@ -17,6 +17,23 @@
       background: #d92500;
       color:#fff;
     }
+    &:after {
+      content: "\e5cd";
+      display:block;
+      position :absolute;
+      right:10px;
+      top:10px;
+      font-family: 'icomoon' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      cursor: pointer;
+    }
   }
   .message{
     &.title {

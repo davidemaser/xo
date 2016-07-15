@@ -257,10 +257,10 @@ var xo = {
         if (method == 'add') {
             var tipText = $(object).attr('xo-tooltip-text'),
                 tipEnabled = $(object).attr('xo-trigger') == 'tooltip',
-                toolTipTop = $(object).offset().top,
-                toolTipLeft = $(object).offset().left;
+                toolTipTop = Math.round($(object).offset().top),
+                toolTipLeft = Math.round($(object).offset().left);
             if (tipEnabled == true) {
-                var baseHTML = '<div class="tooltip" style="left:' + toolTipLeft + ';top:' + toolTipTop + ';">' + tipText + '</div>';
+                var baseHTML = '<div class="tooltip" style="left:' + toolTipLeft + 'px;top:' + toolTipTop + 'px;">' + tipText + '</div>';
                 $(baseHTML).insertAfter(object);
             }
         } else if (method == 'delete') {
@@ -363,13 +363,16 @@ var xo = {
             }
         } else {
             if (_state == 'open') {
-                $(_obj).animate({left: -_width}, xo.config.animationSpeed).attr('xo-state', 'closed');
+                $(_obj).animate({left: -_width}, xo.config.animationSpeed,function(){
+                    $(_obj).attr('xo-state', 'closed')
+                });
                 $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
                     $(_filterObj).remove();
                 });
 
             } else if (_state == 'closed') {
-                $(_obj).animate({left: 0}, xo.config.animationSpeed).attr('xo-state', 'open');
+                $(_obj).attr('xo-state', 'open');
+                $(_obj).animate({left: "0"}, xo.config.animationSpeed);
                 $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
                 $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
             }
