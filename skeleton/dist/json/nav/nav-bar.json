@@ -1,22 +1,19 @@
 {
   "nav": [
     {
-      "type":"image",
+      "type":"icon",
       "label":null,
-      "url":"image_url",
-      "class":"class",
+      "url":null,
+      "class":"xo-icon icon-dehaze",
       "id":"id",
-      "xotype":null,
-      "xotrigger":"url",
-      "xotriggerurl":"page.html",
       "xostate":"open",
-      "xoobjectname":"left-gutter",
+      "xotype":"gutter-toggle",
       "xoparent":"parent"
     },
     {
       "type":"dropdown",
       "label":"First item is a dropdown",
-      "class":"xo-icon icon-home",
+      "class":null,
       "id":"id",
       "xotype":"dropdown-button",
       "xostate":"open",

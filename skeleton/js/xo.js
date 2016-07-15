@@ -808,6 +808,14 @@ var xo = {
                 var _navCode = '';
                 for (var i = 0, ii = _tempArray.length; i < ii; i++) {
                     switch (_tempArray[i].type) {
+                        case 'icon':
+                            _navCode += '<div class="nav-icon"';
+                            _navCode += _tempArray[i].xostate !== null && _tempArray[i].xostate !== "undefined" && _tempArray[i].xostate !== undefined ? ' xo-state="' + _tempArray[i].xostate + '"' : '';
+                            _navCode += _tempArray[i].xotype !== null && _tempArray[i].xotype !== "undefined" && _tempArray[i].xotype !== undefined ? ' xo-type="' + _tempArray[i].xotype + '"' : '';
+                            _navCode += '>';
+                            _navCode += _tempArray[i].class !== null && _tempArray[i].class !== "undefined" && _tempArray[i].class !== undefined ? '<span class="'+_tempArray[i].class+'"></span>' : '';
+                            _navCode += '</div>';
+                            break;
                         case 'image':
                             _navCode += '<img';
                             _navCode += _tempArray[i].xotype !== null && _tempArray[i].xotype !== "undefined" && _tempArray[i].xotype !== undefined ? ' xo-type="' + _tempArray[i].xotype + '"' : '';

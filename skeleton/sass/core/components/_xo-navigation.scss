@@ -2,6 +2,13 @@
   [xo-type="navigation"]{
     display: block;
     background: #eaeaea;
+    .nav-icon {
+      padding: 0 15px;
+      span{
+        font-size: 125%;
+        vertical-align: middle;
+      }
+    }
     > * {
       display: inline-block!important;
       background: #eaeaea;
@@ -31,15 +38,22 @@
         &[xo-type="dropdown-seperator"] {height: 2px;background: #ddd;padding: 0;margin: 3px 0;}
       }
     }
-    button {
+    button,.button {
       padding: 0 2rem;
       box-shadow: none;
       border-radius: 0;
+      height: 50px;
     }
     .nav-dropdown ul {
       position: absolute;
       z-index: 999999;
       width: initial;
+    }
+    input {
+      padding: 5px 10px;
+      vertical-align: middle;
+      border-radius: 5px;
+      border: 1px solid #999;
     }
   }
 }
