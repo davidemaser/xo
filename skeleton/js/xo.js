@@ -218,6 +218,7 @@ var xo = {
     },
     saveDataToSession: function (data, method, key, id) {
         if (typeof(Storage) !== "undefined") {
+            key = key == undefined || null || ' ' ? xo.config.sessionStorageKey : key;
             method == 's' ? sessionStorage.setItem(key + id, data) : localStorage.setItem(xo.config.sessionStorageKey + xo.createUniqueCode(), data);
         } else {
             xo.log('Sorry! No Web Storage support..');

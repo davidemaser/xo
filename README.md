@@ -78,9 +78,44 @@ Parameters
 - scriptPath (optional) : the script path is the hierarchical path to where the script returning json resides. Depending on your needs, this can usually be defined in the config under ```ajaxPathDefault```. scriptPath overrides the default configuration in order to give the script more flexibility. Set to null in order to use the default value.
 - scriptURI (required) : the script uri is the file that returns the json object. This can be a script or a json file. You can also use a folder structure in this parameter (i.e. ```folder/folder/file.json```) in order to allow subfolder access.
 - method : the method parameter defines what the script will do with the returned data once the success function fires. The accepted methods are :
--       'p' : parse
--       'b' : brut
--       's' : save to session
+    - 'p' : parse
+    - 'b' : brut
+    - 's' : save to session
 - identifier (optional) : this allows you to associate the data returned with an identifier. This is handy when saving the returned data to session or local storage or binding it to a specific xo component on the page. This pararmeter is optional but should be defined if the data is to be retreated later.
 - target (optional) : this parameter defines an xo object as the host for the returned data. This parameter is only required when passing the returned json to the parseData method.
 - flush (optional) : this parameter is used when saving and loading data to and from a session or local storage object. It defines whether the storage object is to be flushed once the data is recovered. See the ```getDataFromSession()``` function documentation to learn more about this.
+
+### saveDataToSession
+The saveDataToSession function allows other functions to pass and save data to session storage that can be queried by other functions using a unique id or key + id combination.
+
+#### Structure
+
+The function has 4 parameters, of which only 2 are required.
+
+``function (data, method, key, id)``
+
+Parameters
+- data (required) : this defines the data that is passed to the function (in Json format). If we stay within the scope of the XO Framework, the data will be passed via the getData function and, if the method selected is save, will be saved to session. The data that is used can be converted to string or parsed prior to being saved as the session object will only save text and not the json object itself.
+- method (required) : the method parameter defines how the data is to be treated. Currently XO only supports sessionStorage with a localStorage fallback. The available methods are :
+    - 's' : sessionStorage
+- key (optional) : the key parameter allows you to define a specific key or prefix to your localStorage object. If for example you are working on a project name FOO, you can define your key to be FOO-. All your stored data will be formated as FOO-xxxx. The key can be defined as an XO config or set each time the function is called. If key is set to null or left empty, the sessionStorageKey config item will be used.
+- id (optional) : the id parameter allows you to append a unique value to identify stored data. Some of XO's functions define the key and id combination automatically based on an objects data attributes but if you use this function alone or are extending the framework, you can pass unique values.
+
+Note : If the users navigator doesn't support storage, a log message will be fired.
+
+### getDataFromSession
+The getDataFromSession function allows other functions to recover and use data that has been saved to a session object in json format. This allows you to create persistent data objects that only need to be queried once. The data that is returned by the function can then be manipulated or queried as you wish.
+
+#### Structure
+
+The function has 4 parameters, of which only 2 are required.
+
+``function (key, id, parse, flush)``
+
+Parameters
+- key (required) : the key parameter allows you to define the specific key that you are using as a prefix for your session data objects. Most of XO's functions will use the sessionStorageKey config item when collecting data.
+- id (required) : the id parameter is the unique value that is appended to the key to create a data identifier. You can then query a specific storage object by calling it by name. Most of XO's functions will use the html items xo-object-name to map a data source to a dom object.
+- parse (optional:boolean) : the parse parameter allows you to define whether or not you want the returned data to be parsed as JSON and, therefore, converted to an object.
+- flush (optional:boolean) : the flush parameter allows you to define whether you want the session storage item to be removed once the data has been collected. This can be useful if space is an issue and where persistence is not necessary.
+
+Note : If the users navigator doesn't support storage this function will return null.
