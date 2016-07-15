@@ -1,17 +1,19 @@
 # XO
-XO is a skeleton framework currently beign built to simplify web site layout. 
+XO is a skeleton framework currently being built to simplify web site layout.
 
-The goal of this framework is to render the task of converting layouts that use absolute sizing methods to relative sized grid layout (px to %) by wrapping pages in a global wrapper, overwriting only specific style attributes and applying inherited styles to all child objects.
+The goal of this framework is to render the task of creating and managing layout objects and templates as easy as possible using readable data attributes, reusable json sources and lightweight code.
 
 The framework will also simplify the creation of mobile specific objects such as gutters, panel layout, icon navigation, buttons, gestures and common breakpoints. 
 
-The javascript component of the exo project will make it easier to manipulate the dom by targeting object attributes recursively.
+Another goal of the xo project is to make it easier to manipulate the dom by targeting object attributes recursively and allowing the user to define what functions should be initialized or not. .
 
 Any collaboration on this project would be greatly appreciated.
 
+NOTE : In the examples section, XO is integrated using require.js. Require.js is not necessary for XO to run.
+
 ## HTML DATA ATTRIBUTES
 
-The core features of XO reside in html tag data-attributes. HTML items can be bound to css styles or components as well as bound to javascript functions and events by adding specific data-attributes and values.
+The core features of XO reside in html tag data-attributes. HTML items are bound to javascript functions and events by adding specific data-attributes, type and values. The data attributes also bind the object to css styles, other components or secondary actions.
 
 ```<div xo-type="objectType" xo-type-value="aValue" xo-trigger"triggersSomething">Foo</div> ```
 
