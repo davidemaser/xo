@@ -20,22 +20,24 @@
 
     <section class="main-content">
       <h1>
-<a id="exo" class="anchor" href="#exo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XO</h1>
+<a id="xo" class="anchor" href="#xo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>XO</h1>
 
-<p>XO is a skeleton framework currently beign built to simplify web site layout. </p>
+<p>XO is a skeleton framework currently being built to simplify web site layout.</p>
 
-<p>The goal of this framework is to render the task of converting layouts that use absolute sizing methods to relative sized grid layout (px to %) by wrapping pages in a global wrapper, overwriting only specific style attributes and applying inherited styles to all child objects.</p>
+<p>The goal of this framework is to render the task of creating and managing layout objects and templates as easy as possible using readable data attributes, reusable json sources and lightweight code.</p>
 
 <p>The framework will also simplify the creation of mobile specific objects such as gutters, panel layout, icon navigation, buttons, gestures and common breakpoints. </p>
 
-<p>The javascript component of the exo project will make it easier to manipulate the dom by targeting object attributes recursively.</p>
+<p>Another goal of the xo project is to make it easier to manipulate the dom by targeting object attributes recursively and allowing the user to define what functions should be initialized or not. .</p>
 
 <p>Any collaboration on this project would be greatly appreciated.</p>
+
+<p>NOTE : In the examples section, XO is integrated using require.js. Require.js is not necessary for XO to run.</p>
 
 <h2>
 <a id="html-data-attributes" class="anchor" href="#html-data-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HTML DATA ATTRIBUTES</h2>
 
-<p>The core features of XO reside in html tag data-attributes. HTML items can be bound to css styles or components as well as bound to javascript functions and events by adding specific data-attributes and values.</p>
+<p>The core features of XO reside in html tag data-attributes. HTML items are bound to javascript functions and events by adding specific data-attributes, type and values. The data attributes also bind the object to css styles, other components or secondary actions.</p>
 
 <p><code>&lt;div xo-type="objectType" xo-type-value="aValue" xo-trigger"triggersSomething"&gt;Foo&lt;/div&gt;</code></p>
 
@@ -57,18 +59,25 @@
 <li>requires five parameters : xo-video-src (required : url), xo-video-format (required : string), xo-video-controls (required : boolean), xo-video-autoplay (required : boolean), xo-video-width (required : numeric), xo-video-height (required : numeric)</li>
 </ul>
 </li>
+<li>data : pulls data from a json datasource specified in the html attribute tag (see getData function documentation)</li>
+<li>modal : creates a modal pop up with content template injected from the xo-template tag  (documentation in preperation)</li>
+<li>form : creates a form from a json file (documentation in preperation)</li>
+<li>dropdown : creates a dropdown from the ul found within the tag</li>
+<li>jsondropdown : creates a data driven dropdown from a json source</li>
+<li>navigation : creates a horizontal navigation pane that can contain images, buttons, icons, forms or dropdowns. The navigation object is data driven json source</li>
+<li>warning : creates a contextual alert message within an xo object or page</li>
 </ul>
 
-<h4>
-<a id="xo-type-param--defines-parameters-of-a-specific-xo-object-type-this-can-be-" class="anchor" href="#xo-type-param--defines-parameters-of-a-specific-xo-object-type-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-type-param : defines parameters of a specific xo-object type. This can be :</h4>
+<h5>
+<a id="xo-type-param--defines-parameters-of-a-specific-xo-object-type-this-can-be-" class="anchor" href="#xo-type-param--defines-parameters-of-a-specific-xo-object-type-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-type-param : defines parameters of a specific xo-object type. This can be :</h5>
 
 <ul>
 <li>left</li>
 <li>right</li>
 </ul>
 
-<h4>
-<a id="xo-state--defines-the-visual-state-of-an-xo-object-this-can-be-" class="anchor" href="#xo-state--defines-the-visual-state-of-an-xo-object-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-state : defines the visual state of an xo-object. This can be :</h4>
+<h5>
+<a id="xo-state--defines-the-visual-state-of-an-xo-object-this-can-be-" class="anchor" href="#xo-state--defines-the-visual-state-of-an-xo-object-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-state : defines the visual state of an xo-object. This can be :</h5>
 
 <ul>
 <li>open (applies to gutters, panels or accordions)</li>
@@ -76,8 +85,8 @@
 <li>hidden (hides the element)</li>
 </ul>
 
-<h4>
-<a id="xo-trigger--defines-an-object-that-triggers-an-event-or-function-this-can-be-" class="anchor" href="#xo-trigger--defines-an-object-that-triggers-an-event-or-function-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-trigger : defines an object that triggers an event or function. This can be :</h4>
+<h5>
+<a id="xo-trigger--defines-an-object-that-triggers-an-event-or-function-this-can-be-" class="anchor" href="#xo-trigger--defines-an-object-that-triggers-an-event-or-function-this-can-be-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-trigger : defines an object that triggers an event or function. This can be :</h5>
 
 <ul>
 <li>tooltip
@@ -93,7 +102,7 @@
 </ul>
 </li>
 <li>modal</li>
-<li>pop-up</li>
+<li>popup</li>
 <li>script</li>
 <li>data</li>
 <li>ajax
@@ -104,8 +113,13 @@
 </li>
 </ul>
 
-<h4>
-<a id="xo-span--defines-the-span-of-the-element-inside-the-parent-tag-this-can-be" class="anchor" href="#xo-span--defines-the-span-of-the-element-inside-the-parent-tag-this-can-be" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-span : defines the span of the element inside the parent tag. This can be</h4>
+<h5>
+<a id="xo-template--defines-a-json-formatted-template-tag-that-can-modify-display-features-of-specific-xo-objects" class="anchor" href="#xo-template--defines-a-json-formatted-template-tag-that-can-modify-display-features-of-specific-xo-objects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-template : defines a JSON formatted template tag that can modify display features of specific xo objects</h5>
+
+<p>(documentation in preparation)</p>
+
+<h5>
+<a id="xo-span--defines-the-span-of-the-element-inside-the-parent-tag-this-can-be" class="anchor" href="#xo-span--defines-the-span-of-the-element-inside-the-parent-tag-this-can-be" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>xo-span : defines the span of the element inside the parent tag. This can be</h5>
 
 <ul>
 <li>full</li>
@@ -114,6 +128,90 @@
 <li>pix(numPX)</li>
 <li>auto</li>
 </ul>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a id="getdata" class="anchor" href="#getdata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>getData</h3>
+
+<p>The getData function allows json data to be queried with a jQuery ajax instruction. The function itself can be used independantly but it will not parse the returned json and will instead paste the block of data as text inside a page object.</p>
+
+<h4>
+<a id="structure" class="anchor" href="#structure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Structure</h4>
+
+<p>The function has 6 parameters of which only 2 are required. When using getData with other functions (see below) some other parameters become required.</p>
+
+<p><code>function (scriptPath, scriptURI, method, identifier, target, flush)</code></p>
+
+<p>Parameters</p>
+
+<ul>
+<li>scriptPath (optional) : the script path is the hierarchical path to where the script returning json resides. Depending on your needs, this can usually be defined in the config under <code>ajaxPathDefault</code>. scriptPath overrides the default configuration in order to give the script more flexibility. Set to null in order to use the default value.</li>
+<li>scriptURI (required) : the script uri is the file that returns the json object. This can be a script or a json file. You can also use a folder structure in this parameter (i.e. <code>folder/folder/file.json</code>) in order to allow subfolder access.</li>
+<li>method : the method parameter defines what the script will do with the returned data once the success function fires. The accepted methods are :
+
+<ul>
+<li>'p' : parse</li>
+<li>'b' : brut</li>
+<li>'s' : save to session</li>
+</ul>
+</li>
+<li>identifier (optional) : this allows you to associate the data returned with an identifier. This is handy when saving the returned data to session or local storage or binding it to a specific xo component on the page. This pararmeter is optional but should be defined if the data is to be retreated later.</li>
+<li>target (optional) : this parameter defines an xo object as the host for the returned data. This parameter is only required when passing the returned json to the parseData method.</li>
+<li>flush (optional) : this parameter is used when saving and loading data to and from a session or local storage object. It defines whether the storage object is to be flushed once the data is recovered. See the <code>getDataFromSession()</code> function documentation to learn more about this.</li>
+</ul>
+
+<h3>
+<a id="savedatatosession" class="anchor" href="#savedatatosession" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>saveDataToSession</h3>
+
+<p>The saveDataToSession function allows other functions to pass and save data to session storage that can be queried by other functions using a unique id or key + id combination.</p>
+
+<h4>
+<a id="structure-1" class="anchor" href="#structure-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Structure</h4>
+
+<p>The function has 4 parameters, of which only 2 are required.</p>
+
+<p><code>function (data, method, key, id)</code></p>
+
+<p>Parameters</p>
+
+<ul>
+<li>data (required) : this defines the data that is passed to the function (in Json format). If we stay within the scope of the XO Framework, the data will be passed via the getData function and, if the method selected is save, will be saved to session. The data that is used can be converted to string or parsed prior to being saved as the session object will only save text and not the json object itself.</li>
+<li>method (required) : the method parameter defines how the data is to be treated. Currently XO only supports sessionStorage with a localStorage fallback. The available methods are :
+
+<ul>
+<li>'s' : sessionStorage</li>
+</ul>
+</li>
+<li>key (optional) : the key parameter allows you to define a specific key or prefix to your localStorage object. If for example you are working on a project name FOO, you can define your key to be FOO-. All your stored data will be formated as FOO-xxxx. The key can be defined as an XO config or set each time the function is called. If key is set to null or left empty, the sessionStorageKey config item will be used.</li>
+<li>id (optional) : the id parameter allows you to append a unique value to identify stored data. Some of XO's functions define the key and id combination automatically based on an objects data attributes but if you use this function alone or are extending the framework, you can pass unique values.</li>
+</ul>
+
+<p>Note : If the users navigator doesn't support storage, a log message will be fired.</p>
+
+<h3>
+<a id="getdatafromsession" class="anchor" href="#getdatafromsession" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>getDataFromSession</h3>
+
+<p>The getDataFromSession function allows other functions to recover and use data that has been saved to a session object in json format. This allows you to create persistent data objects that only need to be queried once. The data that is returned by the function can then be manipulated or queried as you wish.</p>
+
+<h4>
+<a id="structure-2" class="anchor" href="#structure-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Structure</h4>
+
+<p>The function has 4 parameters, of which only 2 are required.</p>
+
+<p><code>function (key, id, parse, flush)</code></p>
+
+<p>Parameters</p>
+
+<ul>
+<li>key (required) : the key parameter allows you to define the specific key that you are using as a prefix for your session data objects. Most of XO's functions will use the sessionStorageKey config item when collecting data.</li>
+<li>id (required) : the id parameter is the unique value that is appended to the key to create a data identifier. You can then query a specific storage object by calling it by name. Most of XO's functions will use the html items xo-object-name to map a data source to a dom object.</li>
+<li>parse (optional:boolean) : the parse parameter allows you to define whether or not you want the returned data to be parsed as JSON and, therefore, converted to an object.</li>
+<li>flush (optional:boolean) : the flush parameter allows you to define whether you want the session storage item to be removed once the data has been collected. This can be useful if space is an issue and where persistence is not necessary.</li>
+</ul>
+
+<p>Note : If the users navigator doesn't support storage this function will return null.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/davidemaser/xo">XO</a> is maintained by <a href="https://github.com/davidemaser">davidemaser</a>.</span>
