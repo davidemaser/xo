@@ -36,18 +36,18 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - jsondropdown : creates a data driven dropdown from a json source
 - navigation : creates a horizontal navigation pane that can contain images, buttons, icons, forms or dropdowns. The navigation object is data driven json source
 
-#### xo-type-param : defines parameters of a specific xo-object type. This can be :
+##### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
 - left
 - right
 
-#### xo-state : defines the visual state of an xo-object. This can be :
+##### xo-state : defines the visual state of an xo-object. This can be :
 
 - open (applies to gutters, panels or accordions)
 - closed (applies to gutters, panels or accordions)
 - hidden (hides the element)
 
-#### xo-trigger : defines an object that triggers an event or function. This can be :
+##### xo-trigger : defines an object that triggers an event or function. This can be :
 
 - tooltip
   - requires one parameter : xo-tooltip-text
@@ -60,7 +60,7 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - ajax
   - requires one parameter : xo-ajax-url
 
-#### xo-span : defines the span of the element inside the parent tag. This can be
+##### xo-span : defines the span of the element inside the parent tag. This can be
 
 - full
 - half
