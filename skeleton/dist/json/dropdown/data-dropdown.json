@@ -7,7 +7,7 @@
       "xotype":"gutter-toggle",
       "xostate":"open",
       "xoobjectname":"left-gutter",
-      "xoparent":"parent"
+      "xoparent":"left-gutter"
     },
     {
       "content":"Second item toggles modal",

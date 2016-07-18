@@ -8,7 +8,7 @@
       "id":"id",
       "xostate":"open",
       "xotype":"gutter-toggle",
-      "xoparent":"parent"
+      "xoparent":"left-gutter"
     },
     {
       "type":"dropdown",

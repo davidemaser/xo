@@ -37,6 +37,9 @@ var xo = {
          initialise specific components and widgets
          as needed.
          */
+        init:{
+            data:true
+        },
         initData: false,
         initDropdowns: true,
         initForms: true,
@@ -371,41 +374,64 @@ var xo = {
             }
         }
     },
-    gutter: function (method) {
+    gutter: function (method,parent) {
         /*
-        creates an animatable gutter instance out of
-        any html element. XO parameters define where
-        it is placed and what it's initial state is
-        to be.
+        creates an animatable gutter instance out of any html element. XO parameters
+        define where it is placed and what it's initial state is to be. You can place
+        as many XO gutters on your page as long as you make sure to give each one a
+        unique xo-object-name value. Toggles for a particular gutter can be created
+        by adding the xo-parent attribute
+        i.e. <a xo-type="gutter-toggle" xo-parent="left-gutter">
          */
+        var _baseObj = '[xo-type="gutter"]';
         //check if a gutter exists
-        var _obj = '[xo-type="gutter"]',
-            _filterObj = '[xo-type="gutter-filter"]',
-            _filterCode = '<div xo-type="gutter-filter"></div>';
-        if ($(_obj).length > 0) {
-            var _state = $(_obj).attr('xo-state'),
-                _width = $(_obj).width(),
-                _param = $(_obj).attr('xo-type-param');
-        }
-        if (method == 'init') {
-            $(_obj).prepend('<div xo-type="gutter-toggle">X</div>');
-            if (_state == 'closed') {
-                $(_obj).css('left', -_width);
+        if($(_baseObj).length !== 0) {
+            var _obj = parent !== null && parent !== undefined ? _baseObj + '[xo-object-name="' + parent + '"]' : _baseObj;
+            var _filterObj = '[xo-type="gutter-filter"]',
+                _filterCode = '<div xo-type="gutter-filter" xo-parent="' + parent + '"></div>';
+            if ($(_obj).length > 0) {
+                var _state = $(_obj).attr('xo-state'),
+                    _width = $(_obj).width(),
+                    _param = $(_obj).attr('xo-type-param');
             }
-        } else {
-            if (_state == 'open') {
-                $(_obj).animate({left: -_width}, xo.config.animationSpeed,function(){
-                    $(_obj).attr('xo-state', 'closed')
+            if (method == 'init') {
+                /*
+                 loop through each gutter object to give each of
+                 them and their enclosed close buttons and opacity
+                 filters the correct values and parameters
+                 */
+                $(_baseObj).each(function () {
+                    var _p = $(this).attr('xo-object-name');
+                    $(this).prepend('<div xo-type="gutter-toggle" xo-parent="' + _p + '">X</div>');
+                    if ($(this).attr('xo-state') == 'closed') {
+                        $(this).css($(this).attr('xo-type-param'), -_width);
+                    }
                 });
-                $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
-                    $(_filterObj).remove();
-                });
+            } else {
+                if (_state == 'open') {
+                    if (_param == 'left') {
+                        $(_obj).animate({left: -_width}, xo.config.animationSpeed, function () {
+                            $(_obj).attr('xo-state', 'closed')
+                        });
+                    } else if (_param == 'right') {
+                        $(_obj).animate({right: -_width}, xo.config.animationSpeed, function () {
+                            $(_obj).attr('xo-state', 'closed')
+                        });
+                    }
+                    $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
+                        $(_filterObj).remove();
+                    });
 
-            } else if (_state == 'closed') {
-                $(_obj).attr('xo-state', 'open');
-                $(_obj).animate({left: "0"}, xo.config.animationSpeed);
-                $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
-                $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
+                } else if (_state == 'closed') {
+                    if (_param == 'left') {
+                        $(_obj).animate({left: "0"}, xo.config.animationSpeed);
+                    } else if (_param == 'right') {
+                        $(_obj).animate({right: "0"}, xo.config.animationSpeed);
+                    }
+                    $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
+                    $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
+                    $(_obj).attr('xo-state', 'open');
+                }
             }
         }
     },
@@ -714,6 +740,13 @@ var xo = {
         }
     },
     dropDownInit:function(){
+        /*
+         initializes the display of dropdown navigation bars as needed.
+         Feature can be enabled in xo.config. dropDownInit cycles
+         through the page dom to find xo-type dropdown objects
+         and displays the dropdowns in place. Dropdowns can be static
+         or json.
+         */
         $('[xo-type="dropdown"]').each(function () {
             var _buttonLabel = $(this).attr('xo-dropdown-button'),
                 _objectName = $(this).attr('xo-object-name');
@@ -727,6 +760,12 @@ var xo = {
         })
     },
     dropDownBuilder:function(button,object,type,source){
+        /**
+         * button @type=string : button text
+         * object @type=string : page dom element
+         * type @type=string : either static or json
+         * source @type= string : json source url
+         */
         switch(type){
             case 'static':
                 var _this = '[xo-object-name="'+object+'"]',
@@ -735,10 +774,10 @@ var xo = {
                 $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
                 break;
             case 'json':
-                var _this = '[xo-object-name="'+object+'"]',
+                    _this = '[xo-object-name="'+object+'"]',
                     _initialState = $(_this).attr('xo-state'),
-                    _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>',
-                    _tempData = xo.getData(null, source, 'b', object,false),
+                    _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>';
+                var _tempData = xo.getData(null, source, 'b', object,false),
                     _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+object),
                     _dropdownHTML = '';
                 if(_sessionSourceLoaded !== true) {
@@ -844,6 +883,7 @@ var xo = {
                             _navCode += '<div class="nav-icon"';
                             _navCode += _tempArray[i].xostate !== null && _tempArray[i].xostate !== "undefined" && _tempArray[i].xostate !== undefined ? ' xo-state="' + _tempArray[i].xostate + '"' : '';
                             _navCode += _tempArray[i].xotype !== null && _tempArray[i].xotype !== "undefined" && _tempArray[i].xotype !== undefined ? ' xo-type="' + _tempArray[i].xotype + '"' : '';
+                            _navCode += _tempArray[i].xoparent !== null && _tempArray[i].xoparent !== "undefined" && _tempArray[i].xoparent !== undefined ? ' xo-parent="' + _tempArray[i].xoparent + '"' : '';
                             _navCode += '>';
                             _navCode += _tempArray[i].class !== null && _tempArray[i].class !== "undefined" && _tempArray[i].class !== undefined ? '<span class="'+_tempArray[i].class+'"></span>' : '';
                             _navCode += '</div>';
@@ -946,15 +986,18 @@ var xo = {
             var goToUrl = $(this).attr('xo-trigger-url');
             xo.trigger('direct', goToUrl, null);
         }).on('click', '[xo-type="gutter-toggle"]', function () {
-            xo.gutter(null);
+            var a = $(this).attr('xo-parent') || null;
+            xo.gutter(null,a);
         }).on('click', '[xo-trigger="gutter-toggle"]', function () {
-            xo.gutter(null);
+            var a = $(this).attr('xo-parent') || null;
+            xo.gutter(null,a);
         }).on('click', '[xo-type="data-toggle"]', function () {
             xo.layoutToPage();
         }).on('click', '[xo-trigger="data-toggle"]', function () {
             xo.layoutToPage();
         }).on('click', '[xo-type="gutter-filter"]', function () {
-            xo.gutter(null);
+            var a = $(this).attr('xo-parent') || null;
+            xo.gutter(null,a);
         }).on('click', '[xo-type="modal-toggle"]', function () {
             if ($(this).attr('xo-data-template') !== "") {
                 xo.modal(null, $(this).attr('xo-data-template'))
