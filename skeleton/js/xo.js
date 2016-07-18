@@ -892,7 +892,7 @@ var xo = {
                             _navCode += '</form>';
                             break;
                         case 'dropdown':
-                            _navCode += '<div class="nav-dropdown">';
+                            _navCode += '<div class="nav-dropdown" xo-state="closed">';
                             _navCode += '<button xo-type="'+_tempArray[i].xotype+'" xo-parent="'+_tempArray[i].xoparent+'" class="'+_tempArray[i].class+'">'+_tempArray[i].label+'</button>';
                             if(_tempArray[i].node !== null && _tempArray[i].node !== undefined && _tempArray[i].node !== "undefined" && _tempArray[i].node !== '') {
                                 /*
@@ -964,11 +964,13 @@ var xo = {
         }).on('click','[xo-type="dropdown-button"]',function(){
             var _target = $(this).attr('xo-parent'),
                 _object = 'ul[xo-object-name="' + _target + '"]',
-                _clickedState = $(_object).attr('xo-state');
+                _clickedState = $(_object).attr('xo-state'),
+                _parentSize = $(this).parent().width();
+            console.log(_parentSize);
             if(_clickedState == 'open') {
                 $(_object).attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
             }else if(_clickedState == 'closed') {
-                $(_object).attr('xo-state', 'open').parent().attr('xo-state', 'open');
+                $(_object).attr('xo-state', 'open').css('width',_parentSize).parent().attr('xo-state', 'open');
             }
         }).on('click','[xo-type="warning"]',function(){
             $(this).slideToggle(500);
