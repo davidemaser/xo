@@ -32,6 +32,7 @@ var xo = {
         domParentNode: 'body',
         defaultXOWrapper: 'section',
         defaultXOPage: 'index',
+        defaultStickyOffset : 300,
         /*
          initialise specific components and widgets
          as needed.
@@ -44,6 +45,7 @@ var xo = {
         initNav: true,
         initPanel: true,
         initVideo: false,
+        initSticky: true,
         /*
         app is running so set a flag and a key
         to force reinitialisation.
@@ -85,6 +87,7 @@ var xo = {
             xo.config.initModal == true ? xo.modal('init') : null;
             xo.config.initNav == true ? xo.navInit() : null;
             xo.config.initPanel == true ? xo.panel() : null;
+            xo.config.initSticky == true ? xo.sticky() : null;
             xo.config.initVideo == true ? xo.video() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
@@ -283,6 +286,17 @@ var xo = {
         } else if (method == 'delete') {
             $('.tooltip').remove();
         }
+    },
+    sticky:function(){
+        $(window).scroll(function(){
+            var _stickyObj = $('[xo-span="sticky"]');
+            if ($(window).scrollTop() >= xo.config.defaultStickyOffset) {
+                _stickyObj.addClass('sticky-fixed');
+            }
+            else {
+                _stickyObj.removeClass('sticky-fixed');
+            }
+        });
     },
     panel: function () {
         $('[xo-type="panel-group"]').each(function () {
