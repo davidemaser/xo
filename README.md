@@ -72,6 +72,7 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - pct(num%)
 - pix(numPX)
 - auto
+- sticky : creates a sticky bar who's view persists on the page
 
 ## Documentation
 
