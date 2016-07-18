@@ -272,6 +272,8 @@ var xo = {
         message = message || null;
         if (type == 'direct') {
             window.location = passValue;
+        } else if (type == 'kill-modal'){
+            xo.modal('kill-modal',passValue);
         } else if (type == 'prompt') {
             xo.prompt(message, passValue);
         }
@@ -311,67 +313,99 @@ var xo = {
             })
         });
     },
-    getTemplateObjects: function (type, template) {
-        var templateArray = template.split(',');
+    getTemplateObjects: function (type, template,parent) {
+        /*
+        Template items are wrapped in double curly brackets ({{}})
+        Comma (,) splits template items.
+        Brackets ([]) delimit action items.
+        Double hyphens (--) split action items.
+        Items with multiple children are split with ampersand (@)
+        Double bar symbols (||) split action items.
+        Action items can
+        var template = '{{title:This is the title}},{{body:This is the body}},{{buttons:Yes[action=xo-trigger--url=here.html]@No[action=xo-trigger--url=null]}}'
+         */
+        var _templateArray = template.split(','),
+            _brutObject = [],
+            _itemHTML = '';
+        for(var i =0,ii=_templateArray.length;i<ii;i++){
+            _brutObject.push({a:_templateArray[i].replace('{{','').replace('}}','').split(':')[0],b:_templateArray[i].replace('{{','').replace('}}','').split(':')[1]});
+        }
         switch (type) {
             case 'modal':
-                var t = templateArray[0],
-                    b = templateArray[1],
-                    bt = templateArray[2];
-                if (bt.indexOf('/') > -1) {
-                    var buttonArray = bt.split('/'),
-                        bt1 = buttonArray[0],
-                        bt2 = buttonArray[1];
+                for(var j=0,jj=_brutObject.length;j<jj;j++){
+                    if(_brutObject[j].a.indexOf('buttons')>-1){
+                        var a = _brutObject[j].b.split('@');
+                        if(a.length>1){
+                            _itemHTML += '<div class="xo modal buttons">';
+                            for(var k=0,kk=a.length;k<kk;k++){
+                                var _tVal = a[k].split('action=')[1].split('--'),
+                                    _tValA = _tVal[0];
+                                    if(_tVal.length > 1) {
+                                        var _tValB = _tVal[1].split('=')[0];
+                                    }
+                                    var _tMethod = _tValA+'="'+_tValB+'"',
+                                    _tValue = _tValA+'-'+_tValB;
+                                if(a[k].indexOf('url') > -1){
+                                    var _tAction = a[k].split('url=')[1].split(']')[0] !== null && a[k].split('url=')[1].split(']')[0] !== 'null' ? a[k].split('url=')[1].split(']')[0] : parent;
+                                }else if(a[k].indexOf('modal') > -1){
+                                    _tAction = a[k].split('modal=')[1].split(']')[0] !== null && a[k].split('modal=')[1].split(']')[0] !== 'null' ? a[k].split('modal=')[1].split(']')[0] : parent;
+                                }
+                                _itemHTML += '<button ';
+                                _itemHTML += _tMethod+' ';
+                                _itemHTML += _tValue+'="'+_tAction+'"';
+                                _itemHTML += '>'+a[k].split('[')[0]+'</button>';
+                                console.log(_tMethod+' : '+_tValue+' : '+_tAction);
+                            }
+                            _itemHTML += '</div>';
+                        }
+                    }else{
+                        _itemHTML += '<div class="xo modal '+_brutObject[j].a+'">' + _brutObject[j].b + '</div>';
+                    }
                 }
-                var modalHTML = '<div class="xo modal title">' + t + '</div>';
-                modalHTML += '<div class="xo modal body">' + b + '</div>';
-                modalHTML += '<div class="xo modal buttons">';
-                if (Array.isArray(buttonArray)) {
-                    modalHTML += '<button>' + bt1 + '</button>';
-                    modalHTML += '<button>' + bt2 + '</button>';
-                } else {
-                    modalHTML += '<button>' + bt + '</button>';
-                }
-                modalHTML += '</div>';
-                return modalHTML;
+                return _itemHTML;
                 break;
             case 'popup':
                 break;
         }
-
     },
     modal: function (method, template) {
-        var _obj = '[xo-type="modal"]',
-            _filterObj = '[xo-type="modal-filter"]',
-            _filterCode = '<div xo-type="modal-filter"></div>',
-            _inlineTemplate = $(_obj).attr('xo-data-template');
-        if (typeof _inlineTemplate !== typeof undefined && _inlineTemplate !== false) {
-            $(_obj).contents().not('[xo-type="modal-toggle"]').remove();
-            $(_obj).append(xo.getTemplateObjects('modal', _inlineTemplate));
-        } else if (template !== typeof undefined && template !== false) {
-            $(_obj).contents().not('[xo-type="modal-toggle"]').remove(); //empty modal content to avoid duplicates.
-            $(_obj).append(xo.getTemplateObjects('modal', template));
-        }
-        if ($(_obj).length > 0) {
-            var _state = $(_obj).attr('xo-state');
-        }
-        if (method == 'init') {
-            $(_obj).prepend('<div xo-type="modal-toggle">X</div>');
-            $(_obj).wrap('<div class="modal-wrapper" xo-state="closed">');
-        } else {
-            if (_state == 'open') {
-                $(_obj).attr('xo-state', 'closed');
-                $(_obj).parent().attr('xo-state', 'closed');
-                $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
-                    $(_filterObj).remove();
-                });
-            } else if (_state == 'closed') {
-                $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
-                $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed, function () {
-                    $(_obj).attr('xo-state', 'open');
-                    $(_obj).parent().attr('xo-state', 'open');
-                });
+        if(method !== 'kill-modal') {
+            var _obj = '[xo-type="modal"]',
+                _objName = $(_obj).attr('xo-object-name'),
+                _filterObj = '[xo-type="modal-filter"]',
+                _filterCode = '<div xo-type="modal-filter"></div>',
+                _inlineTemplate = $(_obj).attr('xo-data-template');
+            if (typeof _inlineTemplate !== undefined && _inlineTemplate !== false) {
+                $(_obj).contents().not('[xo-type="modal-toggle"]').remove();
+                $(_obj).append(xo.getTemplateObjects('modal', _inlineTemplate, _objName));
+            } else if (template !== typeof undefined && template !== false) {
+                $(_obj).contents().not('[xo-type="modal-toggle"]').remove(); //empty modal content to avoid duplicates.
+                $(_obj).append(xo.getTemplateObjects('modal', template));
             }
+            if ($(_obj).length > 0) {
+                var _state = $(_obj).attr('xo-state');
+            }
+            if (method == 'init') {
+                $(_obj).prepend('<div xo-type="modal-toggle">X</div>');
+                $(_obj).wrap('<div class="modal-wrapper" xo-state="closed">');
+            } else {
+                if (_state == 'open') {
+                    $(_obj).attr('xo-state', 'closed');
+                    $(_obj).parent().attr('xo-state', 'closed');
+                    $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
+                        $(_filterObj).remove();
+                    });
+                } else if (_state == 'closed') {
+                    $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
+                    $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed, function () {
+                        $(_obj).attr('xo-state', 'open');
+                        $(_obj).parent().attr('xo-state', 'open');
+                    });
+                }
+            }
+        }else{
+            $('[xo-object-name="'+template+'"]').attr('xo-state','closed').parent().attr('xo-state','closed');
+            $('[xo-type="modal-filter"]').remove();
         }
     },
     gutter: function (method,parent) {
@@ -981,8 +1015,12 @@ var xo = {
         }).on('mouseout', '[xo-trigger="tooltip"]', function () {
             xo.tooltip(null, 'delete');
         }).on('click', '[xo-trigger="url"]', function () {
-            var goToUrl = $(this).attr('xo-trigger-url');
-            xo.trigger('direct', goToUrl, null);
+            var _goToUrl = $(this).attr('xo-trigger-url');
+            xo.trigger('direct', _goToUrl, null);
+        }).on('click', '[xo-trigger-close="modal"]', function () {
+            xo.modal();
+            /*var _targetModal = $(this).attr('xo-trigger-close-modal');
+            xo.trigger('kill-modal', _targetModal, null);*/
         }).on('click', '[xo-type="gutter-toggle"]', function () {
             var a = $(this).attr('xo-parent') || null;
             xo.gutter(null,a);

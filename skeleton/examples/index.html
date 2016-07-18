@@ -30,11 +30,11 @@
         <div xo-type="gutter" xo-type-param="left" xo-state="closed" xo-object-name="left-gutter">
             <div>Here's a gutter</div>
         </div>
-        <div xo-type="modal" xo-type-param="center" xo-state="closed" xo-object-name="main-modal" xo-data-template="This is the title,This is the body,Yes/No">
+        <div xo-type="modal" xo-type-param="center" xo-state="closed" xo-object-name="main-modal" xo-data-template="{{title:This is the title}},{{body:This is the body}},{{buttons:Yes[action=xo-trigger--url=here.html]@No[action=xo-trigger-close--modal=null]}}">
             this is a modal
             </div>
         <a xo-type="gutter-toggle" xo-parent="left-gutter">Toggle Left Gutter</a><a xo-type="gutter-toggle" xo-parent="right-gutter">Toggle Right Gutter</a>
-        <a xo-type="modal-toggle" xo-parent="main-modal" xo-data-template="This is the title,This is the body,Yes/No">Toggle Modal</a>
+        <a xo-type="modal-toggle" xo-parent="main-modal">Toggle Modal</a>
         <a xo-type="data-toggle">Toggle Data Elements</a>
         <a xo-exclude="small" xo-trigger="tooltip" xo-tooltip-text="this is the tooltip text">this has a tooltip</a>
         <div xo-type="video" xo-video-src="http://www.w3schools.com/html/movie.mp4" xo-video-format="mp4" xo-video-controls="true" xo-video-autoplay="true"></div>

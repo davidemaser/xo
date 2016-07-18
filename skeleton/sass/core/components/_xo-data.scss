@@ -4,13 +4,13 @@
       margin: 1em 0;
     }
     [xo-type="gutter-toggle"]{
-      position: inherit;
-      padding:inherit;
+      position: inherit!important;
+      padding:inherit!important;
     }
     [xo-type="modal-toggle"]{
-      position: inherit;
-      padding:inherit;
-      color:inherit;
+      position: inherit!important;
+      padding:inherit!important;
+      color:inherit!important;
     }
   }
   [xo-type="data-toggle"] {
@@ -22,7 +22,7 @@
     cursor:pointer;
   }
   a[xo-type="data-toggle"] {
-    color:inherit;
+    color:inherit!important;
     position:relative;
     padding:5px;
     cursor:pointer;

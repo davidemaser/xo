@@ -17,27 +17,27 @@
       "id":"id",
       "xotype":"dropdown-button",
       "xostate":"open",
-      "xoobjectname":"left-gutter",
+      "xoobjectname":null,
       "xoparent":"parent",
       "nodes":[
         {
           "type":"line",
-          "label":"Second item toggles modal",
+          "label":"First item toggles left gutter",
           "class":"class",
           "id":"id",
-          "xotype":"modal-toggle",
+          "xotype":"gutter-toggle",
           "xostate":"open",
           "xoobjectname":"left-gutter",
-          "xoparent":"parent"
+          "xoparent":"left-gutter"
         },{
           "type":"line",
-          "label":"Second item toggles modal",
+          "label":"Second item toggles right gutter",
           "class":"class",
           "id":"id",
-          "xotype":"modal-toggle",
+          "xotype":"gutter-toggle",
           "xostate":"open",
-          "xoobjectname":"left-gutter",
-          "xoparent":"parent"
+          "xoobjectname":"right-gutter",
+          "xoparent":"right-gutter"
         },
         {
           "type":"seperator"

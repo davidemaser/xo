@@ -1,7 +1,7 @@
 {
   "dropdown": [
     {
-      "content":"First item toggles gutter",
+      "content":"First item toggles left gutter",
       "class":"class",
       "id":"id",
       "xotype":"gutter-toggle",
@@ -10,21 +10,19 @@
       "xoparent":"left-gutter"
     },
     {
-      "content":"Second item toggles modal",
+      "content":"Second item toggles right gutter",
+      "class":"class",
+      "id":"id",
+      "xotype":"gutter-toggle",
+      "xostate":"open",
+      "xoobjectname":"right-gutter",
+      "xoparent":"right-gutter"
+    },
+    {
+      "content":"Third item toggles modal",
       "class":"class",
       "id":"id",
       "xotype":"modal-toggle",
-      "xostate":"open",
-      "xoobjectname":"left-gutter",
-      "xoparent":"parent"
-    },
-    {
-      "content":"Third item triggers url",
-      "class":"class",
-      "id":"id",
-      "xotype":null,
-      "xotrigger":"url",
-      "xotriggerurl":"page.html",
       "xostate":"open",
       "xoobjectname":"left-gutter",
       "xoparent":"parent"
