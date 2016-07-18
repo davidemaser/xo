@@ -4,8 +4,7 @@
 }
 .xo{
   [xo-span="sticky"]{
-    height:50px;
-    box-shadow: 0px 5px 21px 0px rgba(0, 0, 0, 0.5);
+    height:auto;
     &.sticky-fixed {
       position: fixed;
       top:0;
@@ -14,6 +13,7 @@
       animation-name: fadein;
       animation-duration: 1s;
       z-index:99999;
+      box-shadow: 0 5px 21px 0 rgba(0, 0, 0, 0.5);
     }
   }
 }
