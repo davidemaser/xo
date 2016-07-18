@@ -1,4 +1,7 @@
 .xo {
+  [xo-trigger="tooltip"]{
+    cursor: pointer;
+  }
   .tooltip{
     position:absolute;
     z-index: 99999;

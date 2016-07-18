@@ -819,7 +819,6 @@ var xo = {
         $('[xo-type="navigation"]').each(function () {
             var _objectName = $(this).attr('xo-object-name'),
                 _objectSource = $(this).attr('xo-data-source');
-            console.log(_objectSource+' : '+_objectName);
             xo.navBuilder(_objectSource, _objectName);
         });
     },
@@ -943,7 +942,6 @@ var xo = {
                                  */
                                 _navCode += '<ul xo-object-name="'+_tempArray[i].xoparent+'" xo-state="closed">';
                                 for (var j = 0, jj = _tempArray[i].node.length; j < jj; j++) {
-                                    console.log(_tempArray[i].node[j].nodetype);
                                     if(_tempArray[i].node[j].nodetype == 'line'){
                                         _navCode += '<li xo-type="'+_tempArray[i].node[j].nodexotype+'" xo-state="'+_tempArray[i].node[j].nodexostate+'" xo-object-name="'+_tempArray[i].node[j].nodexoobjectname+'" xo-parent="'+_tempArray[i].node[j].nodexoparent+'" class="'+_tempArray[i].node[j].nodeclass+'" id="'+_tempArray[i].node[j].nodeid+'">'+_tempArray[i].node[j].nodecontent+'</li>';
                                     }else if(_tempArray[i].node[j].nodetype == 'seperator'){
@@ -1009,7 +1007,6 @@ var xo = {
                 _object = 'ul[xo-object-name="' + _target + '"]',
                 _clickedState = $(_object).attr('xo-state'),
                 _parentSize = $(this).parent().width();
-            console.log(_parentSize);
             if(_clickedState == 'open') {
                 $(_object).attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
             }else if(_clickedState == 'closed') {
