@@ -1114,6 +1114,10 @@ var xj = jQuery.noConflict(),
         }).on('click', '[xo-trigger="gutter-toggle"]', function () {
             var a = xj(this).attr('xo-parent') || null;
             xo.gutter(null,a);
+        }).on('click', '[xo-trigger="poster"]', function () {
+            xo.poster();
+        }).on('click', '[xo-type="poster-toggle"]', function () {
+            xo.poster();
         }).on('click', '[xo-type="data-toggle"]', function () {
             xo.layoutToPage();
         }).on('click', '[xo-trigger="data-toggle"]', function () {
