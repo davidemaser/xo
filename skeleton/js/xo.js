@@ -48,9 +48,10 @@ var xj = jQuery.noConflict(),
             modal: true,
             nav: true,
             panel: true,
-            video: false,
+            placeholders:false,
+            poster:false,
             sticky: true,
-            placeholders:false
+            video: false
         },
         /*
         app is running so set a flag and a key
@@ -93,6 +94,8 @@ var xj = jQuery.noConflict(),
             xo.config.init.modal == true ? xo.modal('init') : null;
             xo.config.init.nav == true ? xo.navInit() : null;
             xo.config.init.panel == true ? xo.panel() : null;
+            xo.config.init.placeholders == true ? xo.placeholder() : null;
+            xo.config.init.poster == true ? xo.poster() : null;
             xo.config.init.sticky == true ? xo.sticky() : null;
             xo.config.init.video == true ? xo.video() : null;
             xo.initMouseEvents();
@@ -1029,6 +1032,7 @@ var xj = jQuery.noConflict(),
         var _obj = xj('[xo-type="poster"]'),
             _objName = _obj.attr('xo-object-name'),
             _objParent = _obj.attr('xo-parent'),
+            _objState = _obj.attr('xo-state'),
             _posterBackground = _obj.attr('xo-poster-source'),
             _posterSize = _obj.attr('xo-poster-size'),
             _posterProportion = _obj.attr('xo-type-param'),
@@ -1087,7 +1091,7 @@ var xj = jQuery.noConflict(),
             'background-repeat': 'no-repeat',
             'background-size': 'cover'
         });
-        //<div xo-type="poster" xo-poster-source="https://riflescopesinfo.files.wordpress.com/2013/12/large-parallax-adjustment-ring.jpg" xo-poster-size="1200,800" xo-type-param="fullscreen" xo-state="open" xo-object-name="poster1"></div>
+        _obj.attr('xo-state') == 'closed' ? _obj.attr('xo-state','open') : _obj.attr('xo-state','closed');
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
