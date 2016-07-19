@@ -39,6 +39,8 @@
       display:none;
     }
     ul {
+      position:absolute;
+      z-index: 9999;
       list-style: none;
       -webkit-padding-start: 0;
       padding: 10px 0;
