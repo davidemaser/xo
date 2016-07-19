@@ -8,6 +8,15 @@
     background: #ddd;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     z-index:99999;
+    @include mobile {
+      width:85%;
+    }
+    @include phablet {
+      width:80%;
+    }
+    @include tablet {
+       width:75%;
+     }
   }
   [xo-type="gutter-toggle"]{
     cursor:pointer;

@@ -452,13 +452,15 @@ var xj = jQuery.noConflict(),
                  filters the correct values and parameters
                  */
                 xj(_baseObj).each(function () {
-                    var _p = xj(this).attr('xo-object-name');
+                    var _p = xj(this).attr('xo-object-name'),
+                        _width = xj(_obj).width();
                     xj(this).prepend('<div xo-type="gutter-toggle" xo-parent="' + _p + '">X</div>');
                     if (xj(this).attr('xo-state') == 'closed') {
                         xj(this).css(xj(this).attr('xo-type-param'), -_width);
                     }
                 });
             } else {
+                _width = xj(_obj).width();
                 if (_state == 'open') {
                     if (_param == 'left') {
                         xj(_obj).animate({left: -_width}, xo.config.animationSpeed, function () {
