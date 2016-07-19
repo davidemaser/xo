@@ -1041,9 +1041,9 @@ var xj = jQuery.noConflict(),
         poster text can have 7 parameters
         xo-type-param="font-size,color,text align,background color,box width,box height,padding"
         font-size can be numeric or string (10 or 10px or 1em)
-        color can be hex or rgb (#000 or rgb(0,0,0,1)
+        color can be hex or rgb (#000 or rgb(0,0,0,1) or rgba(0,0,0,1))
         text align can be a string (center, left...)
-        background color can be hex or rgb (#000 or rgb(0,0,0,1)
+        background color can be hex or rgb (#000 or rgb(0,0,0) or rgba(0,0,0,0.7))
         box width can be numeric or string (10 or 10px or 1em)
         box height can be numeric or string (10 or 10px or 1em)
         padding can be either a general value (i.e 0) or specific values (i.e. 0 10px 5ps 15px)
@@ -1061,9 +1061,11 @@ var xj = jQuery.noConflict(),
                 var _textParams = xj(this).attr('xo-type-param'),
                     _textSize = _textParams.split(',')[0] !== 'x' ? _textParams.split(',')[0] : null,
                     _textColor = _textParams.split(',')[1] !== 'x' ? _textParams.split(',')[1] : null,
-                    _textAlign = _textParams.split(',')[2] !== 'x' ? _textParams.split(',')[2] : null,
-                    _textBoxColor = _textParams.split(',')[3] !== 'x' ? _textParams.split(',')[3] : null,
-                    _textBoxWidth = _textParams.split(',')[4] !== 'x' ? _textParams.split(',')[4] : null,
+                    _textAlign = _textParams.split(',')[2] !== 'x' ? _textParams.split(',')[2] : null;
+                        if(_textParams.split(',')[3].indexOf('rgb') > -1){
+                            var _textBoxColor = _textParams.split(',')[3] !== 'x' ? _textParams.split(',')[3].replace(/-/g,',') : null;
+                        }
+                    var _textBoxWidth = _textParams.split(',')[4] !== 'x' ? _textParams.split(',')[4] : null,
                     _textBoxHeight = _textParams.split(',')[5] !== 'x' ? _textParams.split(',')[5] : null,
                     _textBoxPadding = _textParams.split(',')[6] !== 'x' ? _textParams.split(',')[6] : null;
                 xj(this).css({
@@ -1091,7 +1093,7 @@ var xj = jQuery.noConflict(),
             'background-repeat': 'no-repeat',
             'background-size': 'cover'
         });
-        _obj.attr('xo-state') == 'closed' ? _obj.attr('xo-state','open') : _obj.attr('xo-state','closed');
+        _objState == 'closed' ? _obj.attr('xo-state','open') : _obj.attr('xo-state','closed');
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
