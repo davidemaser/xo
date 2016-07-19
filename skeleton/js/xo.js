@@ -15,7 +15,8 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var xo = {
+var xj = jQuery.noConflict(),
+    xo = {
     config: {
         loadPathDefault: '../dist/js/',
         loadPathExtension: '.js',
@@ -114,17 +115,17 @@ var xo = {
     },
     pageSetUp: function (domItem, domPrefix, xoMin, xoClass) {
         if (xo.config.appRunning !== true) {
-            $(domItem).attr({
+            xj(domItem).attr({
                 'xo-prefix': domPrefix,
                 'xo-min': xoMin
             }).addClass(xoClass);
-            $(xo.config.domParentNode).contents().wrapAll('<' + xo.config.defaultXOWrapper + ' class="xo" xo-reserved="true">');
+            xj(xo.config.domParentNode).contents().wrapAll('<' + xo.config.defaultXOWrapper + ' class="xo" xo-reserved="true">');
         } else {
             xo.log('An XO instance is already running');
         }
     },
     loadSuccess: function () {
-        $(xo.config.domParentNode).css('opacity', 1);
+        xj(xo.config.domParentNode).css('opacity', 1);
     },
     loadExternal: function (scriptPath, scriptURI, scriptExt) {
         /*
@@ -136,7 +137,7 @@ var xo = {
             b = scriptURI == undefined ? "" : scriptURI,
             c = scriptExt == undefined || null || ' ' ? xo.config.loadPathExtension : scriptExt,
             d = a + b + c;
-        $.getScript(d, function (xoCore) {
+        xj.getScript(d, function (xoCore) {
             eval(xoCore);
         });
     },
@@ -183,11 +184,18 @@ var xo = {
         return A.join(', ');
     },
     placeholder:function(){
+        /*
+        creates a placeholder image from an img tag that
+        has the xo-type attribute placeholder. Placeholder
+        uses placeholdit.imgix.net to get the image.
+        Requires xo-type-param. Param should be:
+        ~text?txtsize=33&txt=Your Text×150&w=350&h=150
+         */
         var _obj = '[xo-type="placeholder"]';
-        $(_obj).each(function(){
+        xj(_obj).each(function(){
             var _sourceURL = 'https://placeholdit.imgix.net/',
-                _sourcePARAM = $(this).attr('xo-type-param');
-            $(this).attr('src',_sourceURL+_sourcePARAM);
+                _sourcePARAM = xj(this).attr('xo-type-param');
+            xj(this).attr('src',_sourceURL+_sourcePARAM);
         })
     },
     /*
@@ -195,8 +203,8 @@ var xo = {
      */
     switchNavMode: function () {
         //not implemented yet
-        var a = $('html').attr('xo-prefix'),
-            b = $(xo.config.domParentNode).find(xo.config.defaultXOWrapper),
+        var a = xj('html').attr('xo-prefix'),
+            b = xj(xo.config.domParentNode).find(xo.config.defaultXOWrapper),
             c = b.attr('xo-reserved'),
             d = c == true ? xo.config.ajax.pathDefault : scriptPath;
     },
@@ -215,7 +223,7 @@ var xo = {
             _uri = scriptURI == undefined ? "" : scriptURI,
             _extension = xo.config.ajax.fileExtension,
             _dataURL = _path + _uri + _extension;
-        return $.ajax({
+        return xj.ajax({
             dataType: xo.config.ajax.defaultDataType,
             url: _dataURL,
             type: xo.config.ajax.defaultMethod,
@@ -258,7 +266,7 @@ var xo = {
         if (parse == true) {
             var _data = JSON.parse(data);
         }
-        $(target).append(_data);
+        xj(target).append(_data);
     },
     saveDataToSession: function (data, method, key, id) {
         if (typeof(Storage) !== "undefined") {
@@ -290,22 +298,22 @@ var xo = {
     },
     tooltip: function (object, method) {
         if (method == 'add') {
-            var tipText = $(object).attr('xo-tooltip-text'),
-                tipEnabled = $(object).attr('xo-trigger') == 'tooltip',
-                toolTipTop = Math.round($(object).offset().top),
-                toolTipLeft = Math.round($(object).offset().left);
+            var tipText = xj(object).attr('xo-tooltip-text'),
+                tipEnabled = xj(object).attr('xo-trigger') == 'tooltip',
+                toolTipTop = Math.round(xj(object).offset().top),
+                toolTipLeft = Math.round(xj(object).offset().left);
             if (tipEnabled == true) {
                 var baseHTML = '<div class="tooltip" style="left:' + toolTipLeft + 'px;top:' + toolTipTop + 'px;">' + tipText + '</div>';
-                $(baseHTML).insertAfter(object);
+                xj(baseHTML).insertAfter(object);
             }
         } else if (method == 'delete') {
-            $('.tooltip').remove();
+            xj('.tooltip').remove();
         }
     },
     sticky:function(){
-        $(window).scroll(function(){
-            var _stickyObj = $('[xo-span="sticky"]');
-            if ($(window).scrollTop() >= xo.config.defaultStickyOffset) {
+        xj(window).scroll(function(){
+            var _stickyObj = xj('[xo-span="sticky"]');
+            if (xj(window).scrollTop() >= xo.config.defaultStickyOffset) {
                 _stickyObj.addClass('sticky-fixed');
             }
             else {
@@ -314,12 +322,12 @@ var xo = {
         });
     },
     panel: function () {
-        $('[xo-type="panel-group"]').each(function () {
+        xj('[xo-type="panel-group"]').each(function () {
             var _obj = '[xo-type="panel"]',
-                _count = $(this).children().length,
-                _parent = $(this).width();
-            $(this).find(_obj).each(function () {
-                $(this).css('width', (_parent / _count) - _count);
+                _count = xj(this).children().length,
+                _parent = xj(this).width();
+            xj(this).find(_obj).each(function () {
+                xj(this).css('width', (_parent / _count) - (_count+1));
             })
         });
     },
@@ -380,41 +388,41 @@ var xo = {
     modal: function (method, template) {
         if(method !== 'kill-modal') {
             var _obj = '[xo-type="modal"]',
-                _objName = $(_obj).attr('xo-object-name'),
+                _objName = xj(_obj).attr('xo-object-name'),
                 _filterObj = '[xo-type="modal-filter"]',
                 _filterCode = '<div xo-type="modal-filter"></div>',
-                _inlineTemplate = $(_obj).attr('xo-data-template');
+                _inlineTemplate = xj(_obj).attr('xo-data-template');
             if (typeof _inlineTemplate !== undefined && _inlineTemplate !== false) {
-                $(_obj).contents().not('[xo-type="modal-toggle"]').remove();
-                $(_obj).append(xo.getTemplateObjects('modal', _inlineTemplate, _objName));
+                xj(_obj).contents().not('[xo-type="modal-toggle"]').remove();
+                xj(_obj).append(xo.getTemplateObjects('modal', _inlineTemplate, _objName));
             } else if (template !== typeof undefined && template !== false) {
-                $(_obj).contents().not('[xo-type="modal-toggle"]').remove(); //empty modal content to avoid duplicates.
-                $(_obj).append(xo.getTemplateObjects('modal', template));
+                xj(_obj).contents().not('[xo-type="modal-toggle"]').remove(); //empty modal content to avoid duplicates.
+                xj(_obj).append(xo.getTemplateObjects('modal', template));
             }
-            if ($(_obj).length > 0) {
-                var _state = $(_obj).attr('xo-state');
+            if (xj(_obj).length > 0) {
+                var _state = xj(_obj).attr('xo-state');
             }
             if (method == 'init') {
-                $(_obj).prepend('<div xo-type="modal-toggle">X</div>');
-                $(_obj).wrap('<div class="modal-wrapper" xo-state="closed">');
+                xj(_obj).prepend('<div xo-type="modal-toggle">X</div>');
+                xj(_obj).wrap('<div class="modal-wrapper" xo-state="closed">');
             } else {
                 if (_state == 'open') {
-                    $(_obj).attr('xo-state', 'closed');
-                    $(_obj).parent().attr('xo-state', 'closed');
-                    $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
-                        $(_filterObj).remove();
+                    xj(_obj).attr('xo-state', 'closed');
+                    xj(_obj).parent().attr('xo-state', 'closed');
+                    xj(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
+                        xj(_filterObj).remove();
                     });
                 } else if (_state == 'closed') {
-                    $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
-                    $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed, function () {
-                        $(_obj).attr('xo-state', 'open');
-                        $(_obj).parent().attr('xo-state', 'open');
+                    xj(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
+                    xj(_filterObj).animate({opacity: 1}, xo.config.animationSpeed, function () {
+                        xj(_obj).attr('xo-state', 'open');
+                        xj(_obj).parent().attr('xo-state', 'open');
                     });
                 }
             }
         }else{
-            $('[xo-object-name="'+template+'"]').attr('xo-state','closed').parent().attr('xo-state','closed');
-            $('[xo-type="modal-filter"]').remove();
+            xj('[xo-object-name="'+template+'"]').attr('xo-state','closed').parent().attr('xo-state','closed');
+            xj('[xo-type="modal-filter"]').remove();
         }
     },
     gutter: function (method,parent) {
@@ -428,14 +436,14 @@ var xo = {
          */
         var _baseObj = '[xo-type="gutter"]';
         //check if a gutter exists
-        if($(_baseObj).length !== 0) {
+        if(xj(_baseObj).length !== 0) {
             var _obj = parent !== null && parent !== undefined ? _baseObj + '[xo-object-name="' + parent + '"]' : _baseObj;
             var _filterObj = '[xo-type="gutter-filter"]',
                 _filterCode = '<div xo-type="gutter-filter" xo-parent="' + parent + '"></div>';
-            if ($(_obj).length > 0) {
-                var _state = $(_obj).attr('xo-state'),
-                    _width = $(_obj).width(),
-                    _param = $(_obj).attr('xo-type-param');
+            if (xj(_obj).length > 0) {
+                var _state = xj(_obj).attr('xo-state'),
+                    _width = xj(_obj).width(),
+                    _param = xj(_obj).attr('xo-type-param');
             }
             if (method == 'init') {
                 /*
@@ -443,37 +451,37 @@ var xo = {
                  them and their enclosed close buttons and opacity
                  filters the correct values and parameters
                  */
-                $(_baseObj).each(function () {
-                    var _p = $(this).attr('xo-object-name');
-                    $(this).prepend('<div xo-type="gutter-toggle" xo-parent="' + _p + '">X</div>');
-                    if ($(this).attr('xo-state') == 'closed') {
-                        $(this).css($(this).attr('xo-type-param'), -_width);
+                xj(_baseObj).each(function () {
+                    var _p = xj(this).attr('xo-object-name');
+                    xj(this).prepend('<div xo-type="gutter-toggle" xo-parent="' + _p + '">X</div>');
+                    if (xj(this).attr('xo-state') == 'closed') {
+                        xj(this).css(xj(this).attr('xo-type-param'), -_width);
                     }
                 });
             } else {
                 if (_state == 'open') {
                     if (_param == 'left') {
-                        $(_obj).animate({left: -_width}, xo.config.animationSpeed, function () {
-                            $(_obj).attr('xo-state', 'closed')
+                        xj(_obj).animate({left: -_width}, xo.config.animationSpeed, function () {
+                            xj(_obj).attr('xo-state', 'closed')
                         });
                     } else if (_param == 'right') {
-                        $(_obj).animate({right: -_width}, xo.config.animationSpeed, function () {
-                            $(_obj).attr('xo-state', 'closed')
+                        xj(_obj).animate({right: -_width}, xo.config.animationSpeed, function () {
+                            xj(_obj).attr('xo-state', 'closed')
                         });
                     }
-                    $(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
-                        $(_filterObj).remove();
+                    xj(_filterObj).animate({opacity: 0}, xo.config.animationSpeed, function () {
+                        xj(_filterObj).remove();
                     });
 
                 } else if (_state == 'closed') {
                     if (_param == 'left') {
-                        $(_obj).animate({left: "0"}, xo.config.animationSpeed);
+                        xj(_obj).animate({left: "0"}, xo.config.animationSpeed);
                     } else if (_param == 'right') {
-                        $(_obj).animate({right: "0"}, xo.config.animationSpeed);
+                        xj(_obj).animate({right: "0"}, xo.config.animationSpeed);
                     }
-                    $(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
-                    $(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
-                    $(_obj).attr('xo-state', 'open');
+                    xj(xo.config.defaultXOWrapper + '.xo').prepend(_filterCode);
+                    xj(_filterObj).animate({opacity: 1}, xo.config.animationSpeed);
+                    xj(_obj).attr('xo-state', 'open');
                 }
             }
         }
@@ -485,14 +493,14 @@ var xo = {
         has the xo-type video. XO params define the
         source url, video format, etc..
          */
-        $('[xo-type="video"]').each(function () {
+        xj('[xo-type="video"]').each(function () {
             var _obj = '[xo-type="video"]',
-                _vdoW = $(_obj).attr('xo-video-width') || 'auto',
-                _vdoH = $(_obj).attr('xo-video-height') || 'auto',
-                _vdoS = $(_obj).attr('xo-video-src'),
-                _vdoT = $(_obj).attr('xo-video-format'),
-                _vdoC = $(_obj).attr('xo-video-controls'),
-                _vdoA = $(_obj).attr('xo-video-autoplay'),
+                _vdoW = xj(_obj).attr('xo-video-width') || 'auto',
+                _vdoH = xj(_obj).attr('xo-video-height') || 'auto',
+                _vdoS = xj(_obj).attr('xo-video-src'),
+                _vdoT = xj(_obj).attr('xo-video-format'),
+                _vdoC = xj(_obj).attr('xo-video-controls'),
+                _vdoA = xj(_obj).attr('xo-video-autoplay'),
                 _vdo = '<video width="' + _vdoW + '" height="' + _vdoH + '"';
             if (_vdoC == 'true') {
                 _vdo += ' controls';
@@ -504,8 +512,8 @@ var xo = {
             _vdo += '<source src="' + _vdoS + '" type="video/' + _vdoT + '">';
             _vdo += 'Your browser does not support the video tag.';
             _vdo += '</video>';
-            $(_obj).contents().remove();//removes content from the video placeholder
-            $(_obj).append(_vdo);
+            xj(_obj).contents().remove();//removes content from the video placeholder
+            xj(_obj).append(_vdo);
         })
     },
     formToPage: function () {
@@ -515,8 +523,8 @@ var xo = {
          injects the correct form into them by calling the
          formBuilder function.
          */
-        $('[xo-type="form"]').each(function () {
-            var _formTarget = $(this).attr('xo-object-name');
+        xj('[xo-type="form"]').each(function () {
+            var _formTarget = xj(this).attr('xo-object-name');
             xo.formBuilder('forms/' + _formTarget, _formTarget, _formTarget);
         })
     },
@@ -704,7 +712,7 @@ var xo = {
                 }
                 var _formPrepend = '<form action="' + _initData[0].action + '" method="' + _initData[0].method + '" id="' + _initData[0].id + '" class="' + _initData[0].class + '">',
                     _formAppend = '</form>';
-                $('[xo-object-name="' + host + '"]').append(_formPrepend + _formCode + _formAppend);
+                xj('[xo-object-name="' + host + '"]').append(_formPrepend + _formCode + _formAppend);
                 xo.saveLoadedItems(xo.config.sessionStorageKey + host);
             });
         }else{
@@ -714,13 +722,13 @@ var xo = {
     layoutToPage: function () {
         /*
          function launched by init. Cycles through all objects
-         on the page that have the xo-type="form" attribute and
+         on the page that have the xo-type="data" attribute and
          injects the correct form into them by calling the
          formBuilder function.
          */
-        $('[xo-type="data"]').each(function () {
-            var _dataTarget = $(this).attr('xo-object-name'),
-                _dataSource = $(this).attr('xo-data-source');
+        xj('[xo-type="data"]').each(function () {
+            var _dataTarget = xj(this).attr('xo-object-name'),
+                _dataSource = xj(this).attr('xo-data-source');
             xo.layoutBuilder(_dataSource, _dataTarget, _dataTarget);
         })
     },
@@ -774,7 +782,7 @@ var xo = {
                         _layoutCode += _baseNode[i].nodexoParent !== null && _baseNode[i].nodexoParent !== undefined ? ' xo-parent="' + _baseNode[i].nodexoParent + '"' : '';
                         _layoutCode += '>' + _baseNode[i].nodeContent + '</' + _baseNode[i].nodeType + '>';
                     }
-                    $('[xo-object-name="' + host + '"]').append(_layoutCode);
+                    xj('[xo-object-name="' + host + '"]').append(_layoutCode);
                     xo.saveLoadedItems(xo.config.sessionStorageKey + host);
                 });
             });
@@ -790,15 +798,15 @@ var xo = {
          and displays the dropdowns in place. Dropdowns can be static
          or json.
          */
-        $('[xo-type="dropdown"]').each(function () {
-            var _buttonLabel = $(this).attr('xo-dropdown-button'),
-                _objectName = $(this).attr('xo-object-name');
+        xj('[xo-type="dropdown"]').each(function () {
+            var _buttonLabel = xj(this).attr('xo-dropdown-button'),
+                _objectName = xj(this).attr('xo-object-name');
             xo.dropDownBuilder(_buttonLabel, _objectName, 'static', null);
         });
-        $('[xo-type="jsondropdown"]').each(function () {
-            var _buttonLabel = $(this).attr('xo-dropdown-button'),
-                _objectName = $(this).attr('xo-object-name'),
-                _objectSource = $(this).attr('xo-data-source');
+        xj('[xo-type="jsondropdown"]').each(function () {
+            var _buttonLabel = xj(this).attr('xo-dropdown-button'),
+                _objectName = xj(this).attr('xo-object-name'),
+                _objectSource = xj(this).attr('xo-data-source');
             xo.dropDownBuilder(_buttonLabel, _objectName, 'json',_objectSource);
         })
     },
@@ -812,13 +820,13 @@ var xo = {
         switch(type){
             case 'static':
                 var _this = '[xo-object-name="'+object+'"]',
-                    _initialState = $(_this).attr('xo-state'),
+                    _initialState = xj(_this).attr('xo-state'),
                     _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>';
-                $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
+                xj(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
                 break;
             case 'json':
                     _this = '[xo-object-name="'+object+'"]',
-                    _initialState = $(_this).attr('xo-state'),
+                    _initialState = xj(_this).attr('xo-state'),
                     _buttonHTML = '<button xo-type="dropdown-button" xo-parent="'+object+'">'+button+'</button>';
                 var _tempData = xo.getData(null, source, 'b', object,false),
                     _sessionSourceLoaded = xo.checkLoadedItems(xo.config.sessionStorageKey+object),
@@ -842,8 +850,8 @@ var xo = {
                             _dropdownHTML += '</li>';
                         });
                         _dropdownHTML += '</ul>';
-                        $(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
-                        $('[xo-object-name="' + object + '"]').append(_dropdownHTML);
+                        xj(_this).prepend(_buttonHTML).find('ul').attr('xo-object-name',object).attr('xo-state',_initialState);
+                        xj('[xo-object-name="' + object + '"]').append(_dropdownHTML);
                         xo.saveLoadedItems(xo.config.sessionStorageKey + object);
                     });
                 }else{
@@ -859,9 +867,9 @@ var xo = {
         through the page dom to find xo-type navigation objects
         and displays the nav bar in place
          */
-        $('[xo-type="navigation"]').each(function () {
-            var _objectName = $(this).attr('xo-object-name'),
-                _objectSource = $(this).attr('xo-data-source');
+        xj('[xo-type="navigation"]').each(function () {
+            var _objectName = xj(this).attr('xo-object-name'),
+                _objectSource = xj(this).attr('xo-data-source');
             xo.navBuilder(_objectSource, _objectName);
         });
     },
@@ -997,7 +1005,7 @@ var xo = {
                     }
 
                 }
-                $('[xo-object-name="'+target+'"]').append(_navCode);
+                xj('[xo-object-name="'+target+'"]').append(_navCode);
             });
         }
     },
@@ -1013,54 +1021,54 @@ var xo = {
         _objectHTML += title !== null && title !== undefined ? '<div class="message title">'+title+'</div>' : '';
         _objectHTML += content !== null && content !== undefined ? '<div class="message content">'+content+'</div>' : '';
         _objectHTML += '</div>';
-        host == 'body' ? $(xo.config.domParentNode).prepend(_objectHTML) : $('[xo-object-name="'+host+'"]').prepend(_objectHTML);
+        host == 'body' ? xj(xo.config.domParentNode).prepend(_objectHTML) : xj('[xo-object-name="'+host+'"]').prepend(_objectHTML);
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
-        $('body').on('mouseover', '[xo-trigger="tooltip"]', function (e) {
+        xj('body').on('mouseover', '[xo-trigger="tooltip"]', function (e) {
             mouseX = e.pageX;
             mouseY = e.pageY;
-            xo.tooltip($(this), 'add');
+            xo.tooltip(xj(this), 'add');
         }).on('mouseout', '[xo-trigger="tooltip"]', function () {
             xo.tooltip(null, 'delete');
         }).on('click', '[xo-trigger="url"]', function () {
-            var _goToUrl = $(this).attr('xo-trigger-url');
+            var _goToUrl = xj(this).attr('xo-trigger-url');
             xo.trigger('direct', _goToUrl, null);
         }).on('click', '[xo-trigger-close="modal"]', function () {
             xo.modal();
-            /*var _targetModal = $(this).attr('xo-trigger-close-modal');
+            /*var _targetModal = xj(this).attr('xo-trigger-close-modal');
             xo.trigger('kill-modal', _targetModal, null);*/
         }).on('click', '[xo-type="gutter-toggle"]', function () {
-            var a = $(this).attr('xo-parent') || null;
+            var a = xj(this).attr('xo-parent') || null;
             xo.gutter(null,a);
         }).on('click', '[xo-trigger="gutter-toggle"]', function () {
-            var a = $(this).attr('xo-parent') || null;
+            var a = xj(this).attr('xo-parent') || null;
             xo.gutter(null,a);
         }).on('click', '[xo-type="data-toggle"]', function () {
             xo.layoutToPage();
         }).on('click', '[xo-trigger="data-toggle"]', function () {
             xo.layoutToPage();
         }).on('click', '[xo-type="gutter-filter"]', function () {
-            var a = $(this).attr('xo-parent') || null;
+            var a = xj(this).attr('xo-parent') || null;
             xo.gutter(null,a);
         }).on('click', '[xo-type="modal-toggle"]', function () {
-            if ($(this).attr('xo-data-template') !== "") {
-                xo.modal(null, $(this).attr('xo-data-template'))
+            if (xj(this).attr('xo-data-template') !== "") {
+                xo.modal(null, xj(this).attr('xo-data-template'))
             }
         }).on('click', '[xo-type="modal-filter"]', function () {
             xo.modal();
         }).on('click','[xo-type="dropdown-button"]',function(){
-            var _target = $(this).attr('xo-parent'),
+            var _target = xj(this).attr('xo-parent'),
                 _object = 'ul[xo-object-name="' + _target + '"]',
-                _clickedState = $(_object).attr('xo-state'),
-                _parentSize = $(this).parent().width();
+                _clickedState = xj(_object).attr('xo-state'),
+                _parentSize = xj(this).parent().width();
             if(_clickedState == 'open') {
-                $(_object).attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
+                xj(_object).attr('xo-state', 'closed').parent().attr('xo-state', 'closed');
             }else if(_clickedState == 'closed') {
-                $(_object).attr('xo-state', 'open').css('width',_parentSize).parent().attr('xo-state', 'open');
+                xj(_object).attr('xo-state', 'open').css('width',_parentSize).parent().attr('xo-state', 'open');
             }
         }).on('click','[xo-type="warning"]',function(){
-            $(this).slideToggle(500);
+            xj(this).slideToggle(500);
         });
     }
 };

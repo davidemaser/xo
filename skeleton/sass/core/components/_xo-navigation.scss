@@ -13,6 +13,9 @@
       display: inline-block!important;
       background: #eaeaea;
     }
+    &.sticky-fixed .nav-dropdown ul {
+      box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.27);
+    }
     [xo-type="modal-toggle"],[xo-type="gutter-toggle"] {
       color:inherit;
       position:relative!important;
