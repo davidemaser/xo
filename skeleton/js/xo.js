@@ -40,7 +40,7 @@ var xo = {
          as needed.
          */
         init:{
-            data:true,
+            data:false,
             dropdowns:true,
             forms: true,
             gutter: true,
@@ -48,7 +48,8 @@ var xo = {
             nav: true,
             panel: true,
             video: false,
-            sticky: true
+            sticky: true,
+            placeholders:false
         },
         /*
         app is running so set a flag and a key
@@ -180,6 +181,14 @@ var xo = {
             return b - a;
         });
         return A.join(', ');
+    },
+    placeholder:function(){
+        var _obj = '[xo-type="placeholder"]';
+        $(_obj).each(function(){
+            var _sourceURL = 'https://placeholdit.imgix.net/',
+                _sourcePARAM = $(this).attr('xo-type-param');
+            $(this).attr('src',_sourceURL+_sourcePARAM);
+        })
     },
     /*
      end utility functions
@@ -355,7 +364,6 @@ var xo = {
                                 _itemHTML += _tMethod+' ';
                                 _itemHTML += _tValue+'="'+_tAction+'"';
                                 _itemHTML += '>'+a[k].split('[')[0]+'</button>';
-                                console.log(_tMethod+' : '+_tValue+' : '+_tAction);
                             }
                             _itemHTML += '</div>';
                         }
