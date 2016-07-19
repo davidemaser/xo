@@ -433,7 +433,7 @@ var xj = jQuery.noConflict(),
         unique xo-object-name value. Toggles for a particular gutter can be created
         by adding the xo-parent attribute
         i.e. <a xo-type="gutter-toggle" xo-parent="left-gutter">
-         */
+        */
         var _baseObj = '[xo-type="gutter"]';
         //check if a gutter exists
         if(xj(_baseObj).length !== 0) {
@@ -1024,6 +1024,70 @@ var xj = jQuery.noConflict(),
         _objectHTML += content !== null && content !== undefined ? '<div class="message content">'+content+'</div>' : '';
         _objectHTML += '</div>';
         host == 'body' ? xj(xo.config.domParentNode).prepend(_objectHTML) : xj('[xo-object-name="'+host+'"]').prepend(_objectHTML);
+    },
+    poster:function(){
+        var _obj = xj('[xo-type="poster"]'),
+            _objName = _obj.attr('xo-object-name'),
+            _objParent = _obj.attr('xo-parent'),
+            _posterBackground = _obj.attr('xo-poster-source'),
+            _posterSize = _obj.attr('xo-poster-size'),
+            _posterProportion = _obj.attr('xo-type-param'),
+            _posterText = _obj.find('[xo-type="poster-text"]');
+        /*
+        poster text can have 7 parameters
+        xo-type-param="font-size,color,text align,background color,box width,box height,padding"
+        font-size can be numeric or string (10 or 10px or 1em)
+        color can be hex or rgb (#000 or rgb(0,0,0,1)
+        text align can be a string (center, left...)
+        background color can be hex or rgb (#000 or rgb(0,0,0,1)
+        box width can be numeric or string (10 or 10px or 1em)
+        box height can be numeric or string (10 or 10px or 1em)
+        padding can be either a general value (i.e 0) or specific values (i.e. 0 10px 5ps 15px)
+        use the letter x to undefine an item (i.e. xo-type-param="x,x,center,500,x,10")
+         */
+        if(_posterProportion == 'fullscreen'){
+            var _posterWidth = '100%',
+                _posterHeight = '100%';
+        }else{
+            _posterWidth = _posterSize.split(',')[0],
+            _posterHeight = _posterSize.split(',')[1];
+        }
+        if(_posterText.length > 0){
+            xj(_posterText).each(function(){
+                var _textParams = xj(this).attr('xo-type-param'),
+                    _textSize = _textParams.split(',')[0] !== 'x' ? _textParams.split(',')[0] : null,
+                    _textColor = _textParams.split(',')[1] !== 'x' ? _textParams.split(',')[1] : null,
+                    _textAlign = _textParams.split(',')[2] !== 'x' ? _textParams.split(',')[2] : null,
+                    _textBoxColor = _textParams.split(',')[3] !== 'x' ? _textParams.split(',')[3] : null,
+                    _textBoxWidth = _textParams.split(',')[4] !== 'x' ? _textParams.split(',')[4] : null,
+                    _textBoxHeight = _textParams.split(',')[5] !== 'x' ? _textParams.split(',')[5] : null,
+                    _textBoxPadding = _textParams.split(',')[6] !== 'x' ? _textParams.split(',')[6] : null;
+                xj(this).css({
+                    'font-size':_textSize,
+                    'color':_textColor,
+                    'text-align':_textAlign,
+                    'background-color':_textBoxColor,
+                    'width':_textBoxWidth,
+                    'height':_textBoxHeight,
+                    'padding': _textBoxPadding,
+                    'margin': '0 auto'
+                });
+            });
+        }
+        if(_objParent !== undefined){
+            var _item = xj('[xo-object-name="'+_objName+'"]').detach();
+            xj(_objParent).prepend(_item);
+        }
+        _obj.css({
+            'position':'absolute',
+            'display': 'block',
+            'width':_posterWidth,
+            'height':_posterHeight,
+            'background-image':'url(' + _posterBackground +')',
+            'background-repeat': 'no-repeat',
+            'background-size': 'cover'
+        });
+        //<div xo-type="poster" xo-poster-source="https://riflescopesinfo.files.wordpress.com/2013/12/large-parallax-adjustment-ring.jpg" xo-poster-size="1200,800" xo-type-param="fullscreen" xo-state="open" xo-object-name="poster1"></div>
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
