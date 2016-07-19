@@ -19,10 +19,12 @@ var xo = {
     config: {
         loadPathDefault: '../dist/js/',
         loadPathExtension: '.js',
-        ajaxPathDefault: '../dist/json/',
-        ajaxFileExtension: '.json',
-        ajaxDefaultMethod: 'get',
-        ajaxDefaultDataType: 'json',
+        ajax:{
+            pathDefault: '../dist/json/',
+            fileExtension: '.json',
+            defaultMethod: 'get',
+            defaultDataType: 'json'
+        },
         sessionStorageKey: 'xo-',
         sessionFlushRule: false,
         dataLoadedItems:[],
@@ -38,17 +40,16 @@ var xo = {
          as needed.
          */
         init:{
-            data:true
+            data:true,
+            dropdowns:true,
+            forms: true,
+            gutter: true,
+            modal: true,
+            nav: true,
+            panel: true,
+            video: false,
+            sticky: true
         },
-        initData: false,
-        initDropdowns: true,
-        initForms: true,
-        initGutter: true,
-        initModal: true,
-        initNav: true,
-        initPanel: true,
-        initVideo: false,
-        initSticky: true,
         /*
         app is running so set a flag and a key
         to force reinitialisation.
@@ -83,15 +84,15 @@ var xo = {
     init: function (advise, callback) {
         if(xo.config.appRunning !== true) {
             xo.pageSetUp('html', 'xo', 'true', 'xo set');
-            xo.config.initData == true ? xo.layoutToPage() : null;
-            xo.config.initDropdowns == true ? xo.dropDownInit() : null;
-            xo.config.initForms == true ? xo.formToPage() : null;
-            xo.config.initGutter == true ? xo.gutter('init') : null;
-            xo.config.initModal == true ? xo.modal('init') : null;
-            xo.config.initNav == true ? xo.navInit() : null;
-            xo.config.initPanel == true ? xo.panel() : null;
-            xo.config.initSticky == true ? xo.sticky() : null;
-            xo.config.initVideo == true ? xo.video() : null;
+            xo.config.init.data == true ? xo.layoutToPage() : null;
+            xo.config.init.dropdowns == true ? xo.dropDownInit() : null;
+            xo.config.init.forms == true ? xo.formToPage() : null;
+            xo.config.init.gutter == true ? xo.gutter('init') : null;
+            xo.config.init.modal == true ? xo.modal('init') : null;
+            xo.config.init.nav == true ? xo.navInit() : null;
+            xo.config.init.panel == true ? xo.panel() : null;
+            xo.config.init.sticky == true ? xo.sticky() : null;
+            xo.config.init.video == true ? xo.video() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
             advise == true ? xo.log('xo is running') : null;
@@ -188,7 +189,7 @@ var xo = {
         var a = $('html').attr('xo-prefix'),
             b = $(xo.config.domParentNode).find(xo.config.defaultXOWrapper),
             c = b.attr('xo-reserved'),
-            d = c == true ? xo.config.ajaxPathDefault : scriptPath;
+            d = c == true ? xo.config.ajax.pathDefault : scriptPath;
     },
     animate: function (obj, type, speed, length) {
         //not implemented yet
@@ -201,14 +202,14 @@ var xo = {
         handle specific data formats.
         The ajax call returns a data object.
          */
-        var _path = scriptPath == undefined || null || ' ' ? xo.config.ajaxPathDefault : scriptPath,
+        var _path = scriptPath == undefined || null || ' ' ? xo.config.ajax.pathDefault : scriptPath,
             _uri = scriptURI == undefined ? "" : scriptURI,
-            _extension = xo.config.ajaxFileExtension,
+            _extension = xo.config.ajax.fileExtension,
             _dataURL = _path + _uri + _extension;
         return $.ajax({
-            dataType: xo.config.ajaxDefaultDataType,
+            dataType: xo.config.ajax.defaultDataType,
             url: _dataURL,
-            type: xo.config.ajaxDefaultMethod,
+            type: xo.config.ajax.defaultMethod,
             statusCode: {
                 404: function () {
                     xo.log('XO can\'t load that file');
