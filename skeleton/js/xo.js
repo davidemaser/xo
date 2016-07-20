@@ -1165,6 +1165,12 @@ var xj = jQuery.noConflict(),
             }
         }).on('click','[xo-type="warning"]',function(){
             xj(this).slideToggle(500);
+        }).on('click', '[xo-type="tab-header-node"]', function () {
+            var _toggleTabContent = xj(this).attr('xo-parent');
+            xj('[xo-type="tab-node"]').attr('xo-state','closed');
+            xj('[xo-type="tab-node"][xo-object-name="'+_toggleTabContent+'"]').attr('xo-state','open');
+            xj('[xo-type="tab-header-node"]').attr('xo-type-param','');
+            xj(this).attr('xo-type-param','active');
         });
     }
 };
