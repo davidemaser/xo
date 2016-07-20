@@ -1,5 +1,5 @@
 .xo{
-  [xo-type="tabs"] {
+  [xo-type="accordion"] {
     display: block;
     position: relative;
     width: 800px;
@@ -8,29 +8,43 @@
     border-radius: 3px;
     box-sizing: content-box;
     &[xo-type-param="text"]{
-      [xo-type="tab-header-node"] {
-        display: inline-block;
-        border: 1px solid #999;
+      [xo-type="accordion-header-node"] {
+        display: block;
         border-bottom: 1px solid #999;
-        padding: 5px 10px;
+        padding: 10px;
         box-sizing: content-box;
-        margin-top: 5px;
         position: relative;
         cursor: pointer;
-        margin-bottom: -1px;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
+        &:after {
+          content: "\e313";
+          font-family: 'icomoon' !important;
+          speak: none;
+          position:absolute;
+          right:10px;
+          font-style: normal;
+          font-weight: normal;
+          font-variant: normal;
+          text-transform: none;
+          line-height: 1;
+          background: rgba(102, 102, 102, 0.25);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
         &[xo-type-param="active"]{
-          border-bottom: 1px solid #fff;
-          margin-bottom: -1px;
+          //border-bottom: 1px solid #fff;
+          background: #e4e4e4;
+          &:after {
+            content: "\e316";
+            background: rgba(102, 102, 102, 0.15);
+          }
         }
         &:first-child {
-          margin-left:5px;
+          //margin-left:5px;
         }
       }
     }
     &[xo-type-param="icon"]{
-      [xo-type="tab-header-node"] {
+      [xo-type="accordion-header-node"] {
         display: inline-block;
         border: none;
         border-bottom: 1px solid #999;
@@ -42,19 +56,16 @@
         margin-bottom: -1px;
         &[xo-type-param="active"]{
           &:after {
-            content: "\e1c8";
-            display: inline-block;
+            content: "\e316";
             font-family: 'icomoon' !important;
             speak: none;
+            position:absolute;
+            right:10px;
             font-style: normal;
             font-weight: normal;
             font-variant: normal;
             text-transform: none;
             line-height: 1;
-            position: absolute;
-            top: 14px;
-            right: 0;
-            margin: 0 auto;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
           }
@@ -66,14 +77,14 @@
     }
   }
 
-  [xo-type="tab-header"] {
+  [xo-type="accordion-header"] {
     position: relative;
     display: block;
     z-index: 2;
     background: #e4e4e4;
   }
 
-  [xo-type="tab-block"] {
+  [xo-type="accordion-block"] {
     position: relative;
     overflow-y: auto;
     overflow-x: hidden;
@@ -84,9 +95,10 @@
     min-height: 150px;
   }
 
-  [xo-type="tab-node"] {
-    position: absolute;
-    width: 100%;
+  [xo-type="accordion-node"] {
+    position: relative;
+    border-bottom: 1px solid #999;
+    padding:10px;
     height: auto;
   }
 }
