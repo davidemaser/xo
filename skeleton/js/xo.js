@@ -1104,12 +1104,12 @@ var xj = jQuery.noConflict(),
         var _tabObject = '[xo-type="tabs"]',
             _tabObjectId = xj(_tabObject).attr('xo-object-name'),
             _tabObjectMode = xj(_tabObject).attr('xo-type-param');
-        var _tabHeader = '<div xo-type="tab-header">';
-            xj(_tabObject).find('[xo-type="tab-node"]').each(function(){
-                var _tabHeaderLabel = xj(this).attr('xo-tab-header'),
+        var _tabHeader = '<div xo-type="header">';
+            xj(_tabObject).find('[xo-type="node"]').each(function(){
+                var _tabHeaderLabel = xj(this).attr('xo-header'),
                     _tabHeaderParent = xj(this).attr('xo-object-name'),
                     _tabDefaultState = xj(this).attr('xo-state');
-                _tabHeader += '<div xo-type="tab-header-node" xo-type-param="';
+                _tabHeader += '<div xo-type="header-node" xo-type-param="';
                 _tabHeader += _tabDefaultState == 'open' ? 'active' : '';
                 _tabHeader += '" xo-parent="'+_tabHeaderParent+'">';
                 if(_tabObjectMode=='text'){
@@ -1121,18 +1121,18 @@ var xj = jQuery.noConflict(),
             });
             _tabHeader += '</div>';
         xj('[xo-object-name="'+_tabObjectId+'"]').prepend(_tabHeader);
-        xj('[xo-object-name="'+_tabObjectId+'"]').find('[xo-type="tab-node"]').wrapAll('<div xo-type="tab-block">');
+        xj('[xo-object-name="'+_tabObjectId+'"]').find('[xo-type="node"]').wrapAll('<div xo-type="block">');
 
     },
     accordionBuilder:function(){
             var _accObject = '[xo-type="accordion"]',
                 _accObjectId = xj(_accObject).attr('xo-object-name'),
                 _accObjectMode = xj(_accObject).attr('xo-type-param');
-            xj(_accObject).find('[xo-type="accordion-node"]').each(function(){
-                var _accHeaderLabel = xj(this).attr('xo-accordion-header'),
+            xj(_accObject).find('[xo-type="node"]').each(function(){
+                var _accHeaderLabel = xj(this).attr('xo-header'),
                     _accHeaderParent = xj(this).attr('xo-object-name'),
                     _accDefaultState = xj(this).attr('xo-state');
-                var _accHeader = '<div xo-type="accordion-header-node" xo-type-param="';
+                var _accHeader = '<div xo-type="header-node" xo-type-param="';
                 _accHeader += _accDefaultState == 'open' ? 'active' : '';
                 _accHeader += '" xo-parent="'+_accHeaderParent+'">';
                 if(_accObjectMode=='text'){
@@ -1197,17 +1197,17 @@ var xj = jQuery.noConflict(),
             }
         }).on('click','[xo-type="warning"]',function(){
             xj(this).slideToggle(500);
-        }).on('click', '[xo-type="tab-header-node"]', function () {
+        }).on('click', '[xo-type="tabs"] [xo-type="header-node"]', function () {
             var _toggleTabContent = xj(this).attr('xo-parent');
-            xj('[xo-type="tab-node"]').attr('xo-state','closed');
-            xj('[xo-type="tab-node"][xo-object-name="'+_toggleTabContent+'"]').attr('xo-state','open');
-            xj('[xo-type="tab-header-node"]').attr('xo-type-param','');
+            xj('[xo-type="tabs"] [xo-type="node"]').attr('xo-state','closed');
+            xj('[xo-type="tabs"] [xo-type="node"][xo-object-name="'+_toggleTabContent+'"]').attr('xo-state','open');
+            xj('[xo-type="tabs"] [xo-type="header-node"]').attr('xo-type-param','');
             xj(this).attr('xo-type-param','active');
-        }).on('click', '[xo-type="accordion-header-node"]', function () {
+        }).on('click', '[xo-type="accordion"] [xo-type="header-node"]', function () {
             var _toggleAccordionContent = xj(this).attr('xo-parent');
-            xj('[xo-type="accordion-node"]').attr('xo-state','closed');
-            xj('[xo-type="accordion-node"][xo-object-name="'+_toggleAccordionContent+'"]').attr('xo-state','open');
-            xj('[xo-type="accordion-header-node"]').attr('xo-type-param','');
+            xj('[xo-type="accordion"] [xo-type="node"]').attr('xo-state','closed');
+            xj('[xo-type="accordion"] [xo-type="node"][xo-object-name="'+_toggleAccordionContent+'"]').attr('xo-state','open');
+            xj('[xo-type="accordion"] [xo-type="header-node"]').attr('xo-type-param','');
             xj(this).attr('xo-type-param','active');
         });
     }

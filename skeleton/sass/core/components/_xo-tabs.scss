@@ -8,7 +8,7 @@
     border-radius: 3px;
     box-sizing: content-box;
     &[xo-type-param="text"]{
-      [xo-type="tab-header-node"] {
+      [xo-type="header-node"] {
         display: inline-block;
         border: 1px solid #999;
         border-bottom: 1px solid #999;
@@ -30,7 +30,7 @@
       }
     }
     &[xo-type-param="icon"]{
-      [xo-type="tab-header-node"] {
+      [xo-type="header-node"] {
         display: inline-block;
         border: none;
         border-bottom: 1px solid #999;
@@ -64,29 +64,28 @@
         }
       }
     }
-  }
+    [xo-type="header"] {
+      position: relative;
+      display: block;
+      z-index: 2;
+      background: #e4e4e4;
+    }
 
-  [xo-type="tab-header"] {
-    position: relative;
-    display: block;
-    z-index: 2;
-    background: #e4e4e4;
-  }
+    [xo-type="block"] {
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px 5px;
+      border-top: 1px solid #999;
+      z-index: 1;
+      height: auto;
+      min-height: 150px;
+    }
 
-  [xo-type="tab-block"] {
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 10px 5px;
-    border-top: 1px solid #999;
-    z-index: 1;
-    height: auto;
-    min-height: 150px;
-  }
-
-  [xo-type="tab-node"] {
-    position: absolute;
-    width: 100%;
-    height: auto;
+    [xo-type="node"] {
+      position: absolute;
+      width: 100%;
+      height: auto;
+    }
   }
 }
