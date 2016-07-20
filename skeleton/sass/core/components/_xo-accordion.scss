@@ -8,7 +8,7 @@
     border-radius: 3px;
     box-sizing: content-box;
     &[xo-type-param="text"]{
-      [xo-type="accordion-header-node"] {
+      [xo-type="header-node"] {
         display: block;
         border-bottom: 1px solid #999;
         padding: 10px;
@@ -44,7 +44,7 @@
       }
     }
     &[xo-type-param="icon"]{
-      [xo-type="accordion-header-node"] {
+      [xo-type="header-node"] {
         display: inline-block;
         border: none;
         border-bottom: 1px solid #999;
@@ -75,30 +75,29 @@
         }
       }
     }
-  }
+    [xo-type="header"] {
+      position: relative;
+      display: block;
+      z-index: 2;
+      background: #e4e4e4;
+    }
 
-  [xo-type="accordion-header"] {
-    position: relative;
-    display: block;
-    z-index: 2;
-    background: #e4e4e4;
-  }
+    [xo-type="block"] {
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 10px 5px;
+      border-top: 1px solid #999;
+      z-index: 1;
+      height: auto;
+      min-height: 150px;
+    }
 
-  [xo-type="accordion-block"] {
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 10px 5px;
-    border-top: 1px solid #999;
-    z-index: 1;
-    height: auto;
-    min-height: 150px;
-  }
-
-  [xo-type="accordion-node"] {
-    position: relative;
-    border-bottom: 1px solid #999;
-    padding:10px;
-    height: auto;
+    [xo-type="node"] {
+      position: relative;
+      border-bottom: 1px solid #999;
+      padding:10px;
+      height: auto;
+    }
   }
 }
