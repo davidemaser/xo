@@ -36,6 +36,8 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - jsondropdown : creates a data driven dropdown from a json source
 - navigation : creates a horizontal navigation pane that can contain images, buttons, icons, forms or dropdowns. The navigation object is data driven json source
 - warning : creates a contextual alert message within an xo object or page
+- poster : creates a posterized image and text layout
+- tabs : creates a tab panel layout
 
 ##### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
