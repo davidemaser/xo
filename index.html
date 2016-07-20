@@ -66,6 +66,15 @@
 <li>jsondropdown : creates a data driven dropdown from a json source</li>
 <li>navigation : creates a horizontal navigation pane that can contain images, buttons, icons, forms or dropdowns. The navigation object is data driven json source</li>
 <li>warning : creates a contextual alert message within an xo object or page</li>
+<li>poster : creates a posterized image and text layout</li>
+<li>tabs : creates a tab panel layout</li>
+<li>accordion : creates an accordion panel layout
+
+<ul>
+<li>node : creates a node within a tabs or accordion component. Doesn't work alone.<br>
+</li>
+</ul>
+</li>
 </ul>
 
 <h5>
@@ -127,6 +136,7 @@
 <li>pct(num%)</li>
 <li>pix(numPX)</li>
 <li>auto</li>
+<li>sticky : creates a sticky bar who's view persists on the page</li>
 </ul>
 
 <h2>
@@ -212,6 +222,51 @@
 </ul>
 
 <p>Note : If the users navigator doesn't support storage this function will return null.</p>
+
+<h2>
+<a id="ui-components" class="anchor" href="#ui-components" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UI Components</h2>
+
+<h3>
+<a id="tabs" class="anchor" href="#tabs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tabs</h3>
+
+<p>XO has a tab generator function that will create a tab base UI layout from a structure html format. The function will sniff for a div that has the xo-type tabs. If the xo-type is found in the document, the content will be formatted into a tab layout. The tab builder function can be included in the xo initialization and is set to true by default. </p>
+
+<h4>
+<a id="component-structure" class="anchor" href="#component-structure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Component Structure</h4>
+
+<p>To add a tab component to your page, assign the xo-type tabs to an empty div.</p>
+
+<p><code>&lt;div xo-type="tabs" xo-type-param="text" xo-object-name="tab-group"&gt;&lt;/div&gt;</code></p>
+
+<p>This basic tag will initiate the tab builder but will not render anything since there is no content to work with. You must add content (or tab nodes) inside the tag mentioned above to create a tab-content structure. </p>
+
+<p>Parameters</p>
+
+<ul>
+<li>xo-type : assign the value tabs to obtain a tab object.</li>
+<li>xo-type-param : this determines what kind of tab button to create. This can be text or icon. </li>
+<li>xo-object-name : this defines a unique identifier for the tab object. If you are using multiple tab objects on the same page, make sure to assign a unique name to each tab object.<br>
+</li>
+</ul>
+
+<p><code>&lt;div xo-type="node" xo-type-param="" xo-state="open" xo-header="Title one" xo-object-name="first-tab"&gt;This is first content.&lt;/div&gt;</code></p>
+
+<p>The code above corresponds to one tab item (or node). Theoretically you can add as many nodes as you wish however you may have to tweak the visual aspects to get all tabs to fit. </p>
+
+<p>Parameters</p>
+
+<ul>
+<li>xo-type : each tab node must have the value tab-node</li>
+<li>xo-type-param : this extends the object but has not been implemented yet.</li>
+<li>xo-state : defines which item is visible by default. </li>
+<li>xo-header : this is the title or header of the tab. The text here will be used as the text in the tab. If the initial tabs object is set to icon, you can inject an IcoMoon icon into the tab by inserting the class here (i.e. xo-header="xo-icon icon-input". This will create a span inside the tab with the selected icon. </li>
+<li>xo-object-name : this defines a unique identifier for the tab object. </li>
+</ul>
+
+<h3>
+<a id="accordion" class="anchor" href="#accordion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Accordion</h3>
+
+<p>To create an accordion component, use the exact same code and instructions as for creating tabs but change the xo-type to accordion</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/davidemaser/xo">XO</a> is maintained by <a href="https://github.com/davidemaser">davidemaser</a>.</span>
