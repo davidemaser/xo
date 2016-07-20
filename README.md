@@ -38,6 +38,8 @@ XO data tags all start with xo-. What follows will be either an action, the valu
 - warning : creates a contextual alert message within an xo object or page
 - poster : creates a posterized image and text layout
 - tabs : creates a tab panel layout
+  - tab-node : creates a node within a tabs component. Doesn't work outside a tabs block.  
+- accordion : creates an accordion ui component
 
 ##### xo-type-param : defines parameters of a specific xo-object type. This can be :
 
@@ -132,3 +134,32 @@ Parameters
 - flush (optional:boolean) : the flush parameter allows you to define whether you want the session storage item to be removed once the data has been collected. This can be useful if space is an issue and where persistence is not necessary.
 
 Note : If the users navigator doesn't support storage this function will return null.
+
+## UI Components 
+
+### tabs
+XO has a tab generator function that will create a tab base UI layout from a structure html format. The function will sniff for a div that has the xo-type tabs. If the xo-type is found in the document, the content will be formatted into a tab layout. The tab builder function can be included in the xo initialization and is set to true by default. 
+
+#### Component Structure
+
+To add a tab component to your page, assign the xo-type tabs to an empty div.
+
+``<div xo-type="tabs" xo-type-param="text" xo-object-name="tab-group"></div>``
+
+This basic tag will initiate the tab builder but will not render anything since there is no content to work with. You must add content (or tab nodes) inside the tag mentioned above to create a tab-content structure. 
+
+Parameters
+- xo-type : assign the value tabs to obtain a tab object.
+- xo-type-param : this determines what kind of tab button to create. This can be text or icon. 
+- xo-object-name : this defines a unique identifier for the tab object. If you are using multiple tab objects on the same page, make sure to assign a unique name to each tab object.  
+
+``<div xo-type="tab-node" xo-type-param="" xo-state="open" xo-tab-header="Title one" xo-object-name="first-tab">This is first content.</div>``
+
+The code above corresponds to one tab item (or node). Theoretically you can add as many nodes as you wish however you may have to tweak the visual aspects to get all tabs to fit. 
+
+Parameters
+- xo-type : each tab node must have the value tab-node
+- xo-type-param : this extends the object but has not been implemented yet.
+- xo-state : defines which item is visible by default. 
+- xo-tab-header : this is the title or header of the tab. The text here will be used as the text in the tab. If the initial tabs object is set to icon, you can inject an IcoMoon icon into the tab by inserting the class here (i.e. xo-tab-header="xo-icon icon-input". This will create a span inside the tab with the selected icon. 
+- xo-object-name : this defines a unique identifier for the tab object. 
