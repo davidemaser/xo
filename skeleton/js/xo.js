@@ -51,6 +51,7 @@ var xj = jQuery.noConflict(),
             placeholders:false,
             poster:false,
             sticky: true,
+            tabs: true,
             video: false
         },
         /*
@@ -97,6 +98,7 @@ var xj = jQuery.noConflict(),
             xo.config.init.placeholders == true ? xo.placeholder() : null;
             xo.config.init.poster == true ? xo.poster() : null;
             xo.config.init.sticky == true ? xo.sticky() : null;
+            xo.config.init.tabs == true ? xo.tabBuilder() : null;
             xo.config.init.video == true ? xo.video() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
@@ -1036,6 +1038,7 @@ var xj = jQuery.noConflict(),
             _posterBackground = _obj.attr('xo-poster-source'),
             _posterSize = _obj.attr('xo-poster-size'),
             _posterProportion = _obj.attr('xo-type-param'),
+            //the xo-type-param will override the poster-size values
             _posterText = _obj.find('[xo-type="poster-text"]');
         /*
         poster text can have 7 parameters
@@ -1094,6 +1097,23 @@ var xj = jQuery.noConflict(),
             'background-size': 'cover'
         });
         _objState == 'closed' ? _obj.attr('xo-state','open') : _obj.attr('xo-state','closed');
+    },
+    tabBuilder:function(){
+        var _tabObject = '[xo-type="tabs"]',
+            _tabObjectId = xj(_tabObject).attr('xo-object-name');
+        var _tabHeader = '<div xo-type="tab-header">';
+            xj(_tabObject).find('[xo-type="tab-node"]').each(function(){
+                var _tabHeaderLabel = xj(this).attr('xo-tab-header'),
+                    _tabHeaderParent = xj(this).attr('xo-object-name'),
+                    _tabDefaultState = xj(this).attr('xo-state');
+                _tabHeader += '<div xo-type="tab-header-node" xo-type-param="';
+                _tabHeader += _tabDefaultState == 'open' ? 'active' : '';
+                _tabHeader += '" xo-parent="'+_tabHeaderParent+'">'+_tabHeaderLabel+'</div>';
+            });
+            _tabHeader += '</div>';
+        xj('[xo-object-name="'+_tabObjectId+'"]').prepend(_tabHeader);
+        xj('[xo-object-name="'+_tabObjectId+'"]').find('[xo-type="tab-node"]').wrapAll('<div xo-type="tab-block">');
+
     },
     initMouseEvents: function () {
         var mouseX, mouseY;
