@@ -1105,6 +1105,11 @@ var xj = jQuery.noConflict(),
             _tabObjectId = xj(_tabObject).attr('xo-object-name'),
             _tabObjectMode = xj(_tabObject).attr('xo-type-param');
         var _tabHeader = '<div xo-type="header">';
+        /*
+        it's probably not necessary to wrap the nodes in a header div.
+        This would make the code identical to the accordion builder
+        and could be switched out by a function parameter
+         */
             xj(_tabObject).find('[xo-type="node"]').each(function(){
                 var _tabHeaderLabel = xj(this).attr('xo-header'),
                     _tabHeaderParent = xj(this).attr('xo-object-name'),
