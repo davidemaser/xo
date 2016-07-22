@@ -89,7 +89,7 @@ var xj = jQuery.noConflict(),
     init: function (advise, callback) {
         if(xo.config.appRunning !== true) {
             xo.pageSetUp('html', 'xo', 'true', 'xo set');
-            xo.config.init.accordion == true ? xo.accordionBuilder() : null;
+            xo.config.init.accordion == true ? xo.navPanelBuilder('accordion') : null;
             xo.config.init.data == true ? xo.layoutToPage() : null;
             xo.config.init.dropdowns == true ? xo.dropDownInit() : null;
             xo.config.init.forms == true ? xo.formToPage() : null;
@@ -100,7 +100,7 @@ var xj = jQuery.noConflict(),
             xo.config.init.placeholders == true ? xo.placeholder() : null;
             xo.config.init.poster == true ? xo.poster() : null;
             xo.config.init.sticky == true ? xo.sticky() : null;
-            xo.config.init.tabs == true ? xo.tabBuilder() : null;
+            xo.config.init.tabs == true ? xo.navPanelBuilder('tabs') : null;
             xo.config.init.video == true ? xo.video() : null;
             xo.initMouseEvents();
             xo.config.appRunning = true;
@@ -1100,36 +1100,35 @@ var xj = jQuery.noConflict(),
         });
         _objState == 'closed' ? _obj.attr('xo-state','open') : _obj.attr('xo-state','closed');
     },
-    tabBuilder:function(){
-        var _tabObject = '[xo-type="tabs"]',
-            _tabObjectId = xj(_tabObject).attr('xo-object-name'),
-            _tabObjectMode = xj(_tabObject).attr('xo-type-param');
-        var _tabHeader = '<div xo-type="header">';
-        /*
-        it's probably not necessary to wrap the nodes in a header div.
-        This would make the code identical to the accordion builder
-        and could be switched out by a function parameter
-         */
-            xj(_tabObject).find('[xo-type="node"]').each(function(){
+    navPanelBuilder:function(mode){
+        if(mode == 'tabs') {
+            var _tabObject = '[xo-type="tabs"]',
+                _tabObjectId = xj(_tabObject).attr('xo-object-name'),
+                _tabObjectMode = xj(_tabObject).attr('xo-type-param');
+            var _tabHeader = '<div xo-type="header">';
+            /*
+             it's probably not necessary to wrap the nodes in a header div.
+             This would make the code identical to the accordion builder
+             and could be switched out by a function parameter
+             */
+            xj(_tabObject).find('[xo-type="node"]').each(function () {
                 var _tabHeaderLabel = xj(this).attr('xo-header'),
                     _tabHeaderParent = xj(this).attr('xo-object-name'),
                     _tabDefaultState = xj(this).attr('xo-state');
                 _tabHeader += '<div xo-type="header-node" xo-type-param="';
                 _tabHeader += _tabDefaultState == 'open' ? 'active' : '';
-                _tabHeader += '" xo-parent="'+_tabHeaderParent+'">';
-                if(_tabObjectMode=='text'){
+                _tabHeader += '" xo-parent="' + _tabHeaderParent + '">';
+                if (_tabObjectMode == 'text') {
                     _tabHeader += _tabHeaderLabel;
-                }else if(_tabObjectMode=='icon'){
-                    _tabHeader += '<span class="'+_tabHeaderLabel+'"></span>';
+                } else if (_tabObjectMode == 'icon') {
+                    _tabHeader += '<span class="' + _tabHeaderLabel + '"></span>';
                 }
                 _tabHeader += '</div>';
             });
             _tabHeader += '</div>';
-        xj('[xo-object-name="'+_tabObjectId+'"]').prepend(_tabHeader);
-        xj('[xo-object-name="'+_tabObjectId+'"]').find('[xo-type="node"]').wrapAll('<div xo-type="block">');
-
-    },
-    accordionBuilder:function(){
+            xj('[xo-object-name="' + _tabObjectId + '"]').prepend(_tabHeader);
+            xj('[xo-object-name="' + _tabObjectId + '"]').find('[xo-type="node"]').wrapAll('<div xo-type="block">');
+        }else if(mode == 'accordion'){
             var _accObject = '[xo-type="accordion"]',
                 _accObjectId = xj(_accObject).attr('xo-object-name'),
                 _accObjectMode = xj(_accObject).attr('xo-type-param');
@@ -1148,10 +1147,9 @@ var xj = jQuery.noConflict(),
                 _accHeader += '</div>';
                 xj(_accHeader).insertBefore(this);
             });
-            /*xj('[xo-object-name="'+_accObjectId+'"]').prepend(_accHeader);
-            xj('[xo-object-name="'+_accObjectId+'"]').find('[xo-type="accordion-node"]').wrapAll('<div xo-type="accordion-block">');*/
+        }
 
-    },    
+    },
     initMouseEvents: function () {
         var mouseX, mouseY;
         xj('body').on('mouseover', '[xo-trigger="tooltip"]', function (e) {
