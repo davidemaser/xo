@@ -1,0 +1,26 @@
+{
+  "name": "xo",
+  "version": "1.0.0",
+  "description": "XO is a skeleton framework currently being built to simplify web site layout.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidemaser/xo.git"
+  },
+  "author": "David Maser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidemaser/xo/issues"
+  },
+  "homepage": "https://github.com/davidemaser/xo#readme",
+  "devDependencies": {
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-sass": "^1.2.0"
+  }
+}
