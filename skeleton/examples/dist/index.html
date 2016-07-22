@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1">
+    <title>XO Examples</title>
+    <!-- include stylesheet using conventional link rel
+    tag or use the prefered require.js method that uses
+    require.css to load css files included in the init.js
+    file
+    <link rel="stylesheet" href="../dist/css/xo.min.css">
+    -->
+    <script data-main="scripts/init" src="../lib/require.js"></script>
+
+</head>
+<body style="opacity: 0">
+   <nav xo-type="navigation" xo-span="sticky" xo-data-source="nav/nav-bar" xo-object-name="main-nav"></nav>
+    <div class="container" xo-span="full">
+        <button xo-trigger="url" xo-trigger-url="page.html">Button</button>
+        <ul xo-type="breadcrumb">
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+        <div xo-type="label" xo-type-param="add">
+            This is a label
+        </div>
+        <div xo-type="gutter" xo-type-param="right" xo-state="closed" xo-object-name="right-gutter">
+            <div>Here's a gutter</div>
+        </div>
+        <div xo-type="gutter" xo-type-param="left" xo-state="closed" xo-object-name="left-gutter">
+            <div>Here's a gutter</div>
+        </div>
+        <div xo-type="modal" xo-type-param="center" xo-state="closed" xo-object-name="main-modal" xo-data-template="{{title:This is the title}},{{body:This is the body}},{{buttons:Yes[action=xo-trigger--url=here.html]@No[action=xo-trigger-close--modal=null]}}">
+            this is a modal
+            </div>
+        <a xo-type="gutter-toggle" xo-parent="left-gutter">Toggle Left Gutter</a><a xo-type="gutter-toggle" xo-parent="right-gutter">Toggle Right Gutter</a>
+        <a xo-type="modal-toggle" xo-parent="main-modal">Toggle Modal</a>
+        <a xo-type="data-toggle">Toggle Data Elements</a>
+        <a xo-trigger="poster">Trigger Poster Display</a>
+        <a xo-exclude="small" xo-trigger="tooltip" xo-tooltip-text="this is the tooltip text">this has a tooltip</a>
+        <div xo-type="video" xo-video-src="http://www.w3schools.com/html/movie.mp4" xo-video-format="mp4" xo-video-controls="true" xo-video-autoplay="true"></div>
+        <div xo-type="panel-group">
+            <div xo-type="panel">panel1</div>
+            <div xo-type="panel">panel2</div>
+            <div xo-type="panel">panel3</div>
+            <div xo-type="panel">panel4</div>
+            <div xo-type="panel">panel5</div>
+            <div xo-type="panel">panel6</div>
+        </div>
+        <div xo-type="panel-group">
+            <div xo-type="panel">panel1</div>
+            <div xo-type="panel">panel4</div>
+            <div xo-type="panel">panel5</div>
+            <div xo-type="panel">panel6</div>
+        </div>
+        <div xo-type="form" xo-data-source="forms/main-form" xo-object-name="main-form"></div>
+        <div xo-type="data" xo-data-source="data/index" xo-object-name="welcome" xo-span="full" xo-state="open"></div>
+        <div xo-type="dropdown" xo-state="closed" xo-dropdown-button="Dropdown" xo-object-name="first-dropdown">
+            <ul>
+                <li>First line</li>
+                <li xo-trigger="url" xo-trigger-url="page.html">Second line</li>
+                <li>Third line</li>
+            </ul>
+        </div>
+        <div xo-type="jsondropdown" xo-data-source="dropdown/data-dropdown" xo-state="closed" xo-dropdown-button="JSON Dropdown" xo-object-name="second-dropdown"></div>
+        <img xo-type="placeholder" xo-type-param="~text?w=350&h=150">
+        <div xo-type="poster" xo-poster-source="http://blog.turquoiseholidays.co.uk/wp-content/uploads//2012/02/Beach-Large2.jpg" xo-poster-size="1200,800" xo-type-param="fullscreen" xo-state="closed" xo-object-name="poster1">
+            <div xo-type="poster-text" xo-type-param="25px,#fff,center,x,75%,x,10px 0">Text can be inside the poster. Actually, anything can be in the poster</div>
+            <div xo-type="poster-text" xo-type-param="55px,#666,center,rgba(0-0-0-0.7),100%,100px,10px 0">This is another poster text with different parameters</div>
+        </div>
+    </div>
+   <div xo-type="tabs" xo-type-param="text" xo-object-name="tab-group">
+           <div xo-type="node" xo-type-param="" xo-state="open" xo-header="Title one" xo-object-name="first-tab">
+               This is first <br>tab<br>content.
+           </div>
+           <div xo-type="node" xo-type-param="" xo-state="closed" xo-header="Title two" xo-object-name="second-tab">
+               Now this is <br>more content<br>but is second <br>tab<br>content.
+           </div>
+           <div xo-type="node" xo-type-param="" xo-state="closed" xo-header="Title three" xo-object-name="third-tab">
+               Well you guessed it <br>this is the content<br>for the third and<br>in this case<br> the final tab
+           </div>
+
+   </div>
+   <div xo-type="accordion" xo-type-param="text" xo-object-name="accordion-group">
+       <div xo-type="node" xo-type-param="" xo-state="open" xo-header="Title one" xo-object-name="first-tab">
+           This is first <br>tab<br>content.
+       </div>
+       <div xo-type="node" xo-type-param="" xo-state="closed" xo-header="Title two" xo-object-name="second-tab">
+           Now this is <br>more content<br>but is second <br>tab<br>content.
+       </div>
+       <div xo-type="node" xo-type-param="" xo-state="closed" xo-header="Title three" xo-object-name="third-tab">
+           Well you guessed it <br>this is the content<br>for the third and<br>in this case<br> the final tab
+       </div>
+
+   </div>
+    <footer xo-exclude="small"></footer>
+   <!--<div class="parallax">
+       <div class="parallax__layer parallax__layer--back">
+           HELLO
+       </div>
+       <div class="parallax__layer parallax__layer--base">
+           GOODBYE
+       </div>
+   </div>-->
+</body>
+</html>

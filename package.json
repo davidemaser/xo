@@ -17,10 +17,12 @@
   },
   "homepage": "https://github.com/davidemaser/xo#readme",
   "devDependencies": {
+    "grunt-contrib-htmlmin": "^2.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-dev-update": "^2.0.0",
     "grunt-sass": "^1.2.0"
   }
 }
