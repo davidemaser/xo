@@ -1,26 +1,72 @@
 .xo {
-  [xo-type="breadcrumb"] {
-    padding: 10px 5px;
-    background: #c37f7f;
-    color: #fff;
-    list-style-type: none;
-    -webkit-margin-before: 0;
-    -webkit-margin-after: 0;
-    -webkit-margin-start: 0;
-    -webkit-margin-end: 0;
-    -webkit-padding-start: 0;
-    li {
-      display: inline-block;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: 0.3s all;
-      &:hover{
-        color:#000;
+  [xo-type="breadcrumb"]{
+    &[xo-type-param="extended"] {
+      padding: 10px 5px;
+      background: #c37f7f;
+      color: #fff;
+      list-style-type: none;
+      -webkit-margin-before: 0;
+      -webkit-margin-after: 0;
+      -webkit-margin-start: 0;
+      -webkit-margin-end: 0;
+      -webkit-padding-start: 0;
+      li {
+        display: inline-block;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s all;
+        &:hover {
+          color: #000;
+        }
+        &:not(:first-child):before {
+          content: '>';
+          display: inline-block;
+          padding: 0 10px
+        }
       }
-      &:not(:first-child):before {
-        content:'>';
-        display:inline-block;
-        padding:0 10px
+    }
+    &[xo-type-param="compact"] {
+      li{
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        font-size: 0.7rem;
+        line-height: 100%;
+        background: #ccc;
+        padding: 0.275rem 0.425rem;
+        text-transform: uppercase;
+        border-radius: 2px;
+        white-space: nowrap;
+        top: -1px;
+        letter-spacing: 1px;
+        margin-right: 10px;
+        &[xo-type-param="large"]{
+          border-width: 0.75rem;
+          font-size: 0.9rem;
+          padding: 0.35rem 0.5rem;
+          &:not(:last-child):after{
+            border: 0.75rem solid transparent;
+            border-left-color: #ccc;
+          }
+        }
+        &:not(:last-child):after{
+          content: "";
+          height: 0;
+          width: 0;
+          position: absolute;
+          top: 0;
+          left: 100%;
+          border: 0.65rem solid transparent;
+          border-left-color: #ccc;
+        }
+        a{
+          text-decoration: none;
+          color:#0f0f0f;
+          transition:all 0.3s;
+          &:hover{
+            color:#2b542c;
+          }
+        }
       }
     }
   }
