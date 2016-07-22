@@ -79,6 +79,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     // Default task(s).
-    grunt.registerTask('default', ['devUpdate','uglify','sass','htmlmin']);
+    grunt.registerTask('default', ['devUpdate','uglify','sass','htmlmin','watch']);
 
 };
