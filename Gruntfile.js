@@ -7,13 +7,34 @@ don't know how to setup grunt ?
 5. run grunt $grunt
 
 You can extend this gruntfile by adding more grunt plugins
-as needed. 
+as needed.
+
+Run grunt bump to update the version and push project to git
  */
 module.exports = function(grunt) {
     
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        bump: {
+            options: {
+                files: ['package.json'],
+                updateConfigs: [],
+                commit: true,
+                commitMessage: 'Release v%VERSION%',
+                commitFiles: ['package.json','Gruntfile.js'],
+                createTag: true,
+                tagName: 'v%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: true,
+                pushTo: 'https://github.com/davidemaser/xo.git',
+                gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d',
+                globalReplace: false,
+                prereleaseName: false,
+                metadata: '',
+                regExp: false
+            }
+        },
         devUpdate: {
             main: {
                 options: {
@@ -29,6 +50,9 @@ module.exports = function(grunt) {
                 }
             }
         },
+        jshint: {
+            all: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
+        },
         uglify: {
             options: {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -36,6 +60,11 @@ module.exports = function(grunt) {
             build: {
                 src: 'skeleton/js/<%= pkg.name %>.js',
                 dest: 'skeleton/dist/js/<%= pkg.name %>.min.js'
+            }
+        },
+        jsbeautifier : {
+            files : ["skeleton/js/*.js"],
+            options : {
             }
         },
         sass: {
@@ -82,14 +111,15 @@ module.exports = function(grunt) {
             }
         }
     });
-
-    // Load the plugin that provides the "uglify" task.
+    grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks("grunt-jsbeautifier");
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-dev-update');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     // Default task(s).
-    grunt.registerTask('default', ['devUpdate','uglify','sass','htmlmin','watch']);
+    grunt.registerTask('default', ['devUpdate','jshint','uglify','jsbeautifier','sass','htmlmin','watch']);
 
 };
