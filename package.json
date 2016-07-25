@@ -1,6 +1,6 @@
 {
   "name": "xo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "XO is a skeleton framework currently being built to simplify web site layout.",
   "main": "Gruntfile.js",
   "scripts": {
@@ -17,12 +17,15 @@
   },
   "homepage": "https://github.com/davidemaser/xo#readme",
   "devDependencies": {
+    "grunt-bump": "^0.8.0",
     "grunt-contrib-htmlmin": "^2.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-conventional-changelog": "^6.1.0",
     "grunt-dev-update": "^2.0.0",
+    "grunt-jsbeautifier": "^0.2.13",
     "grunt-sass": "^1.2.0"
   }
 }
