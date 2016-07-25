@@ -24,7 +24,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('skeleton/sass/*.scss')
+    return gulp.src('skeleton/sass/xo.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(gulp.dest('skeleton/dist/css'));
 });
