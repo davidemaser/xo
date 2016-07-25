@@ -1,6 +1,6 @@
 {
   "name": "xo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "XO is a skeleton framework currently being built to simplify web site layout.",
   "main": "Gruntfile.js",
   "scripts": {
