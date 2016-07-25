@@ -49,11 +49,16 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            all: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js']
+            all: ['Gruntfile.js', 'lib/**/*.js', 'test/**/*.js'],
+            globals: {
+                jQuery: true,
+                console: true,
+                module: true
+            }
         },
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: '/*! <%= pkg.name %> last updated <%= grunt.template.today("yyyy-mm-dd") %> by <%= pkg.author %> */\n'
             },
             build: {
                 src: 'skeleton/js/<%= pkg.name %>.js',
