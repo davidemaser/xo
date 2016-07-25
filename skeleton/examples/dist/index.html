@@ -17,7 +17,7 @@
    <nav xo-type="navigation" xo-span="sticky" xo-data-source="nav/nav-bar" xo-object-name="main-nav"></nav>
     <div class="container" xo-span="full">
         <button xo-trigger="url" xo-trigger-url="page.html">Button</button>
-        <ul xo-type="breadcrumb">
+        <ul xo-type="breadcrumb" xo-type-param="extended">
             <li>one</li>
             <li>two</li>
             <li>three</li>
@@ -94,10 +94,10 @@
        </div>
 
    </div>
-   <ul xo-type="crumbs">
-       <li xo-type="node">One</li>
-       <li xo-type="node">Two</li>
-       <li xo-type="node">Three</li>
+   <ul xo-type="breadcrumb" xo-type-param="compact">
+       <li xo-type="node" xo-type-param="large"><a href="">One</a></li>
+       <li xo-type="node" xo-type-param="large"><a href="">Two</a></li>
+       <li xo-type="node" xo-type-param="large"><a href="">Three</a></li>
    </ul>
     <footer xo-exclude="small"></footer>
    <!--<div class="parallax">

@@ -12,8 +12,6 @@ as needed.
 Run grunt bump to update the version and push project to git
  */
 module.exports = function(grunt) {
-    
-    // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         bump: {
@@ -121,5 +119,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     // Default task(s).
     grunt.registerTask('default', ['devUpdate','jshint','uglify','jsbeautifier','sass','htmlmin','watch']);
+    grunt.registerTask( 'build', ['devUpdate','jshint','uglify','jsbeautifier','sass','htmlmin','bump','watch']);
 
 };
