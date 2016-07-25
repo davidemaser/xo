@@ -26,6 +26,14 @@
     "grunt-conventional-changelog": "^6.1.0",
     "grunt-dev-update": "^2.0.0",
     "grunt-jsbeautifier": "^0.2.13",
-    "grunt-sass": "^1.2.0"
+    "grunt-sass": "^1.2.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-uglify": "^1.5.4",
+    "jshint": "^2.9.2"
+  },
+  "dependencies": {
+    "google-closure-compiler": "^20160713.1.0"
   }
 }

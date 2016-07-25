@@ -9,7 +9,7 @@ don't know how to setup grunt ?
 You can extend this gruntfile by adding more grunt plugins
 as needed.
 
-Run grunt bump to update the version and push project to git
+Run grunt bump to update the version and push projects to git
  */
 module.exports = function(grunt) {
     grunt.initConfig({
