@@ -1,3 +1,14 @@
+/*
+don't know how to setup grunt ?
+1. make sure node is installed
+2. make sure npm is installed and up to date $npm update -g npm
+3. install grunt cli $npm install -g grunt-cli
+4. Install the project dependencies using $npm install
+5. run grunt $grunt
+
+You can extend this gruntfile by adding more grunt plugins
+as needed. 
+ */
 module.exports = function(grunt) {
     
     // Project configuration.

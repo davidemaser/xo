@@ -9,8 +9,9 @@
     width:50%;
   }
   .form-line{
+    transition:all 0.3s;
     display: block;
-    margin: 10px;
+    padding: 10px;
     @extend %clearfix;
     &.text{
 
@@ -21,13 +22,13 @@
     &.textarea{
       label {
         display: inline-block;
-        width: 10%;
+        width: 20%;
         vertical-align: top;
       }
     }
     label {
       display: inline-block;
-      width: 10%;
+      width: 20%;
     }
     &.radiogroup {
       input[type="radio"] {
@@ -38,6 +39,9 @@
       input[type="checkbox"] {
         margin: 0 5px 0 0;
       }
+    }
+    &:hover {
+      background: rgba(204, 204, 204, 0.5);
     }
   }
 }
