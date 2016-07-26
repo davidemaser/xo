@@ -99,14 +99,14 @@ module.exports = function(grunt) {
         },
         watch: {
             scripts: {
-                files: '**/*.js',
+                files: 'skeleton/js/*.js',
                 tasks: ['jshint','uglify'],
                 options: {
                     debounceDelay: 250
                 }
             },
             css: {
-                files: '**/*.scss',
+                files: 'skeleton/sass/*.scss',
                 tasks: ['sass'],
                 options: {
                     livereload: true
