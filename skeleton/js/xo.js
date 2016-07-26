@@ -16,7 +16,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 var xj = jQuery.noConflict(),
-    xo = {
+    xo = {} || {
         config: {
             loadPathDefault: '../dist/js/',
             loadPathExtension: '.js',
@@ -56,8 +56,8 @@ var xj = jQuery.noConflict(),
                 video: false
             },
             /*
-            app is running so set a flag and a key
-            to force reinitialisation.
+             app is running so set a flag and a key
+             to force reinitialisation.
              */
             appRunning: false,
             reInitKey: '0188846aREvvS7'
@@ -125,9 +125,9 @@ var xj = jQuery.noConflict(),
         },
         loadExternal: function(scriptPath, scriptURI, scriptExt) {
             /*
-            load external scripts asynchronously and execute their
-            functions. This can be used to load jQuery plugins or
-            other components after the main xo core has been built
+             load external scripts asynchronously and execute their
+             functions. This can be used to load jQuery plugins or
+             other components after the main xo core has been built
              */
             var a = scriptPath == undefined || null || ' ' ? xo.config.loadPathDefault : scriptPath,
                 b = scriptURI == undefined ? "" : scriptURI,
@@ -138,7 +138,7 @@ var xj = jQuery.noConflict(),
             });
         },
         /*
-        utility functions
+         utility functions
          */
         log: function(e) {
             var a = navigator.vendor.indexOf("Google") > -1,
@@ -182,11 +182,11 @@ var xj = jQuery.noConflict(),
         },
         placeholder: function() {
             /*
-            creates a placeholder image from an img tag that
-            has the xo-type attribute placeholder. Placeholder
-            uses placeholdit.imgix.net to get the image.
-            Requires xo-type-param. Param should be:
-            ~text?txtsize=33&txt=Your Text×150&w=350&h=150
+             creates a placeholder image from an img tag that
+             has the xo-type attribute placeholder. Placeholder
+             uses placeholdit.imgix.net to get the image.
+             Requires xo-type-param. Param should be:
+             ~text?txtsize=33&txt=Your Text×150&w=350&h=150
              */
             var _obj = '[xo-type="placeholder"]';
             xj(_obj).each(function() {
@@ -210,11 +210,11 @@ var xj = jQuery.noConflict(),
         },
         getData: function(scriptPath, scriptURI, method, identifier, target, flush) {
             /*
-            query a json file or json response object.
-            Loaded data can be saved to session, parse and
-            displayed or new functions can be created to
-            handle specific data formats.
-            The ajax call returns a data object.
+             query a json file or json response object.
+             Loaded data can be saved to session, parse and
+             displayed or new functions can be created to
+             handle specific data formats.
+             The ajax call returns a data object.
              */
             var _path = scriptPath == undefined || null || ' ' ? xo.config.ajax.pathDefault : scriptPath,
                 _uri = scriptURI == undefined ? "" : scriptURI,
@@ -330,14 +330,14 @@ var xj = jQuery.noConflict(),
         },
         getTemplateObjects: function(type, template, parent) {
             /*
-            Template items are wrapped in double curly brackets ({{}})
-            Comma (,) splits template items.
-            Brackets ([]) delimit action items.
-            Double hyphens (--) split action items.
-            Items with multiple children are split with ampersand (@)
-            Double bar symbols (||) split action items.
-            Action items can
-            var template = '{{title:This is the title}},{{body:This is the body}},{{buttons:Yes[action=xo-trigger--url=here.html]@No[action=xo-trigger--url=null]}}'
+             Template items are wrapped in double curly brackets ({{}})
+             Comma (,) splits template items.
+             Brackets ([]) delimit action items.
+             Double hyphens (--) split action items.
+             Items with multiple children are split with ampersand (@)
+             Double bar symbols (||) split action items.
+             Action items can
+             var template = '{{title:This is the title}},{{body:This is the body}},{{buttons:Yes[action=xo-trigger--url=here.html]@No[action=xo-trigger--url=null]}}'
              */
             var _templateArray = template.split(','),
                 _brutObject = [],
@@ -431,13 +431,13 @@ var xj = jQuery.noConflict(),
         },
         gutter: function(method, parent) {
             /*
-            creates an animatable gutter instance out of any html element. XO parameters
-            define where it is placed and what it's initial state is to be. You can place
-            as many XO gutters on your page as long as you make sure to give each one a
-            unique xo-object-name value. Toggles for a particular gutter can be created
-            by adding the xo-parent attribute
-            i.e. <a xo-type="gutter-toggle" xo-parent="left-gutter">
-            */
+             creates an animatable gutter instance out of any html element. XO parameters
+             define where it is placed and what it's initial state is to be. You can place
+             as many XO gutters on your page as long as you make sure to give each one a
+             unique xo-object-name value. Toggles for a particular gutter can be created
+             by adding the xo-parent attribute
+             i.e. <a xo-type="gutter-toggle" xo-parent="left-gutter">
+             */
             var _baseObj = '[xo-type="gutter"]';
             //check if a gutter exists
             if (xj(_baseObj).length !== 0) {
@@ -506,10 +506,10 @@ var xj = jQuery.noConflict(),
         },
         video: function() {
             /*
-            creates a video instance on the page. Writes
-            the code necessary inside the html object that
-            has the xo-type video. XO params define the
-            source url, video format, etc..
+             creates a video instance on the page. Writes
+             the code necessary inside the html object that
+             has the xo-type video. XO params define the
+             source url, video format, etc..
              */
             xj('[xo-type="video"]').each(function() {
                 var _obj = '[xo-type="video"]',
@@ -880,10 +880,10 @@ var xj = jQuery.noConflict(),
         },
         navInit: function() {
             /*
-            initializes the display of navigation bars as needed.
-            Feature can be enabled in xo.config. navInit cycles
-            through the page dom to find xo-type navigation objects
-            and displays the nav bar in place
+             initializes the display of navigation bars as needed.
+             Feature can be enabled in xo.config. navInit cycles
+             through the page dom to find xo-type navigation objects
+             and displays the nav bar in place
              */
             xj('[xo-type="navigation"]').each(function() {
                 var _objectName = xj(this).attr('xo-object-name'),
@@ -893,12 +893,12 @@ var xj = jQuery.noConflict(),
         },
         navBuilder: function(source, target) {
             /*
-            this function builds a navigation bar from
-            a json file. Check the nav-bar.json file
-            in dist/json/nav for the structure and
-            options that are available.
-            The navBuilder reuses functions and features
-            such as buttons, dropdowns, form objects.
+             this function builds a navigation bar from
+             a json file. Check the nav-bar.json file
+             in dist/json/nav for the structure and
+             options that are available.
+             The navBuilder reuses functions and features
+             such as buttons, dropdowns, form objects.
              */
             var _tempData = xo.getData(null, source, 'b', target, false),
                 _tempArray = [],
@@ -1052,16 +1052,16 @@ var xj = jQuery.noConflict(),
                 //the xo-type-param will override the poster-size values
                 _posterText = _obj.find('[xo-type="poster-text"]');
             /*
-            poster text can have 7 parameters
-            xo-type-param="font-size,color,text align,background color,box width,box height,padding"
-            font-size can be numeric or string (10 or 10px or 1em)
-            color can be hex or rgb (#000 or rgb(0,0,0,1) or rgba(0,0,0,1))
-            text align can be a string (center, left...)
-            background color can be hex or rgb (#000 or rgb(0,0,0) or rgba(0,0,0,0.7))
-            box width can be numeric or string (10 or 10px or 1em)
-            box height can be numeric or string (10 or 10px or 1em)
-            padding can be either a general value (i.e 0) or specific values (i.e. 0 10px 5ps 15px)
-            use the letter x to undefine an item (i.e. xo-type-param="x,x,center,500,x,10")
+             poster text can have 7 parameters
+             xo-type-param="font-size,color,text align,background color,box width,box height,padding"
+             font-size can be numeric or string (10 or 10px or 1em)
+             color can be hex or rgb (#000 or rgb(0,0,0,1) or rgba(0,0,0,1))
+             text align can be a string (center, left...)
+             background color can be hex or rgb (#000 or rgb(0,0,0) or rgba(0,0,0,0.7))
+             box width can be numeric or string (10 or 10px or 1em)
+             box height can be numeric or string (10 or 10px or 1em)
+             padding can be either a general value (i.e 0) or specific values (i.e. 0 10px 5ps 15px)
+             use the letter x to undefine an item (i.e. xo-type-param="x,x,center,500,x,10")
              */
             if (_posterProportion == 'fullscreen') {
                 var _posterWidth = '100%',
@@ -1173,7 +1173,7 @@ var xj = jQuery.noConflict(),
             }).on('click', '[xo-trigger-close="modal"]', function() {
                 xo.modal();
                 /*var _targetModal = xj(this).attr('xo-trigger-close-modal');
-                xo.trigger('kill-modal', _targetModal, null);*/
+                 xo.trigger('kill-modal', _targetModal, null);*/
             }).on('click', '[xo-type="gutter-toggle"]', function() {
                 var a = xj(this).attr('xo-parent') || null;
                 xo.gutter(null, a);
@@ -1223,4 +1223,9 @@ var xj = jQuery.noConflict(),
                 xj(this).attr('xo-type-param', 'active');
             });
         }
-    };
+    },
+    app = {};
+app.method = {};
+app.prototype.quit = function() {
+
+};
