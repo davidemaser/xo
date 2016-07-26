@@ -63,18 +63,17 @@ var xj = jQuery.noConflict(),
             reInitKey: '0188846aREvvS7'
         },
         _define: {
-            backlog: function() {},
-            domload: function() {},
+            domload: function() {
+                window.addEventListener("onload", function() {
+                    return 'l';
+                }, false);
+            },
             dataready: function() {},
-            domready: function() {},
-            targetclick: function() {},
-            targetswipe: function() {}
-        },
-        _throw: {
-            dataerror: function() {},
-            datatimeout: function() {},
-            nullified: function() {},
-            overflow: function() {}
+            domready: function() {
+                window.addEventListener("DOMContentLoaded", function() {
+                    return 'd';
+                }, false);
+            }
         },
         init: function(advise, callback) {
             if (xo.config.appRunning !== true) {
@@ -244,6 +243,7 @@ var xj = jQuery.noConflict(),
 
                 }
             }).success(function(data) {
+                xo._define.dataready();
                 if (method == 'p') {
                     xo.parseData(data, true, target);
                 } else if (method == 's') {
