@@ -1,24 +1,24 @@
-#init core.rv as exo.core
-#init jquery.rv as exo.jq || exo.$
-#init sass.rv as exo.sass
-#init profiler.rv as exo.profiler
+#init core.rv as xo.core
+#init jquery.rv as xo.jq || xo.$
+#init sass.rv as xo.sass
+#init profiler.rv as xo.profiler
 
-@exo.core.init(all)
-    @if exo.core.init(return :: null)
-        @exo.core.start()
+@xo.core.init(all)
+    @if xo.core.init(return :: null)
+        @xo.core.start()
     @else 
-        exo.core.log.error(full)
+        xo.core.log.error(full)
 @continue
-@exo.jq.init($)
+@xo.jq.init($)
     @set namespace :: $
 @continue
-@exo.sass.init()
+@xo.sass.init()
     @set default :: local.constructor
 @continue
-@exo.profiler
+@xo.profiler
     @set output.method :: explicit
     @set output.mode :: console
-        @if exo.get(navigator.appName) eq 'chrome'
+        @if xo.get(navigator.appName) eq 'chrome'
             @set default :: true
 @end
 

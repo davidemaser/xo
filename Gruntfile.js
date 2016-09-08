@@ -77,7 +77,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'skeleton/dist/css/<%= pkg.name %>.min.css': 'skeleton/sass/<%= pkg.name %>.scss'
+                    'skeleton/dist/css/<%= pkg.name %>.min.css': 'skeleton/scss/<%= pkg.name %>.scss'
                 }
             }
         },

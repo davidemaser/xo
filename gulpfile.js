@@ -24,7 +24,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('sass', function () {
-    return gulp.src('skeleton/sass/xo.scss')
+    return gulp.src('skeleton/scss/xo.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(gulp.dest('skeleton/dist/css'));
 });
@@ -43,5 +43,5 @@ gulp.task('compress', function (cb) {
 });
 
 gulp.task('sass:watch', function () {
-    gulp.watch('skeleton/sass/*.scss', ['sass']);
+    gulp.watch('skeleton/scss/*.scss', ['sass']);
 });
