@@ -119,7 +119,7 @@ Run grunt bump to update the version and push projects to git
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-dev-update');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
