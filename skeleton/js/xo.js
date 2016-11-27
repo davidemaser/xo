@@ -17,7 +17,7 @@
  */
 /* @flow weak */
 var xj = jQuery.noConflict(),
-    xo = {} || {
+    xo = {
         config: {
             loadPathDefault: '../dist/js/',
             loadPathExtension: '.js',
@@ -1227,6 +1227,3 @@ var xj = jQuery.noConflict(),
     },
     app = {};
 app.method = {};
-app.prototype.quit = function() {
-
-};
