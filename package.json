@@ -1,6 +1,6 @@
 {
   "name": "xo",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "XO is a skeleton framework currently being built to simplify web site layout.",
   "main": "Gruntfile.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "flow-bin": "~0.32.0"
   },
   "dependencies": {
-    "google-closure-compiler": "^20160713.1.0"
+    "google-closure-compiler": "^20160713.1.0",
+    "coffee-script": "~1.10.0"
   }
 }
